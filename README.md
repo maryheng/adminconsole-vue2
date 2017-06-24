@@ -1,4 +1,4 @@
-# adminvue2
+# Pixel Labs Vue
 
 > Trying out authentication with this project
 
