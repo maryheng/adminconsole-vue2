@@ -3,8 +3,8 @@
 <template>
   <vuetable
     ref="vuetable"
-    api-url="http://localhost:3000/api/staffs"
-    :http-options = "httpOptions"
+    api-url="https://fypadminconsoletest.azurewebsites.net/api/staffs"
+    :http-options = "{ headers: $http.defaults.headers }"
     :load-on-start = "loadOnStart"
     :fields="['userId', 'name', 'username']"
   ></vuetable>
