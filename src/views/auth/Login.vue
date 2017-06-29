@@ -1,4 +1,5 @@
 <template>
+<div class="main">
   <div class="content has-text-centered">
     <div class="columns is-vcentered">
       <div class="column is-4 is-offset-4">
@@ -7,7 +8,7 @@
           <p class="subtitle is-6">Only admins can login!</p><br><br>
           <div v-show="error" style="color:red; word-wrap:break-word;">{{ error }}</div>
           <form v-on:submit.prevent="loginFormSubmit()">
-            <h5 class="subtitle is-6">Username</h5>
+            <label class="label">Username</label>
             <p class="control">
               <input class="input" v-model="req.body.username" type="text" placeholder="username">
             </p>
@@ -25,6 +26,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
