@@ -4,7 +4,6 @@
     <sidebar :show="true"></sidebar>
     <app-main></app-main>
   </div>
-</div>
 </template>
 
 <script>
@@ -22,5 +21,5 @@ export default {
 </script>
 
 <style>
-@import '~bulma';
+@import '~bulma/css/bulma.css';
 </style>

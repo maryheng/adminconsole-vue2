@@ -31,7 +31,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-@import '../../../node_modules/bulma/css/bulma.css';
 .nav {
   height: 60px;
 }

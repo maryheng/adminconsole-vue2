@@ -17,15 +17,14 @@ export default {
 </script>
 
 <style>
-@import '../../../node_modules/bulma/css/bulma.css';
 .app-main {
   padding-top: 5px;
   padding-left: 20px;
   margin-left: 220px;
   transform: translate3d(0, 0, 0);
-  @include mobile() {
+  /*@include mobile() {
     margin-left: 0;
-  }
+  }*/
 }
 html {
   background-color: whitesmoke;

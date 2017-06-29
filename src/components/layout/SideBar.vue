@@ -51,7 +51,6 @@ export default {
 </script>
 
 <style>
-@import '../../../node_modules/bulma/css/bulma.css';
 .menu {
   position: fixed;
   top: 60px;

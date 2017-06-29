@@ -86,7 +86,6 @@ export default {
 </script>
 
 <style>
-@import '../../../node_modules/bulma/css/bulma.css';
 /*@import '../../../node_modules/bulma/sass/utilities/initial-variables.sass';*/
 
 .box {
