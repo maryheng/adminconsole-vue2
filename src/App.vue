@@ -4,7 +4,6 @@
     <sidebar :show="true"></sidebar>
     <app-main></app-main>
   </div>
-</div>
 </template>
 
 <script>

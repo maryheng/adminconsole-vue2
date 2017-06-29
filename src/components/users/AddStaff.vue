@@ -1,0 +1,123 @@
+<template>
+  <div id="containter">
+    <div class="innerContainer">
+
+      <div class="header">
+        <p class="title is-4">Staff Details</p>
+      </div>
+      <hr>
+
+      <!--Input field for Name-->
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">Full Name:</label>
+        </div>
+        <div class="field-body">
+          <div class="field is-grouped">
+            <p class="control">
+              <input class="input" type="text" placeholder="Name">
+            </p>
+          </div>
+        </div>
+      </div>
+  
+      <!--Input field for Username-->
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">Username:</label>
+        </div>
+        <div class="field-body">
+          <div class="field is-grouped">
+            <p class="control">
+              <input class="input" type="text" placeholder="Username">
+            </p>
+          </div>
+        </div>
+      </div>
+  
+      <!--Input field for Password-->
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">Password:</label>
+        </div>
+        <div class="field-body">
+          <div class="field is-grouped">
+            <p class="control">
+              <input class="input" type="password" placeholder="Password">
+            </p>
+          </div>
+        </div>
+      </div>
+  
+      <div class="field is-horizontal">
+        <div class="field-label">
+          <!-- Left empty for spacing -->
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <div class="control">
+              <button class="button is-primary">
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+// import axios from 'axios'
+
+export default {
+  name: 'app',
+  computed: {
+    href () {
+      return '' + this.name.toLowerCase().replace(/\s+/g, '')
+    }
+  }
+}
+
+</script>
+
+
+<style>
+.field {
+  margin-right: -700px;
+  margin: 0 auto;
+}
+
+.input {
+  margin: 8px;
+}
+
+.innerContainer {
+  margin: 0 auto;
+  position: relative;
+  margin-right: -2000px;
+  padding-bottom: 10%;
+}
+
+hr {
+  margin-left: 2%;
+  width: 35%;
+}
+
+input {
+  margin-top: 10px;
+}
+
+label {
+  margin-top: 8px;
+}
+
+button {
+  margin-top: 1%;
+}
+
+.header {
+  margin-left: 200px;
+  margin-top: 1%;
+}
+</style>
