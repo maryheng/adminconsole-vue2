@@ -3,10 +3,10 @@
 <template>
   <vuetable
     ref="vuetable"
-    api-url="https://fypadminconsoletest.azurewebsites.net/api/staffs"
+    api-url="https://fypadminconsoletest.azurewebsites.net/api/residentdevelopers"
     :http-options = "{ headers: $http.defaults.headers }"
     :load-on-start = "loadOnStart"
-    :fields="['userId', 'name', 'username']"
+    :fields="['userId', 'name', { name: 'nricPassportNo', title: 'NRIC/Passport No'}, 'company', 'email', { name: 'mobileNo', title: 'Mobile No' }, { name: 'keyCardRefNo', title: 'Key Card No' }, { name: 'issuranceDate', title: 'Issuance Date'}]"
   ></vuetable>
 </template>
 
