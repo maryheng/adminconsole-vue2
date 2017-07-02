@@ -17,7 +17,7 @@
 
 
 <script>
-import MyVuetable from '../../components/MyVuetable.vue'
+import MyVuetable from '../../components/layout/MyVuetable.vue'
 import { staffUrl } from '../../config'
 import axios from 'axios'
 
