@@ -36,11 +36,6 @@ export default {
     tabs,
     tab
   },
-  data: {
-    function () {
-
-    }
-  },
   methods: {
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <navbar :show="true"></navbar>
-    <sidebar :show="true"></sidebar>
+    <sidebar v-if="noAuthNeeded.indexOf($route.name) <= -1"></sidebar>
     <app-main></app-main>
   </div>
 </template>
@@ -16,6 +16,12 @@ export default {
     Navbar,
     Sidebar,
     AppMain
+  },
+
+  data () {
+    return {
+      noAuthNeeded: ['Login']
+    }
   }
 }
 </script>

@@ -37,7 +37,9 @@ const app = new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: { App }
+  components: {
+    App
+  }
 })
 
 // const app = new Vue({
@@ -45,4 +47,22 @@ const app = new Vue({
 //   ...App
 // })
 
-export { app, router, axios }
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth !== false) { // check the meta field
+    if (window.localStorage.getItem('access_token') !== null) {
+      console.log('User is authorised.') // check if the user is authenticated
+      next() // the next method allow the user to continue to the router
+    } else {
+      console.log('User is not authorised.')
+      next('/login') // Redirect the user to the main page
+    }
+  } else {
+    next()
+  }
+})
+
+export {
+  app,
+  router,
+  axios
+}
