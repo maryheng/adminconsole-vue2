@@ -29,7 +29,7 @@ Vue.config.productionTip = true
 
 // Global axios default (config default that will be applied to every request)
 var accessToken = window.localStorage.getItem('access_token')
-axios.defaults.baseURL = 'http://localhost:3000/'
+axios.defaults.baseURL = 'https://fypadminconsoletest.azurewebsites.net/'
 axios.defaults.headers.common['authorization'] = 'Bearer ' + accessToken
 
 // /* eslint-disable no-new */
