@@ -6,7 +6,10 @@
       <br>
       <br>
       <!--Vue Table-->
-      <my-vuetable></my-vuetable>
+    <my-vuetable
+      :api-url="apiUrl"
+      :fields="fields"   
+      ></my-vuetable>
       <br>
       <br>
   
@@ -17,23 +20,39 @@
 
 
 <script>
-import MyVuetable from '../../components/layout/MyVuetable.vue'
-import { staffUrl } from '../../config'
-import axios from 'axios'
+import MyVuetable from '../../components/vuetable/MyVuetable.vue'
 
 export default {
   name: 'app',
   components: {
     MyVuetable
   },
-  mounted () {
-    axios.get(staffUrl)
-      .then(function (response) {
-        console.log(response)
-      })
-      .catch(function (error) {
-        console.log(error)
-      })
+  data () {
+    return {
+      apiUrl: 'https://fypadminconsoletest.azurewebsites.net/api/staffs',
+      fields:
+      [
+        {
+          name: 'userId',
+          title: 'User ID',
+          sortField: 'userId'
+        },
+        {
+          name: 'name',
+          title: 'Name'
+        },
+        {
+          name: 'username',
+          title: 'Username'
+        },
+        {
+          name: '__component:custom-actions',
+          title: 'Actions',
+          titleClass: 'center aligned',
+          dataClass: 'center aligned'
+        }
+      ]
+    }
   },
   computed: {
     href () {

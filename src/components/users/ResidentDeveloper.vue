@@ -6,7 +6,10 @@
     <br>
     <br>
     <!--Vue Table-->
-    <my-vuetable></my-vuetable>
+    <my-vuetable
+      :api-url="apiUrl"
+      :fields="fields"   
+      ></my-vuetable>
     <br>
     <br>
 
@@ -17,23 +20,48 @@
 
 
 <script>
-import MyVuetable from '../../components/layout/MyVuetable.vue'
-import { staffUrl } from '../../config'
-import axios from 'axios'
+import MyVuetable from '../../components/vuetable/MyVuetable.vue'
+// import { staffUrl } from '../../config'
+// import axios from 'axios'
 
 export default {
   name: 'app',
   components: {
     MyVuetable
   },
-  mounted () {
-    axios.get(staffUrl)
-      .then(function (response) {
-        console.log(response)
-      })
-      .catch(function (error) {
-        console.log(error)
-      })
+  data () {
+    return {
+      apiUrl: 'https://fypadminconsoletest.azurewebsites.net/api/residentdevelopers',
+      fields:
+      [
+        'userId', 'name',
+        {
+          name: 'nricPassportNo',
+          title: 'NRIC/Passport No',
+          sortField: 'nricPassportNo'
+        },
+        'company', 'email',
+        {
+          name: 'mobileNo',
+          title: 'Mobile No'
+        },
+        {
+          name: 'keyCardRefNo',
+          title: 'Key Card No'
+        },
+        {
+          name: 'issuranceDate',
+          title: 'Issuance Date',
+          callback: 'formatDate|DD-MM-YYYY'
+        },
+        {
+          name: '__component:custom-actions',
+          title: 'Actions',
+          titleClass: 'center aligned',
+          dataClass: 'center aligned'
+        }
+      ]
+    }
   }
 }
 
