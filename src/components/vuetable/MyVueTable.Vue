@@ -1,5 +1,3 @@
-// MyVuetable.vue
-
 <template>
   <div>
     <filter-bar></filter-bar> 

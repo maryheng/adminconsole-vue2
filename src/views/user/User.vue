@@ -22,12 +22,9 @@
 
 
 <script>
-// import router from '../../router'
 import MyVuetable from '../../components/vuetable/MyVuetable.vue'
 import tabs from '../../components/layout/Tabs.vue'
 import tab from '../../components/layout/Tab.vue'
-// import { staffUrl } from '../../config'
-// import axios from 'axios'
 
 export default {
   name: 'app',

@@ -13,6 +13,7 @@ import Category from '../views/category/Category.vue'
 import Loan from '../views/loan/Loan.vue'
 import Visitor from '../views/visitor/Visitor.vue'
 import Training from '../views/training/Training.vue'
+import AddCategory from '../components/categories/AddCategory.vue'
 
 Vue.use(Router)
 
@@ -57,16 +58,16 @@ export default new Router({
       }
       ]
     },
-    {
-      path: '/AddStaff',
-      name: 'Staff',
-      component: AddStaff
-    },
-    {
-      path: '/AddResident',
-      name: 'Resident',
-      component: AddResident
-    },
+    // {
+    //   path: '/AddStaff',
+    //   name: 'Staff',
+    //   component: AddStaff
+    // },
+    // {
+    //   path: '/AddResident',
+    //   name: 'Resident',
+    //   component: AddResident
+    // },
     {
       path: '/item',
       name: 'Item',
@@ -76,6 +77,11 @@ export default new Router({
       path: '/category',
       name: 'Category',
       component: Category
+    },
+    {
+      path: '/AddCategory',
+      name: 'Category',
+      component: AddCategory
     },
     {
       path: '/loan',

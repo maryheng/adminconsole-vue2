@@ -21,8 +21,6 @@
 
 <script>
 import MyVuetable from '../../components/vuetable/MyVuetable.vue'
-// import { staffUrl } from '../../config'
-// import axios from 'axios'
 
 export default {
   name: 'app',

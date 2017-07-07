@@ -1,11 +1,16 @@
 <template>
-  <div id="containter">
+  <div id="container">
     <div class="innerContainer">
 
       <div class="header">
         <p class="title is-4">Staff Details</p>
       </div>
       <hr>
+
+      <image-uploader
+        :url="url"
+        :data="data"
+      ></image-uploader>
 
       <!--Input field for Name-->
       <div class="field is-horizontal">
@@ -15,7 +20,7 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="text" placeholder="Name">
+              <input class="input" type="text" placeholder="Name" v-model="data.name">
             </p>
           </div>
         </div>
@@ -29,7 +34,7 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="text" placeholder="Username">
+              <input class="input" type="text" placeholder="Username" v-model="data.username">
             </p>
           </div>
         </div>
@@ -43,7 +48,7 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="password" placeholder="Password">
+              <input class="input" type="password" placeholder="Password" v-model="data.password">
             </p>
           </div>
         </div>
@@ -68,13 +73,22 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import imageUploader from '../imageuploader/ImageUploader.vue'
 
 export default {
   name: 'app',
-  computed: {
-    href () {
-      return '' + this.name.toLowerCase().replace(/\s+/g, '')
+  components: {
+    imageUploader
+  },
+  data () {
+    return {
+      data: {
+        name: '',
+        username: '',
+        password: ''
+      },
+      // url: 'http://101.198.151.190/api/upload.php'
+      url: 'https://fypadminconsoletest.azurewebsites.net/api/staffs'
     }
   }
 }

@@ -1,6 +1,4 @@
-  // FilterBar.vue
-
-  <template>
+<template>
   <div class="filter">
   <div class="field is-horizontal">
     <div class="field-body">

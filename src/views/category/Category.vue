@@ -2,7 +2,20 @@
   <div id="container">
     <p class="title is-4">Manage Category</p>
     <div class="box">
-      <h1>hELlo</h1>
+      <router-link to="/AddCategory">
+        <button type="submit" class="button is-primary">Add Category</button>
+      </router-link>
+      <br>
+      <br>
+      <!--Vue Table-->
+      <my-vuetable
+        :api-url="apiUrl"
+        :fields="fields"   
+        ></my-vuetable>
+      <br>
+      <br>
+
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -10,8 +23,40 @@
 
 
 <script>
+import MyVuetable from '../../components/vuetable/MyVuetable.vue'
+
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    MyVuetable
+  },
+  data () {
+    return {
+      apiUrl: 'https://fypadminconsoletest.azurewebsites.net/api/categories',
+      fields:
+      [
+        {
+          name: 'categoryId',
+          title: 'category ID',
+          sortField: 'nricPassportNo'
+        },
+        {
+          name: 'categoryName',
+          title: 'Category Name'
+        },
+        {
+          name: 'SubCategories',
+          title: 'Sub-Categories'
+        },
+        {
+          name: '__component:custom-actions',
+          title: 'Actions',
+          titleClass: 'center aligned',
+          dataClass: 'center aligned'
+        }
+      ]
+    }
+  }
 }
 
 </script>

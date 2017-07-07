@@ -1,5 +1,4 @@
-
-  <template>
+<template>
     <div class="custom-actions">
       <button class="button is-info" @click="itemAction('edit-item', rowData, rowIndex)">Edit</button>
     </div>
