@@ -77,7 +77,7 @@ export default {
         window.localStorage.setItem('access_token', response.data.token)
         window.localStorage.setItem('cookie_expiry', new Date(Date.now() + 28800000).toString())
 
-        router.push({ path: '/users' })
+        router.push({ path: '/dashboard' })
       })
         .catch(function (error) {
           console.log(error)

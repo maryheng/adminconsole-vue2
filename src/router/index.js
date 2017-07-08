@@ -3,17 +3,22 @@ import Router from 'vue-router'
 import App from '../App.vue'
 import Dashboard from '../views/dashboard/Dashboard.vue'
 import Login from '../views/auth/Login.vue'
+
 import User from '../views/user/User.vue'
-import Staff from '../components/users/Staff.vue'
-import ResidentDeveloper from '../components/users/ResidentDeveloper.vue'
-import AddStaff from '../components/users/AddStaff.vue'
-import AddResident from '../components/users/AddResident.vue'
+import Staff from '../components/users/staff/Staff.vue'
+import ResidentDeveloper from '../components/users/rd/ResidentDeveloper.vue'
+import AddStaff from '../components/users/staff/AddStaff.vue'
+import AddResident from '../components/users/rd/AddResident.vue'
+import UpdateStaff from '../components/users/staff/UpdateStaff.vue'
+
 import Item from '../views/item/Item.vue'
+
 import Category from '../views/category/Category.vue'
+import AddCategory from '../components/categories/AddCategory.vue'
+
 import Loan from '../views/loan/Loan.vue'
 import Visitor from '../views/visitor/Visitor.vue'
 import Training from '../views/training/Training.vue'
-import AddCategory from '../components/categories/AddCategory.vue'
 
 Vue.use(Router)
 
@@ -53,6 +58,10 @@ export default new Router({
         component: AddStaff
       },
       {
+        path: 'UpdateStaff',
+        component: UpdateStaff
+      },
+      {
         path: 'AddResident',
         component: AddResident
       }
@@ -80,7 +89,6 @@ export default new Router({
     },
     {
       path: '/AddCategory',
-      name: 'Category',
       component: AddCategory
     },
     {

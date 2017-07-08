@@ -20,7 +20,7 @@
 
 
 <script>
-import MyVuetable from '../../components/vuetable/MyVuetable.vue'
+import MyVuetable from '../../../components/vuetable/MyVuetable.vue'
 
 export default {
   name: 'app',

@@ -54,9 +54,9 @@
         </div>
       </div>
   
+      <!-- Save Button -->
       <div class="field is-horizontal">
         <div class="field-label">
-          <!-- Left empty for spacing -->
         </div>
         <div class="field-body">
           <div class="field">
@@ -73,7 +73,8 @@
 </template>
 
 <script>
-import imageUploader from '../imageuploader/ImageUploader.vue'
+import imageUploader from '../../imageuploader/ImageUploader.vue'
+// import router from '../../router'
 
 export default {
   name: 'app',
@@ -91,6 +92,12 @@ export default {
       url: 'https://fypadminconsoletest.azurewebsites.net/api/staffs'
     }
   }
+  // methods: {
+  //   onAction (action, data, index) {
+  //     console.log('slot action: ' + action, data.name, index)
+  //     router.push({ path: '/user/UpdateStaff' })
+  //   }
+  // }
 }
 
 </script>

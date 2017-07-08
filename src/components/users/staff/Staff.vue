@@ -1,41 +1,47 @@
 <template>
   <div id="container">
-      <router-link to="/user/AddStaff">
-        <button type="submit" class="button is-primary">Add Staff</button>
-      </router-link>
-      <br>
-      <br>
-      <!--Vue Table-->
-    <my-vuetable
-      :api-url="apiUrl"
-      :fields="fields"   
-      ></my-vuetable>
-      <br>
-      <br>
-  
-      <router-view></router-view>
+    <router-link to="/user/AddStaff">
+      <button type="submit" class="button is-primary">Add Staff</button>
+    </router-link>
+    <br>
+    <br>
+    <!--Vue Table-->
+    <my-vuetable :api-url="apiUrl" :fields="fields" ></my-vuetable>
+    <br>
+    <br>
+
+    <router-view></router-view>
   </div>
 </template>
 
-
-
 <script>
-import MyVuetable from '../../components/vuetable/MyVuetable.vue'
+import MyVuetable from '../../../components/vuetable/MyVuetable.vue'
+import CustomActions from '../../../components/vuetable/CustomActions.vue'
 
 export default {
   name: 'app',
   components: {
-    MyVuetable
+    MyVuetable,
+    CustomActions
   },
   data () {
     return {
       apiUrl: 'https://fypadminconsoletest.azurewebsites.net/api/staffs',
       fields:
       [
+        // {
+        //   name: '__sequence', // index number for rows in vuetable
+        //   title: '#',
+        //   titleClass: 'center aligned',
+        //   dataClass: 'right aligned'
+        // },
         {
           name: 'userId',
-          title: 'User ID',
-          sortField: 'userId'
+          title: 'User ID'
+        },
+        {
+          name: 'staffId',
+          title: 'Staff ID'
         },
         {
           name: 'name',
