@@ -5,29 +5,37 @@
   </template>
 
   <script>
-  export default {
-    props: {
-      rowData: {
-        type: Object,
-        required: true
-      },
-      rowIndex: {
-        type: Number
-      }
-    },
-    methods: {
-      itemAction (action, data, index) {
-        console.log('custom-actions: ' + action, data.name, index)
-      }
-    }
-  }
-  </script>
+import router from '../../router'
 
-  <style>
-    .custom-actions button.ui.button {
-      padding: 8px 8px;
+import { staffUrl } from '../../config'
+import axios from 'axios'
+
+export default {
+  props: {
+    rowData: {
+      type: Object,
+      required: true
+    },
+    rowIndex: {
+      type: Number
     }
-    .custom-actions button.ui.button > i.icon {
-      margin: auto !important;
+  },
+  methods: {
+    itemAction (action, data, index) {
+      console.log('custom-actions: ' + action, data.name, index)
+      console.log(data.userId)
+      router.push({ path: '/user/UpdateStaff' })
+      axios.get(staffUrl + '/' + data.userId)
+        .then(function (response) {
+          console.log(response)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     }
-  </style>
+  },
+  mounted () {
+
+  }
+}
+  </script>

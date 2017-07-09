@@ -1,17 +1,14 @@
 <template>
   <div id="container">
     <div class="innerContainer">
-
+  
       <div class="header">
         <p class="title is-4">Staff Details</p>
       </div>
       <hr>
-
-      <image-uploader
-        :url="url"
-        :data="data"
-      ></image-uploader>
-
+  
+      <image-uploader :url="url" :data="data"></image-uploader>
+  
       <!--Input field for Name-->
       <div class="field is-horizontal">
         <div class="field-label is-normal">
@@ -55,15 +52,17 @@
       </div>
   
       <!-- Save Button -->
-      <div class="field is-horizontal">
-        <div class="field-label">
-        </div>
-        <div class="field-body">
-          <div class="field">
-            <div class="control">
-              <button class="button is-primary">
-                Save
-              </button>
+      <div class="saveBtn">
+        <div class="field is-horizontal">
+          <div class="field-label">
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <button class="button is-primary">
+                  Save
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -140,5 +139,9 @@ button {
 .header {
   margin-left: 200px;
   margin-top: 1%;
+}
+
+.saveBtn {
+  margin-left: 5.2%;
 }
 </style>

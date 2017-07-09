@@ -1,5 +1,5 @@
 <template>
-<div class="center">
+<div class="imageUploader">
   <vue-core-image-upload
     class="button is-primary"
     :crop="false"
@@ -47,3 +47,7 @@ export default {
   }
 }
 </script>
+
+<style>
+
+</style>

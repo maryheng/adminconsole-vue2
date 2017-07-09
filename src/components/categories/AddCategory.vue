@@ -16,13 +16,13 @@
           <div class="field-body">
             <div class="field is-grouped">
               <p class="control">
-                <input class="input" type="text">
+                <input class="input" type="text" v-model="data.categoryName">
               </p>
             </div>
           </div>
         </div>
   
-        <!--Checkbox for Sub-Category Name-->
+        <!--Checkbox (Checked -> Have Sub-Category || Not Checked -> No Sub-Cat) -->
         <div class="field is-horizontal">
           <div class="field-label is-normal">
             <label class="label">Does this category have a sub-category?</label>
@@ -50,7 +50,7 @@
           <div class="field-body">
             <div class="field is-grouped">
               <p class="control">
-                <multiselect v-model="value" tag-placeholder="Add this as new tag" placeholder="Add one or more sub-category!" label="name" :options="options" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
+                <multiselect v-model="value" placeholder="Add one or more sub-category!" label="name" :options="options" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
                 <!--<pre class="language-json"><code>{{ value  }}</code></pre>-->
               </p>
             </div>
@@ -59,12 +59,11 @@
   
         <div class="field is-horizontal">
           <div class="field-label">
-            <!-- Left empty for spacing -->
           </div>
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <button class="button is-primary">
+                <button class="button is-primary" @click="submitBtn">
                   Save
                 </button>
               </div>
@@ -78,6 +77,9 @@
 
 <script>
 import Multiselect from 'vue-multiselect'
+import { categoryUrl } from '../../config'
+import axios from 'axios'
+// import router from '../../router'
 
 export default {
   name: 'app',
@@ -88,7 +90,10 @@ export default {
     return {
       checked: false,
       value: [],
-      options: []
+      options: [],
+      data: {
+        categoryName: ''
+      }
     }
   },
   methods: {
@@ -98,6 +103,19 @@ export default {
       }
       this.options.push(tag)
       this.value.push(tag)
+      console.log(this.value)
+    },
+    submitBtn () {
+      axios.post(categoryUrl, {
+        categoryName: this.data.categoryName
+      })
+      .then(function (response) {
+        console.log(response)
+        console.log(response.data.token)
+      })
+        .catch(function (error) {
+          console.log(error)
+        })
     }
   }
 }

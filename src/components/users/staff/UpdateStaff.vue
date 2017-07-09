@@ -6,7 +6,7 @@
         <p class="title is-4">Staff Details</p>
       </div>
       <hr>
-  
+
       <image-uploader :url="url" :data="data"></image-uploader>
   
       <!--Input field for Name-->
@@ -37,6 +37,23 @@
         </div>
       </div>
   
+      <div class="saveBtn">
+        <div class="field is-horizontal">
+          <div class="field-label">
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <button class="button is-primary">
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- ~~~~~~~~~~CHANGE OF PASSWORD SECTION~~~~~~~~~~~~~~~~ -->
       <div class="header">
         <p class="title is-4">Manage Password</p>
       </div>
@@ -101,6 +118,23 @@
           </div>
         </div>
       </modal>
+
+      <div class="deleteBtn">
+        <div class="field is-horizontal">
+          <div class="field-label">
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <button class="button" @click="deleteBtn" >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -108,12 +142,16 @@
 <script>
 import imageUploader from '../../imageuploader/ImageUploader.vue'
 import modal from '../../modal/Modal.vue'
+import Simplert from '../../simplert/Simplert.vue'
+// import { staffUrl } from '../../../config'
+// import axios from 'axios'
 
 export default {
   name: 'app',
   components: {
     imageUploader,
-    modal
+    modal,
+    Simplert
   },
   data () {
     return {
@@ -124,9 +162,35 @@ export default {
       },
       // url: 'http://101.198.151.190/api/upload.php'
       url: 'https://fypadminconsoletest.azurewebsites.net/api/staffs',
-      showChangePasswordModal: false
+      showChangePasswordModal: false,
+      ref: ''
+    }
+  },
+  methods: {
+    deleteBtn () {
+      let confirmFn = function () {
+        alert('I am Confirmed')
+      }
+      let obj = {
+        title: 'Alert Title',
+        message: 'Alert Message',
+        type: 'info',
+        useConfirmBtn: true,
+        onConfirm: confirmFn
+      }
+      this.$refs.simplert.openSimplert(obj)
     }
   }
+  // mounted () {
+  //   axios.get(staffUrl)
+  //     .then(function (response) {
+  //       console.log(response)
+  //       response.data.
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error)
+  //     })
+  // }
 }
 
 </script>
@@ -186,5 +250,14 @@ button {
 
 .updateBtn {
   margin-left: 50%;
+}
+
+.saveBtn {
+  margin-left: 5.2%;
+}
+
+.deleteBtn {
+  float: left;
+  margin-top: 2%;
 }
 </style>

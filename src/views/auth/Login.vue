@@ -2,7 +2,7 @@
 <div class="main">
   <div class="content has-text-centered">
     <div class="columns is-vcentered">
-      <div class="column is-4 is-offset-4">
+      <div class="column is-4 is-offset-3">
         <div class="box">
           <p class="title is-3">Login</p>
           <p class="subtitle is-6">Only admins can login!</p><br><br>

@@ -8,31 +8,14 @@ import axios from 'axios'
 Vue.prototype.$http = axios
 Vue.axios = axios
 
-// Vue.use(axios)
-// Vue.use(VueResource)
-
 // Enable devtools
 Vue.config.productionTip = true
-
-// vue-resource interceptor to pass in token to request headers
-// Vue.http.interceptors.push((request, next) => {
-//   var accessToken = window.localStorage.getItem('access_token')
-//   request.headers.set('x-access-token', accessToken)
-//   next()
-// })
-
-// axios.interceptors.request.use(config => {
-//   var accessToken = window.localStorage.getItem('access_token')
-//   config.headers = { 'x-access-token': accessToken }
-//   return config
-// })
 
 // Global axios default (config default that will be applied to every request)
 var accessToken = window.localStorage.getItem('access_token')
 axios.defaults.baseURL = 'https://fypadminconsoletest.azurewebsites.net/'
 axios.defaults.headers.common['authorization'] = 'Bearer ' + accessToken
 
-// /* eslint-disable no-new */
 const app = new Vue({
   el: '#app',
   router,
