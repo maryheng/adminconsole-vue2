@@ -7,7 +7,22 @@
       </div>
       <hr>
   
-      <image-uploader :url="url" :data="data"></image-uploader>
+      <!-- Upload Image -->
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">Upload Image:</label>
+        </div>
+        <div class="field-body">
+          <div class="field is-grouped">
+            <div id="chooseFileDiv">
+              <p class="control">
+                <img :src="image" />
+                <input type="file" @change="onFileChange" class="input" ref="image" name="image" id="image">           
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
   
       <!--Input field for Name-->
       <div class="field is-horizontal">
@@ -59,7 +74,7 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <button class="button is-primary">
+                <button class="button is-primary" @click="saveStaffBtn">
                   Save
                 </button>
               </div>
@@ -67,18 +82,25 @@
           </div>
         </div>
       </div>
+  
+      <!-- Simplert Notification -->
+      <simplert :useRadius="true" :useIcon="true" ref="simplert">
+      </simplert>
+  
     </div>
   </div>
 </template>
 
 <script>
-import imageUploader from '../../imageuploader/ImageUploader.vue'
-// import router from '../../router'
+import router from '../../../router'
+import axios from 'axios'
+import Simplert from 'vue2-simplert/src/components/simplert'
+import { staffUrl } from '../../../config'
 
 export default {
   name: 'app',
   components: {
-    imageUploader
+    Simplert
   },
   data () {
     return {
@@ -87,16 +109,56 @@ export default {
         username: '',
         password: ''
       },
-      // url: 'http://101.198.151.190/api/upload.php'
-      url: 'https://fypadminconsoletest.azurewebsites.net/api/staffs'
+      image: ''
+    }
+  },
+  methods: {
+    saveStaffBtn () {
+      let self = this
+      if (self.$refs.image.files[0]) {
+        let formData = new FormData()
+
+        formData.append('userImage', self.$refs.image.files[0])
+        formData.append('name', this.data.name)
+        formData.append('username', this.data.username)
+        formData.append('password', this.data.password)
+
+        // Post Staff FormData to server
+        axios.post(staffUrl, formData)
+          .then(function (response) {
+            let closeFn = function () {
+              router.push({ path: '/user/staff' })
+            }
+            let successAlert = {
+              title: 'Success',
+              message: 'Staff record successfully created!',
+              type: 'success',
+              onClose: closeFn
+            }
+            self.$refs.simplert.openSimplert(successAlert)
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
+      }
+    },
+    onFileChange (e) {
+      var files = e.target.files || e.dataTransfer.files
+      if (!files.length) {
+        return
+      }
+      this.createImage(files[0])
+    },
+    createImage (file) {
+      var reader = new FileReader()
+      var vm = this
+
+      reader.onload = (e) => {
+        vm.image = e.target.result
+      }
+      reader.readAsDataURL(file)
     }
   }
-  // methods: {
-  //   onAction (action, data, index) {
-  //     console.log('slot action: ' + action, data.name, index)
-  //     router.push({ path: '/user/UpdateStaff' })
-  //   }
-  // }
 }
 
 </script>
@@ -109,13 +171,13 @@ export default {
 }
 
 .input {
-  margin: 8px;
+  width: 300px;
 }
 
 .innerContainer {
   margin: 0 auto;
   position: relative;
-  margin-right: -2000px;
+  margin-right: -150%;
   padding-bottom: 10%;
 }
 
@@ -142,6 +204,16 @@ button {
 }
 
 .saveBtn {
-  margin-left: 5.2%;
+  margin-left: 8.7%;
+}
+
+img {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  margin: auto;
+  display: block;
+  margin-bottom: 30px;
+  margin-left: 15%;
 }
 </style>

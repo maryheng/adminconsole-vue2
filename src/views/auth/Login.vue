@@ -64,7 +64,6 @@ export default {
   // },
   methods: {
     loginFormSubmit () {
-      console.log('submit button clicked!')
       axios.post(loginUrl, {
         username: this.req.body.username,
         password: this.req.body.password

@@ -7,6 +7,22 @@
       </div>
       <hr>
   
+      <!-- Upload Image -->
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">Upload Image:</label>
+        </div>
+        <div class="field-body">
+          <div class="field is-grouped">
+            <div id="chooseFileDiv">
+              <p class="control">
+                <input type="file" class="input" ref="image" name="image" id="image">
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!--Input field for Full Name-->
       <div class="field is-horizontal">
         <div class="field-label is-normal">
@@ -15,12 +31,40 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="text">
+              <input class="input" type="text" v-model="data.name">
             </p>
           </div>
         </div>
       </div>
+
+      <!--Input field for NRIC-->
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">NRIC/Passport Number:</label>
+        </div>
+        <div class="field-body">
+          <div class="field is-grouped">
+            <p class="control">
+              <input class="input" type="text" v-model="data.nricPassportNo">
+            </p>
+          </div>
+        </div>
+      </div>      
   
+      <!--Input field for Company Name-->
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">Company Name:</label>
+        </div>
+        <div class="field-body">
+          <div class="field is-grouped">
+            <p class="control">
+              <input class="input" type="text" v-model="data.company">
+            </p>
+          </div>
+        </div>
+      </div>
+
       <!--Input field for Email-->
       <div class="field is-horizontal">
         <div class="field-label is-normal">
@@ -29,21 +73,7 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="email">
-            </p>
-          </div>
-        </div>
-      </div>
-  
-      <!--Input field for NRIC-->
-      <div class="field is-horizontal">
-        <div class="field-label is-normal">
-          <label class="label">NRIC:</label>
-        </div>
-        <div class="field-body">
-          <div class="field is-grouped">
-            <p class="control">
-              <input class="input" type="text">
+              <input class="input" type="email" v-model="data.email">
             </p>
           </div>
         </div>
@@ -57,7 +87,8 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="number">
+              <input class="input" type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" 
+              maxlength="8" v-model="data.mobileNo">
             </p>
           </div>
         </div>
@@ -78,7 +109,7 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="text">
+              <input class="input" type="text" v-model="data.keyCardRefNo">
             </p>
           </div>
         </div>
@@ -92,33 +123,105 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="date">
+              <input class="input" type="date" v-model="data.issuranceDate">
             </p>
           </div>
         </div>
       </div>
   
-      <div class="field is-horizontal">
-        <div class="field-label">
-          <!-- Left empty for spacing -->
-        </div>
-        <div class="field-body">
-          <div class="field">
-            <div class="control">
-              <button class="button is-primary">
-                Save
-              </button>
+      <!-- Save Button -->
+      <div class="saveBtn">
+        <div class="field is-horizontal">
+          <div class="field-label">
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <button class="button is-primary" @click="saveRdBtn">
+                  Save
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- Simplert Notification -->
+      <simplert :useRadius="true" :useIcon="true" ref="simplert">
+      </simplert>
+
     </div>
   </div>
 </template>
 
 <script>
+// import router from '../../../router'
+import axios from 'axios'
+import Simplert from 'vue2-simplert/src/components/simplert'
+
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    Simplert
+  },
+  data () {
+    return {
+      data: {
+        name: '',
+        nricPassportNo: '',
+        company: '',
+        email: '',
+        mobileNo: '',
+        keyCardRefNo: '',
+        issuranceDate: ''
+      },
+      image: ''
+    }
+  },
+  methods: {
+    saveRdBtn () {
+      axios.post('/testing', {
+        // issuranceDate: moment(this.data.issuranceDate).format('DD-MM-YYYY')
+        // issuranceDate: (this.data.issuranceDate).toISOString()
+      })
+        .then(function (response) {
+          console.log(response)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+      // let self = this
+      // if (self.$refs.image.files[0]) {
+      //   let formData = new FormData()
+
+      //   formData.append('userImage', self.$refs.image.files[0])
+      //   formData.append('name', this.data.name)
+      //   formData.append('email', this.data.email)
+      //   formData.append('nric', this.data.nric)
+      //   formData.append('mobileNumber', this.data.mobileNumber)
+      //   formData.append('keyCardReferenceNo', this.data.keyCardReferenceNo)
+      //   formData.append('issuranceData', moment(this.data.issuranceData).format('DD-MM-YYYY'))
+
+      //   // Post Staff FormData to server
+      //   axios.post('/testing', formData)
+      //     .then(function (response) {
+      //       let closeFn = function () {
+      //         router.push({ path: '/user/residentdeveloper' })
+      //       }
+      //       let successAlert = {
+      //         title: 'Success',
+      //         message: 'Resident Developer record successfully created!',
+      //         type: 'success',
+      //         onClose: closeFn
+      //       }
+      //       self.$refs.simplert.openSimplert(successAlert)
+      //     })
+      //     .catch(function (error) {
+      //       console.log(error)
+      //     })
+      // }
+    }
+  }
 }
 
 </script>
@@ -137,7 +240,7 @@ export default {
 .innerContainer {
   margin: 0 auto;
   position: relative;
-  margin-right: -2000px;
+  margin-right: -150%;
 }
 
 input {
@@ -159,5 +262,9 @@ button {
 
 .input {
   width: 300px;
+}
+
+.saveBtn {
+  margin-left: 8.4%;
 }
 </style>

@@ -10,6 +10,7 @@ import ResidentDeveloper from '../components/users/rd/ResidentDeveloper.vue'
 import AddStaff from '../components/users/staff/AddStaff.vue'
 import AddResident from '../components/users/rd/AddResident.vue'
 import UpdateStaff from '../components/users/staff/UpdateStaff.vue'
+import UpdateResident from '../components/users/rd/UpdateResident.vue'
 
 import Item from '../views/item/Item.vue'
 
@@ -64,6 +65,10 @@ export default new Router({
       {
         path: 'AddResident',
         component: AddResident
+      },
+      {
+        path: 'UpdateResident',
+        component: UpdateResident
       }
       ]
     },

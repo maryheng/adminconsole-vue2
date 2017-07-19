@@ -34,7 +34,7 @@
             <div class="field is-grouped">
               <p class="control">
                 <label class="checkbox">
-                  <input type="checkbox" value="Yes" v-model="checked"> Yes
+                  <input type="checkbox" value="Yes" v-model="data.checked"> Yes
                 </label>
               </p>
             </div>
@@ -43,16 +43,23 @@
   
         <!--Only shown if CHECKBOX is TICKED -->
         <!--Input field for Sub-Category Name-->
-        <div class="field is-horizontal" v-if="checked">
+        <div class="field is-horizontal" v-if="data.checked">
           <div class="field-label is-normal">
             <label class="label">Sub-Category Name(s):</label>
           </div>
           <div class="field-body">
             <div class="field is-grouped">
+              <div class="multiselectDiv">
               <p class="control">
-                <multiselect v-model="value" placeholder="Add one or more sub-category!" label="name" :options="options" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
-                <!--<pre class="language-json"><code>{{ value  }}</code></pre>-->
+                <!-- <multiselect v-model="data.selected" placeholder="Add one or more sub-category!" label="subCategoryName" 
+                :options="options" :hide-selected="true" :multiple="true" :taggable="true" @tag="addTag" 
+                @update="updateSelected">
+                </multiselect> -->
+                <multiselect :multiple="true" v-model="data.SubCategories" label="subCategoryName" :hide-selected="true" :selected="data.SubCategories" :options="options" :taggable="true" @tag="addTag" @update="updateSelected">
+                </multiselect>
+                <pre>{{$data | json}}</pre>
               </p>
+            </div>
             </div>
           </div>
         </div>
@@ -70,6 +77,14 @@
             </div>
           </div>
         </div>
+
+      <!-- Simplert Notification -->
+      <simplert 
+        :useRadius="true"
+        :useIcon="true"
+        ref="simplert">
+      </simplert>
+
       </div>
     </div>
   </div>
@@ -80,30 +95,34 @@ import Multiselect from 'vue-multiselect'
 import { categoryUrl } from '../../config'
 import axios from 'axios'
 // import router from '../../router'
+import Simplert from 'vue2-simplert/src/components/simplert'
 
 export default {
   name: 'app',
   components: {
-    Multiselect
+    Multiselect,
+    Simplert
   },
   data () {
     return {
-      checked: false,
-      value: [],
-      options: [],
       data: {
-        categoryName: ''
-      }
+        categoryName: '',
+        checked: false,
+        SubCategories: []
+      },
+      options: []
     }
   },
   methods: {
+    updateSelected (selected) {
+      this.data.SubCategories = selected
+    },
     addTag (newTag) {
       const tag = {
-        name: newTag
+        subCategoryName: newTag
       }
       this.options.push(tag)
-      this.value.push(tag)
-      console.log(this.value)
+      this.data.SubCategories.push(tag)
     },
     submitBtn () {
       axios.post(categoryUrl, {

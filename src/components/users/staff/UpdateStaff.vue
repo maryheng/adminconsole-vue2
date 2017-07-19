@@ -7,7 +7,22 @@
       </div>
       <hr>
 
-      <image-uploader :url="url" :data="data"></image-uploader>
+      <!-- Upload Image -->
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">Upload Image:</label>
+        </div>
+        <div class="field-body">
+          <div class="field is-grouped">
+            <div id="chooseFileDiv">
+              <p class="control">
+                <img :src="image" />
+                <input type="file" @change="onFileChange" class="input" ref="image" name="image" id="image">           
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
   
       <!--Input field for Name-->
       <div class="field is-horizontal">
@@ -37,15 +52,16 @@
         </div>
       </div>
   
-      <div class="saveBtn">
+      <!-- Update Button -->
+      <div class="updateBtn">
         <div class="field is-horizontal">
           <div class="field-label">
           </div>
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <button class="button is-primary">
-                  Save
+                <button class="button is-primary" @click="updateStaffBtn">
+                  Update
                 </button>
               </div>
             </div>
@@ -59,7 +75,7 @@
       </div>
       <hr>
   
-      <!--Change Password:-->
+      <!-- Model - Change Password:-->
       <div class="field is-horizontal">
         <div class="field-label is-normal">
           <label class="label">Change your password here:</label>
@@ -89,7 +105,7 @@
         <div class="passwordField">
           <div class="field is-horizontal">
             <div class="field-label is-normal">
-              <label class="label">Password:</label>
+              <label class="label">New Password:</label>
             </div>
             <div class="field-body">
               <div class="field is-grouped">
@@ -102,14 +118,14 @@
         </div>
   
         <!--Update button for Change Password-->
-        <div class="updateBtn">
+        <div class="updatePwdBtn">
           <div class="field is-horizontal">
             <div class="field-label">
             </div>
             <div class="field-body">
               <div class="field">
                 <div class="control">
-                  <button class="button is-info">
+                  <button class="button is-info" @click="updatePwdBtn">
                     Update
                   </button>
                 </div>
@@ -135,21 +151,27 @@
         </div>
       </div>
 
+      <!-- Simplert Notification -->
+      <simplert 
+        :useRadius="true"
+        :useIcon="true"
+        ref="simplert">
+      </simplert>
+
     </div>
   </div>
 </template>
 
 <script>
-import imageUploader from '../../imageuploader/ImageUploader.vue'
+import router from '../../../router'
 import modal from '../../modal/Modal.vue'
-import Simplert from '../../simplert/Simplert.vue'
-// import { staffUrl } from '../../../config'
-// import axios from 'axios'
+import { staffUrl } from '../../../config'
+import axios from 'axios'
+import Simplert from 'vue2-simplert/src/components/simplert'
 
 export default {
   name: 'app',
   components: {
-    imageUploader,
     modal,
     Simplert
   },
@@ -160,39 +182,116 @@ export default {
         username: '',
         password: ''
       },
-      // url: 'http://101.198.151.190/api/upload.php'
-      url: 'https://fypadminconsoletest.azurewebsites.net/api/staffs',
-      showChangePasswordModal: false,
-      ref: ''
+      showChangePasswordModal: false
     }
   },
   methods: {
+    // Update Staff Record
+    updateStaffBtn () {
+      let self = this
+
+      let formData = new FormData()
+      // Post Staff data to server
+      // formData.append('userImage', self.$refs.image.files[0])
+      formData.append('name', this.data.name)
+      formData.append('username', this.data.username)
+
+      axios.put(staffUrl + '/userid', formData)
+        .then(function (response) {
+          let closeFn = function () {
+            router.push({ path: '/user/staff' })
+          }
+          let successAlert = {
+            title: 'Success',
+            message: 'Staff record successfully updated!',
+            type: 'success',
+            onClose: closeFn
+          }
+          self.$refs.simplert.openSimplert(successAlert)
+        })
+        .catch(function (error) {
+          console.log(error)
+          alert('Something went wrong!')
+        })
+    },
+    // Update Password for Staff
+    updatePwdBtn () {
+      let self = this
+      axios.put(staffUrl + '/userid', {
+        password: this.data.password
+      })
+        .then(function (response) {
+          let closeFn = function () {
+            router.push({ path: staffUrl + '/userid' })
+          }
+          let successAlert = {
+            title: 'Success',
+            message: 'Password successfully changed!',
+            type: 'success',
+            onClose: closeFn
+          }
+          self.$refs.simplert.openSimplert(successAlert)
+        })
+    },
+    // Delete Staff Record
     deleteBtn () {
+      let self = this
       let confirmFn = function () {
-        alert('I am Confirmed')
+        axios.delete(staffUrl + '/userid')
+        .then(function (response) {
+          console.log(response)
+        })
+          .catch(function (error) {
+            console.log(error)
+          })
+        let successAlert = {
+          title: 'Success',
+          message: 'Staff record successfully deleted!',
+          type: 'success'
+        }
+        self.$refs.simplert.openSimplert(successAlert)
       }
-      let obj = {
-        title: 'Alert Title',
-        message: 'Alert Message',
-        type: 'info',
+      let deleteAlert = {
+        title: 'Warning',
+        message: 'Are you sure you want to delete staff record?',
+        type: 'warning',
         useConfirmBtn: true,
         onConfirm: confirmFn
       }
-      this.$refs.simplert.openSimplert(obj)
-    }
-  }
-  // mounted () {
-  //   axios.get(staffUrl)
-  //     .then(function (response) {
-  //       console.log(response)
-  //       response.data.
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error)
-  //     })
-  // }
-}
+      self.$refs.simplert.openSimplert(deleteAlert)
+    },
+    onFileChange (e) {
+      var files = e.target.files || e.dataTransfer.files
+      if (!files.length) {
+        return
+      }
+      this.createImage(files[0])
+    },
+    createImage (file) {
+      var reader = new FileReader()
+      var vm = this
 
+      reader.onload = (e) => {
+        vm.image = e.target.result
+      }
+      reader.readAsDataURL(file)
+    }
+  },
+  // Created Hook
+  created () {
+    // ~~~~~~~~~~~~ HARDCODED ~~~~~~~~~~~~~~
+    let self = this
+    axios.get(staffUrl + '/userid')
+      .then(function (response) {
+        // need to ask about the PHOTO
+        self.data.username = response.data.username
+        self.data.name = response.data.name
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  }
+}
 </script>
 
 
@@ -209,8 +308,8 @@ export default {
 .innerContainer {
   margin: 0 auto;
   position: relative;
-  margin-right: -2000px;
-  padding-bottom: 10%;
+  margin-right: -150%;
+  padding-bottom: 12%;
 }
 
 hr {
@@ -218,8 +317,9 @@ hr {
   width: 35%;
 }
 
-input {
+.input {
   margin-top: 10px;
+  width: 300px;
 }
 
 label {
@@ -248,16 +348,26 @@ button {
   margin-right: -120%;
 }
 
-.updateBtn {
-  margin-left: 50%;
+.updatePwdBtn {
+  margin-left: 69.2%;
 }
 
-.saveBtn {
-  margin-left: 5.2%;
+.updateBtn {
+  margin-left: 7.8%;
 }
 
 .deleteBtn {
   float: left;
-  margin-top: 2%;
+  margin-top: 3%;
+}
+
+img {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  margin: auto;
+  display: block;
+  margin-bottom: 30px;
+  margin-left: 15%;
 }
 </style>

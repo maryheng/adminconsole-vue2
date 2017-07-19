@@ -4,16 +4,35 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
+import VueSocketio from 'vue-socket.io'
+import { baseUrl } from './config.js'
 
 Vue.prototype.$http = axios
 Vue.axios = axios
+Vue.use(VueSocketio, baseUrl, { forceNew: true })
 
 // Enable devtools
 Vue.config.productionTip = true
 
+// Vue custom event dispatcher
+class Dispatcher {
+  constructor () {
+    this.vue = new Vue()
+  }
+  fire (event, data = null) {
+    this.vue.$emit(event, data)
+  }
+  listen (event, callback) {
+    this.vue.$on(event, callback)
+  }
+}
+
+window.Event = new Dispatcher()
+
 // Global axios default (config default that will be applied to every request)
 var accessToken = window.localStorage.getItem('access_token')
 axios.defaults.baseURL = 'https://fypadminconsoletest.azurewebsites.net/'
+// axios.defaults.baseURL = 'http://192.168.0.55:3000/'
 axios.defaults.headers.common['authorization'] = 'Bearer ' + accessToken
 
 const app = new Vue({
@@ -22,6 +41,52 @@ const app = new Vue({
   template: '<App/>',
   components: {
     App
+  },
+  sockets: {
+    connect: () => {
+      console.log('Socket connected!')
+    },
+    notification: (data) => {
+      Event.fire('triggerNotification', data)
+    },
+    disconnect: () => {
+      console.log('Disconnected from socket')
+    }
+  },
+  methods: {
+    emitToServer: function (val) {
+      console.log('Invoked emit to server:', val)
+      this.$socket.emit('vueClient', val)
+    },
+    loadNotifications: (val) => {
+      var title = val.notificationTitle
+      if (!('Notification' in window)) {
+        alert('This browser does not support desktop notification')
+      } else if (Notification.permission === 'granted') {
+        var notification = new Notification(title)
+        notification.title
+      } else if (Notification.permission !== 'denied') {
+        Notification.requestPermission((permission) => {
+          if (!('permission' in Notification)) {
+            Notification.permission = permission
+          }
+          if (permission === 'granted') {
+            var notification = new Notification(title)
+            notification.body
+          }
+        })
+      }
+    }
+  },
+  created () {
+    Event.listen('triggerNotification', (data) => {
+      this.loadNotifications(data)
+    })
+  },
+  mounted () {
+    setTimeout(() => {
+      this.emitToServer('Vue client is connected')
+    }, 1000)
   }
 })
 

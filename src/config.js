@@ -1,6 +1,7 @@
 export const baseUrl = 'https://fypadminconsoletest.azurewebsites.net/'
 export const loginUrl = baseUrl + 'login'
 export const staffUrl = baseUrl + 'api/staffs'
+export const rdUrl = baseUrl + 'api/residentdevelopers'
 export const categoryUrl = baseUrl + 'api/categories'
 export const categoryTypesUrl = baseUrl + 'api/categoryTypes'
 export const logoutUrl = baseUrl + 'logout'

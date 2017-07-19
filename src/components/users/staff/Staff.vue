@@ -6,7 +6,12 @@
     <br>
     <br>
     <!--Vue Table-->
-    <my-vuetable :api-url="apiUrl" :fields="fields" ></my-vuetable>
+    <my-vuetable
+    ref="vuetable"
+    :api-url="apiUrl"
+    :fields="fields"
+    @onBtnClick="onActions"
+    ></my-vuetable>
     <br>
     <br>
 
@@ -17,6 +22,7 @@
 <script>
 import MyVuetable from '../../../components/vuetable/MyVuetable.vue'
 import CustomActions from '../../../components/vuetable/CustomActions.vue'
+// import router from '../../../router'
 
 export default {
   name: 'app',
@@ -29,12 +35,12 @@ export default {
       apiUrl: 'https://fypadminconsoletest.azurewebsites.net/api/staffs',
       fields:
       [
-        // {
-        //   name: '__sequence', // index number for rows in vuetable
-        //   title: '#',
-        //   titleClass: 'center aligned',
-        //   dataClass: 'right aligned'
-        // },
+        {
+          name: '__sequence', // index number for rows in vuetable
+          title: '#',
+          titleClass: 'center aligned',
+          dataClass: 'right aligned'
+        },
         {
           name: 'userId',
           title: 'User ID'
@@ -58,6 +64,13 @@ export default {
           dataClass: 'center aligned'
         }
       ]
+    }
+  },
+  methods: {
+    onActions (action, data) {
+      alert('hi')
+      console.log('it works!')
+      console.log(data)
     }
   },
   computed: {
