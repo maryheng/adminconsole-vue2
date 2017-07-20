@@ -184,10 +184,10 @@ export default {
     //   axios.post('/testing', {
     //     issuranceDate: moment(this.data.issuranceData).format('DD-MM-YYYY')
     //   })
-    //     .then(function (response) {
+    //     .then((response) => {
     //       console.log(response)
     //     })
-    //     .catch(function (error) {
+    //     .catch((error) => {
     //       console.log(error)
     //     })
       let self = this
@@ -204,8 +204,8 @@ export default {
 
         // Post Staff FormData to server
         axios.post('/testing', formData)
-          .then(function (response) {
-            let closeFn = function () {
+          .then((response) => {
+            let closeFn = () => {
               router.push({ path: '/user/residentdeveloper' })
             }
             let successAlert = {
@@ -216,7 +216,7 @@ export default {
             }
             self.$refs.simplert.openSimplert(successAlert)
           })
-          .catch(function (error) {
+          .catch((error) => {
             console.log(error)
           })
       }
@@ -224,12 +224,12 @@ export default {
     // Delete RD Record
     deleteBtn () {
       let self = this
-      let confirmFn = function () {
+      let confirmFn = () => {
         axios.delete(rdUrl + '/159e4b54-bc64-4fd3-9c6c-187c81d87cb6')
-        .then(function (response) {
+        .then((response) => {
           console.log(response)
         })
-          .catch(function (error) {
+          .catch((error) => {
             console.log(error)
           })
         let successAlert = {
@@ -254,12 +254,12 @@ export default {
     // ~~~~~~~~~~~~ HARDCODED ~~~~~~~~~~~~~~
     let self = this
     axios.get(rdUrl + '/159e4b54-bc64-4fd3-9c6c-187c81d87cb6')
-      .then(function (response) {
+      .then((response) => {
         // need to ask about the PHOTO
         self.data.username = response.data.username
         self.data.name = response.data.name
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error)
       })
   }

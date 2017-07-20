@@ -34,7 +34,7 @@
             <div class="field is-grouped">
               <p class="control">
                 <label class="checkbox">
-                  <input type="checkbox" value="Yes" v-model="data.checked"> Yes
+                  <input type="checkbox" value="Yes" v-model="checked" @change="setCatType"> Yes
                 </label>
               </p>
             </div>
@@ -43,7 +43,7 @@
   
         <!--Only shown if CHECKBOX is TICKED -->
         <!--Input field for Sub-Category Name-->
-        <div class="field is-horizontal" v-if="data.checked">
+        <div class="field is-horizontal" v-if="checked">
           <div class="field-label is-normal">
             <label class="label">Sub-Category Name(s):</label>
           </div>
@@ -55,7 +55,7 @@
                 :options="options" :hide-selected="true" :multiple="true" :taggable="true" @tag="addTag" 
                 @update="updateSelected">
                 </multiselect> -->
-                <multiselect :multiple="true" v-model="data.SubCategories" label="subCategoryName" :hide-selected="true" :selected="data.SubCategories" :options="options" :taggable="true" @tag="addTag" @update="updateSelected">
+                <multiselect track-by="subCategoryName" :multiple="true" v-model="data.subCategoryNames" label="subCategoryName" :hide-selected="true" :selected="data.subCategoryNames" :options="options" :taggable="true" @tag="addTag" @update="updateSelected">
                 </multiselect>
                 <pre>{{$data | json}}</pre>
               </p>
@@ -92,7 +92,7 @@
 
 <script>
 import Multiselect from 'vue-multiselect'
-import { categoryUrl } from '../../config'
+import { categoryUrl, categoryTypesUrl } from '../../config'
 import axios from 'axios'
 // import router from '../../router'
 import Simplert from 'vue2-simplert/src/components/simplert'
@@ -107,32 +107,49 @@ export default {
     return {
       data: {
         categoryName: '',
-        checked: false,
-        SubCategories: []
+        categoryTypeId: '',
+        subCategoryNames: []
       },
-      options: []
+      options: [],
+      checked: false
     }
   },
   methods: {
     updateSelected (selected) {
-      this.data.SubCategories = selected
+      this.data.subCategoryNames = selected
     },
     addTag (newTag) {
       const tag = {
         subCategoryName: newTag
       }
       this.options.push(tag)
-      this.data.SubCategories.push(tag)
+      this.data.subCategoryNames.push(tag)
+    },
+    setCatType () {
+      axios.get(categoryTypesUrl)
+        .then((response) => {
+          const noSubCat = response.data[0].categoryTypeId
+          if (this.checked === false) {
+            this.data.categoryTypeId = noSubCat
+          } else {
+            const subCat = response.data[1].categoryTypeId
+            this.data.categoryTypeId = subCat
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
     submitBtn () {
       axios.post(categoryUrl, {
-        categoryName: this.data.categoryName
+        categoryName: this.data.categoryName,
+        categoryTypeId: this.data.categoryTypeId,
+        subCategoryNames: this.data.subCategoryNames
       })
-      .then(function (response) {
+      .then((response) => {
         console.log(response)
-        console.log(response.data.token)
       })
-        .catch(function (error) {
+        .catch((error) => {
           console.log(error)
         })
     }

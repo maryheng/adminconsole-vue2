@@ -21,6 +21,7 @@
 
 <script>
 import MyVuetable from '../../../components/vuetable/MyVuetable.vue'
+import moment from 'moment'
 
 export default {
   name: 'app',
@@ -48,7 +49,7 @@ export default {
           title: 'Key Card No'
         },
         {
-          name: 'issuranceDate',
+          name: 'issuanceDate',
           title: 'Issuance Date',
           callback: 'formatDate|DD-MM-YYYY'
         },
@@ -60,9 +61,15 @@ export default {
         }
       ]
     }
+  },
+  methods: {
+    formatDate (value, fmt = 'D MMM YYYY') {
+      return (value == null)
+        ? ''
+        : moment(value, 'YYYY-MM-DD').format(fmt)
+    }
   }
 }
-
 </script>
 
 <style>

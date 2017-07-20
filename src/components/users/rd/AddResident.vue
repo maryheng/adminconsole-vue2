@@ -16,7 +16,8 @@
           <div class="field is-grouped">
             <div id="chooseFileDiv">
               <p class="control">
-                <input type="file" class="input" ref="image" name="image" id="image">
+                <img :src="image" />
+                <input type="file" @change="onFileChange" class="input" ref="image" name="image" id="image">           
               </p>
             </div>
           </div>
@@ -115,7 +116,7 @@
         </div>
       </div>
   
-      <!--Input field for Issurance Date-->
+      <!--Input field for issuance Date-->
       <div class="field is-horizontal">
         <div class="field-label is-normal">
           <label class="label">Issurance Date:</label>
@@ -123,7 +124,7 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="date" v-model="data.issuranceDate">
+              <input class="input" type="date" v-model="data.issuanceDate">
             </p>
           </div>
         </div>
@@ -155,9 +156,10 @@
 </template>
 
 <script>
-// import router from '../../../router'
+import router from '../../../router'
 import axios from 'axios'
 import Simplert from 'vue2-simplert/src/components/simplert'
+import { rdUrl } from '../../../config'
 
 export default {
   name: 'app',
@@ -173,53 +175,73 @@ export default {
         email: '',
         mobileNo: '',
         keyCardRefNo: '',
-        issuranceDate: ''
+        issuanceDate: ''
       },
       image: ''
     }
   },
   methods: {
     saveRdBtn () {
-      axios.post('/testing', {
-        // issuranceDate: moment(this.data.issuranceDate).format('DD-MM-YYYY')
-        // issuranceDate: (this.data.issuranceDate).toISOString()
-      })
-        .then(function (response) {
-          console.log(response)
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
-      // let self = this
-      // if (self.$refs.image.files[0]) {
-      //   let formData = new FormData()
+      // axios.post('/testing', {
+      //   // issuanceDate: (new Date(this.data.issuanceDate)).toISOString()
+      //   // issuanceDate: moment(this.data.issuanceDate).format('DD-MM-YYYY')
+      //   issuanceDate: this.data.issuanceDate
+      // })
+      //   .then((response) => {
+      //     console.log(response)
+      //   })
+      //   .catch((error) => {
+      //     console.log(error)
+      //   })
+      let self = this
+      if (self.$refs.image.files[0]) {
+        let formData = new FormData()
 
-      //   formData.append('userImage', self.$refs.image.files[0])
-      //   formData.append('name', this.data.name)
-      //   formData.append('email', this.data.email)
-      //   formData.append('nric', this.data.nric)
-      //   formData.append('mobileNumber', this.data.mobileNumber)
-      //   formData.append('keyCardReferenceNo', this.data.keyCardReferenceNo)
-      //   formData.append('issuranceData', moment(this.data.issuranceData).format('DD-MM-YYYY'))
+        formData.append('userImage', self.$refs.image.files[0])
+        formData.append('name', this.data.name)
+        formData.append('email', this.data.email)
+        formData.append('company', this.data.company)
+        formData.append('nricPassportNo', this.data.nricPassportNo)
+        formData.append('mobileNo', this.data.mobileNo)
+        formData.append('keyCardRefNo', this.data.keyCardRefNo)
+        // formData.append('issuanceDate', (new Date(this.data.issuanceDate)).toISOString())
+        formData.append('issuanceDate', this.data.issuanceDate)
+        console.log(formData)
+        // Post Staff FormData to server
+        axios.post(rdUrl, formData)
+          .then((response) => {
+            console.log(response)
+            let closeFn = () => {
+              router.push({ path: '/user/residentdeveloper' })
+            }
+            let successAlert = {
+              title: 'Success',
+              message: 'Resident Developer record successfully created!',
+              type: 'success',
+              onClose: closeFn
+            }
+            self.$refs.simplert.openSimplert(successAlert)
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      }
+    },
+    onFileChange (e) {
+      var files = e.target.files || e.dataTransfer.files
+      if (!files.length) {
+        return
+      }
+      this.createImage(files[0])
+    },
+    createImage (file) {
+      var reader = new FileReader()
+      var vm = this
 
-      //   // Post Staff FormData to server
-      //   axios.post('/testing', formData)
-      //     .then(function (response) {
-      //       let closeFn = function () {
-      //         router.push({ path: '/user/residentdeveloper' })
-      //       }
-      //       let successAlert = {
-      //         title: 'Success',
-      //         message: 'Resident Developer record successfully created!',
-      //         type: 'success',
-      //         onClose: closeFn
-      //       }
-      //       self.$refs.simplert.openSimplert(successAlert)
-      //     })
-      //     .catch(function (error) {
-      //       console.log(error)
-      //     })
-      // }
+      reader.onload = (e) => {
+        vm.image = e.target.result
+      }
+      reader.readAsDataURL(file)
     }
   }
 }
@@ -266,5 +288,15 @@ button {
 
 .saveBtn {
   margin-left: 8.4%;
+}
+
+img {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  margin: auto;
+  display: block;
+  margin-bottom: 30px;
+  margin-left: 15%;
 }
 </style>

@@ -50,7 +50,7 @@ export default {
       error: ''
     }
   },
-  // mounted: function () {
+  // mounted: () => {
   //   // check if user is logged on
   //   var raw = window.localStorage.getItem('session')
   //   if (raw) {
@@ -68,7 +68,7 @@ export default {
         username: this.req.body.username,
         password: this.req.body.password
       })
-      .then(function (response) {
+      .then((response) => {
         console.log(response)
         console.log(response.data.token)
 
@@ -78,7 +78,7 @@ export default {
 
         router.push({ path: '/dashboard' })
       })
-        .catch(function (error) {
+        .catch((error) => {
           console.log(error)
         })
     }

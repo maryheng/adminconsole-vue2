@@ -100,8 +100,9 @@
             <p class="title is-4">Change Password</p>
           </div>
         </div>
+        <br>
   
-        <!--Input field for Change Password-->
+        <!--Input field for Change New Password-->
         <div class="passwordField">
           <div class="field is-horizontal">
             <div class="field-label is-normal">
@@ -110,12 +111,28 @@
             <div class="field-body">
               <div class="field is-grouped">
                 <p class="control">
-                  <input class="input" type="password" placeholder="Password" v-model="data.password">
+                  <input class="input" type="password" placeholder="Password" v-model="data.newPassword">
                 </p>
               </div>
             </div>
           </div>
         </div>
+
+        <!--Input field for Change Re-enter New Password-->
+        <div class="passwordField">
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Re-enter New Password:</label>
+            </div>
+            <div class="field-body">
+              <div class="field is-grouped">
+                <p class="control">
+                  <input class="input" type="password" placeholder="Password" v-model="data.newRePassword">
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>        
   
         <!--Update button for Change Password-->
         <div class="updatePwdBtn">
@@ -168,6 +185,7 @@ import modal from '../../modal/Modal.vue'
 import { staffUrl } from '../../../config'
 import axios from 'axios'
 import Simplert from 'vue2-simplert/src/components/simplert'
+import { EventBus } from './event-bus.js'
 
 export default {
   name: 'app',
@@ -180,25 +198,51 @@ export default {
       data: {
         name: '',
         username: '',
-        password: ''
+        newPassword: '',
+        newRePassword: ''
       },
-      showChangePasswordModal: false
+      showChangePasswordModal: false,
+      image: '',
+      testUserId: '/1da62664-abcc-4d72-a2f6-90854e8af841',
+      getUserId: ''
     }
   },
   methods: {
-    // Update Staff Record
+    // Update Staff Record; image, name, username
     updateStaffBtn () {
+      // let self = this
+
+      // let formData = new FormData()
+      // // Post Staff data to server
+      // // formData.append('userImage', self.$refs.image.files[0])
+      // formData.append('name', this.data.name)
+      // formData.append('username', this.data.username)
+
+      // axios.put(staffUrl + '/459ede8f-d599-494a-99d4-5ff23bccae53', formData)
+      //   .then((response) => {
+      //     let closeFn = () => {
+      //       router.push({ path: '/user/staff' })
+      //     }
+      //     let successAlert = {
+      //       title: 'Success',
+      //       message: 'Staff record successfully updated!',
+      //       type: 'success',
+      //       onClose: closeFn
+      //     }
+      //     self.$refs.simplert.openSimplert(successAlert)
+      //   })
+      //   .catch((error) => {
+      //     console.log(error)
+      //     alert('Something went wrong!')
+      //   })
       let self = this
 
-      let formData = new FormData()
-      // Post Staff data to server
-      // formData.append('userImage', self.$refs.image.files[0])
-      formData.append('name', this.data.name)
-      formData.append('username', this.data.username)
-
-      axios.put(staffUrl + '/userid', formData)
-        .then(function (response) {
-          let closeFn = function () {
+      axios.put(staffUrl + this.testUserId, {
+        name: this.data.name,
+        username: this.data.username
+      })
+        .then((response) => {
+          let closeFn = () => {
             router.push({ path: '/user/staff' })
           }
           let successAlert = {
@@ -209,7 +253,7 @@ export default {
           }
           self.$refs.simplert.openSimplert(successAlert)
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.log(error)
           alert('Something went wrong!')
         })
@@ -217,12 +261,13 @@ export default {
     // Update Password for Staff
     updatePwdBtn () {
       let self = this
-      axios.put(staffUrl + '/userid', {
-        password: this.data.password
+      axios.put(staffUrl + this.testUserId + '/changePasswords', {
+        newPassword: this.data.newPassword,
+        newRePassword: this.data.newRePassword
       })
-        .then(function (response) {
-          let closeFn = function () {
-            router.push({ path: staffUrl + '/userid' })
+        .then((response) => {
+          let closeFn = () => {
+            router.push({ path: '/user/UpdateStaff' })
           }
           let successAlert = {
             title: 'Success',
@@ -232,18 +277,24 @@ export default {
           }
           self.$refs.simplert.openSimplert(successAlert)
         })
+        .catch((error) => {
+          console.log(error)
+        })
     },
     // Delete Staff Record
     deleteBtn () {
       let self = this
-      let confirmFn = function () {
-        axios.delete(staffUrl + '/userid')
-        .then(function (response) {
+      let confirmFn = () => {
+        axios.delete(staffUrl + this.testUserId)
+        .then((response) => {
           console.log(response)
         })
-          .catch(function (error) {
+          .catch((error) => {
             console.log(error)
           })
+        // After deletion, go to Staff Page
+        router.push({ path: '/user/UpdateStaff' })
+
         let successAlert = {
           title: 'Success',
           message: 'Staff record successfully deleted!',
@@ -277,19 +328,28 @@ export default {
       reader.readAsDataURL(file)
     }
   },
-  // Created Hook
   created () {
-    // ~~~~~~~~~~~~ HARDCODED ~~~~~~~~~~~~~~
     let self = this
-    axios.get(staffUrl + '/userid')
-      .then(function (response) {
-        // need to ask about the PHOTO
-        self.data.username = response.data.username
-        self.data.name = response.data.name
-      })
-      .catch(function (error) {
-        console.log(error)
-      })
+    // // Non Parent-Child Communication (Staff -> UpdateStaff)
+    // // To pass userId from Staff to UpdateStaff page
+    EventBus.$once('getUserId', (userId) => {
+      axios.get(staffUrl + '/' + userId)
+        .then((response) => {
+          self.data.username = response.data.username
+          self.data.name = response.data.name
+          console.log(self.data.username)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    })
+    // axios.get('https://fypadminconsoletest.azurewebsites.net/api/staffs/1da62664-abcc-4d72-a2f6-90854e8af841')
+    //   .then((response) => {
+    //     self.data.username = response.data.username
+    //   })
+    //   .catch((error) => {
+    //     console.log(error)
+    //   })
   }
 }
 </script>
@@ -344,11 +404,12 @@ button {
 }
 
 .passwordField {
-  padding : 5% 0 5% 0;
   margin-right: -120%;
+  margin-top: 2%;
 }
 
 .updatePwdBtn {
+  margin-top: 5%;
   margin-left: 69.2%;
 }
 

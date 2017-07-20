@@ -24,6 +24,7 @@
 
 <script>
 import MyVuetable from '../../components/vuetable/MyVuetable.vue'
+import axios from 'axios'
 
 export default {
   name: 'app',
@@ -45,10 +46,6 @@ export default {
           title: 'Category Name'
         },
         {
-          name: 'SubCategories',
-          title: 'Sub-Categories'
-        },
-        {
           name: '__component:custom-actions',
           title: 'Actions',
           titleClass: 'center aligned',
@@ -56,6 +53,12 @@ export default {
         }
       ]
     }
+  },
+  created () {
+    axios.get('https://fypadminconsoletest.azurewebsites.net/api/categories')
+      .then((response) => {
+        console.log(response)
+      })
   }
 }
 

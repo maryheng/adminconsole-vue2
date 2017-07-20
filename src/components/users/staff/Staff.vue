@@ -1,5 +1,6 @@
 <template>
   <div id="container">
+    <input v-model="data.username"/>
     <router-link to="/user/AddStaff">
       <button type="submit" class="button is-primary">Add Staff</button>
     </router-link>
@@ -22,7 +23,10 @@
 <script>
 import MyVuetable from '../../../components/vuetable/MyVuetable.vue'
 import CustomActions from '../../../components/vuetable/CustomActions.vue'
-// import router from '../../../router'
+import router from '../../../router'
+import { EventBus } from './event-bus.js'
+import { staffUrl } from '../../../config'
+import axios from 'axios'
 
 export default {
   name: 'app',
@@ -63,14 +67,30 @@ export default {
           titleClass: 'center aligned',
           dataClass: 'center aligned'
         }
-      ]
+      ],
+      data: {
+        username: ''
+      }
     }
   },
   methods: {
     onActions (action, data) {
-      alert('hi')
-      console.log('it works!')
-      console.log(data)
+      // Non Parent-Child Communication (Staff -> UpdateStaff)
+      // EventBus.$emit('getUserId', action.data.userId)
+      router.push({ path: '/user/UpdateStaff' })
+      let self = this
+      EventBus.$emit('getUserId', action.data.userId)
+      EventBus.$once('getUserId', (userId) => {
+        axios.get(staffUrl + '/' + userId)
+          .then((response) => {
+            self.data.username = response.data.username
+            self.data.name = response.data.name
+            console.log(self.data.username)
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      })
     }
   },
   computed: {

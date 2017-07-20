@@ -125,8 +125,8 @@ export default {
 
         // Post Staff FormData to server
         axios.post(staffUrl, formData)
-          .then(function (response) {
-            let closeFn = function () {
+          .then((response) => {
+            let closeFn = () => {
               router.push({ path: '/user/staff' })
             }
             let successAlert = {
@@ -137,7 +137,7 @@ export default {
             }
             self.$refs.simplert.openSimplert(successAlert)
           })
-          .catch(function (error) {
+          .catch((error) => {
             console.log(error)
           })
       }
