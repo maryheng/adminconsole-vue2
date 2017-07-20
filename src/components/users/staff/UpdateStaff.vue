@@ -203,8 +203,7 @@ export default {
       },
       showChangePasswordModal: false,
       image: '',
-      testUserId: '/1da62664-abcc-4d72-a2f6-90854e8af841',
-      getUserId: ''
+      staffUserId: ''
     }
   },
   methods: {
@@ -218,7 +217,7 @@ export default {
       // formData.append('name', this.data.name)
       // formData.append('username', this.data.username)
 
-      // axios.put(staffUrl + '/459ede8f-d599-494a-99d4-5ff23bccae53', formData)
+      // axios.put(staffUrl + '/' + self.staffUserId, formData)
       //   .then((response) => {
       //     let closeFn = () => {
       //       router.push({ path: '/user/staff' })
@@ -237,7 +236,7 @@ export default {
       //   })
       let self = this
 
-      axios.put(staffUrl + this.testUserId, {
+      axios.put(staffUrl + '/' + self.staffUserId, {
         name: this.data.name,
         username: this.data.username
       })
@@ -261,7 +260,7 @@ export default {
     // Update Password for Staff
     updatePwdBtn () {
       let self = this
-      axios.put(staffUrl + this.testUserId + '/changePasswords', {
+      axios.put(staffUrl + '/' + self.staffUserId + '/changePasswords', {
         newPassword: this.data.newPassword,
         newRePassword: this.data.newRePassword
       })
@@ -285,7 +284,7 @@ export default {
     deleteBtn () {
       let self = this
       let confirmFn = () => {
-        axios.delete(staffUrl + this.testUserId)
+        axios.delete(staffUrl + self.staffUserId)
         .then((response) => {
           console.log(response)
         })
@@ -330,26 +329,20 @@ export default {
   },
   created () {
     let self = this
-    // // Non Parent-Child Communication (Staff -> UpdateStaff)
-    // // To pass userId from Staff to UpdateStaff page
+    // Non Parent-Child Communication (Staff -> UpdateStaff)
+    // To pass userId from Staff to UpdateStaff page
     EventBus.$once('getUserId', (userId) => {
       axios.get(staffUrl + '/' + userId)
         .then((response) => {
           self.data.username = response.data.username
           self.data.name = response.data.name
-          console.log(self.data.username)
+          self.staffUserId = userId
+          console.log(self.staffUserId)
         })
         .catch((error) => {
           console.log(error)
         })
     })
-    // axios.get('https://fypadminconsoletest.azurewebsites.net/api/staffs/1da62664-abcc-4d72-a2f6-90854e8af841')
-    //   .then((response) => {
-    //     self.data.username = response.data.username
-    //   })
-    //   .catch((error) => {
-    //     console.log(error)
-    //   })
   }
 }
 </script>
