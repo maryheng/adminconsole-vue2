@@ -16,6 +16,7 @@ import Item from '../views/item/Item.vue'
 
 import Category from '../views/category/Category.vue'
 import AddCategory from '../components/categories/AddCategory.vue'
+import UpdateCategory from '../components/categories/UpdateCategory.vue'
 
 import Loan from '../views/loan/Loan.vue'
 import Visitor from '../views/visitor/Visitor.vue'
@@ -72,16 +73,6 @@ export default new Router({
       }
       ]
     },
-    // {
-    //   path: '/AddStaff',
-    //   name: 'Staff',
-    //   component: AddStaff
-    // },
-    // {
-    //   path: '/AddResident',
-    //   name: 'Resident',
-    //   component: AddResident
-    // },
     {
       path: '/item',
       name: 'Item',
@@ -95,6 +86,10 @@ export default new Router({
     {
       path: '/AddCategory',
       component: AddCategory
+    },
+    {
+      path: '/UpdateCategory',
+      component: UpdateCategory
     },
     {
       path: '/loan',

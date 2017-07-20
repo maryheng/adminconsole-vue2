@@ -297,7 +297,7 @@ export default {
 
         let successAlert = {
           title: 'Success',
-          message: 'Staff record successfully deleted!',
+          message: 'Staff record has been deleted!',
           type: 'success'
         }
         self.$refs.simplert.openSimplert(successAlert)
