@@ -25,8 +25,6 @@ import MyVuetable from '../../../components/vuetable/MyVuetable.vue'
 import CustomActions from '../../../components/vuetable/CustomActions.vue'
 import router from '../../../router'
 import { EventBus } from './event-bus.js'
-import { staffUrl } from '../../../config'
-import axios from 'axios'
 
 export default {
   name: 'app',
@@ -78,18 +76,8 @@ export default {
       // Non Parent-Child Communication (Staff -> UpdateStaff)
       // EventBus.$emit('getUserId', action.data.userId)
       router.push({ path: '/user/UpdateStaff' })
-      let self = this
-      EventBus.$emit('getUserId', action.data.userId)
-      EventBus.$once('getUserId', (userId) => {
-        axios.get(staffUrl + '/' + userId)
-          .then((response) => {
-            self.data.username = response.data.username
-            self.data.name = response.data.name
-            console.log(self.data.username)
-          })
-          .catch((error) => {
-            console.log(error)
-          })
+      this.$nextTick(() => {
+        EventBus.$emit('getUserId', action.data.userId)
       })
     }
   },
