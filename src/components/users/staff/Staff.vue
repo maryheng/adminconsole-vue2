@@ -26,7 +26,7 @@
 import MyVuetable from '../../../components/vuetable/MyVuetable.vue'
 import CustomActions from '../../../components/vuetable/CustomActions.vue'
 import router from '../../../router'
-import { EventBus } from './event-bus.js'
+// import { EventBus } from './event-bus.js'
 
 export default {
   name: 'app',
@@ -75,9 +75,9 @@ export default {
       // Non Parent-Child Communication (Staff -> UpdateStaff)
       // /user/UpdateStaff/{userId}
       router.push({ name: 'UpdateStaff', params: { userId: action.data.userId } })
-      this.$nextTick(() => {
-        EventBus.$emit('getUserId', action.data.userId)
-      })
+      // this.$nextTick(() => {
+      //   EventBus.$emit('getUserId', action.data.userId)
+      // })
     }
   },
   computed: {

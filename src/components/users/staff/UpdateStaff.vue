@@ -185,7 +185,7 @@ import modal from '../../modal/Modal.vue'
 import { staffUrl } from '../../../config'
 import axios from 'axios'
 import Simplert from 'vue2-simplert/src/components/simplert'
-import { EventBus } from './event-bus.js'
+// import { EventBus } from './event-bus.js'
 
 export default {
   name: 'app',
@@ -329,20 +329,25 @@ export default {
   },
   created () {
     let self = this
-    // Non Parent-Child Communication (Staff -> UpdateStaff)
-    // To pass userId from Staff to UpdateStaff page
-    EventBus.$once('getUserId', (userId) => {
-      axios.get(staffUrl + '/' + userId)
-        .then((response) => {
-          self.data.username = response.data.username
-          self.data.name = response.data.name
-          self.staffUserId = userId
-          console.log(self.staffUserId)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    })
+    // Grab path from URL
+    const path = window.location.pathname
+
+    // Break the path into segments
+    // ""/"user"/"UpdateStaff"/"{userId}"
+    const segments = path.split('/')
+
+    // Assigned userId
+    self.staffUserId = segments[3]
+
+    // Based on the userId in the URL, get data for the user
+    axios.get(staffUrl + '/' + self.staffUserId)
+      .then((response) => {
+        self.data.username = response.data.username
+        self.data.name = response.data.name
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 }
 </script>
