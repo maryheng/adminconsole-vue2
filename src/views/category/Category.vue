@@ -11,6 +11,8 @@
       <my-vuetable
         :api-url="apiUrl"
         :fields="fields"   
+        pagination-path=""   
+        pagination-component="vuetable-pagination"     
         ></my-vuetable>
       <br>
       <br>

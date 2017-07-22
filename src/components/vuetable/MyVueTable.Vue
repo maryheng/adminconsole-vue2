@@ -7,8 +7,16 @@
       :http-options="{ headers: $http.defaults.headers }"
       :fields="fields"
       pagination-path=""
+      @vuetable:pagination-data="onPaginationData"
     ></vuetable>
-    <vuetable-pagination ref="pagination"></vuetable-pagination>
+    
+    <vuetable-pagination-info ref="paginationInfo"
+    ></vuetable-pagination-info>
+
+    <vuetable-pagination ref="pagination"
+      @vuetable-pagination:change-page="onChangePage"
+    ></vuetable-pagination>    
+  
   </div>
 </template>
 
@@ -16,9 +24,11 @@
 import Vue from 'vue'
 import Vuetable from 'vuetable-2/src/components/Vuetable'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
+import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
 import CustomActions from './CustomActions'
 import FilterBar from './FilterBar'
 import moment from 'moment'
+import BulmaPagination from './BulmaPagination'
 
 Vue.component('custom-actions', CustomActions)
 Vue.component('filter-bar', FilterBar)
@@ -26,7 +36,19 @@ Vue.component('filter-bar', FilterBar)
 export default {
   components: {
     Vuetable,
-    VuetablePagination
+    VuetablePagination,
+    VuetablePaginationInfo,
+    BulmaPagination
+  },
+  data () {
+    return {
+      css: {
+        tableClass: 'table is-bordered is-striped',
+        ascendingIcon: 'fa fa-chevron-up',
+        descendingIcon: 'fa fa-chevron-down',
+        sortHandleIcon: 'fa fa-bars'
+      }
+    }
   },
   props: {
     apiUrl: {
@@ -53,6 +75,13 @@ export default {
       return (value == null)
         ? ''
         : moment(value, 'YYYY-MM-DD').format(fmt)
+    },
+    onPaginationData (paginationData) {
+      this.$refs.pagination.setPaginationData(paginationData)
+      this.$refs.paginationInfo.setPaginationData(paginationData)
+    },
+    onChangePage (page) {
+      this.$refs.vuetable.changePage(page)
     }
   }
 }

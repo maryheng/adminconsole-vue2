@@ -60,7 +60,8 @@ export default new Router({
         component: AddStaff
       },
       {
-        path: 'UpdateStaff',
+        path: 'UpdateStaff/:userId',
+        name: 'UpdateStaff',
         component: UpdateStaff
       },
       {

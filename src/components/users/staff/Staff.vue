@@ -1,6 +1,5 @@
 <template>
   <div id="container">
-    <input v-model="data.username"/>
     <router-link to="/user/AddStaff">
       <button type="submit" class="button is-primary">Add Staff</button>
     </router-link>
@@ -12,7 +11,10 @@
     :api-url="apiUrl"
     :fields="fields"
     @onBtnClick="onActions"
+    pagination-path=""
+    pagination-component="vuetable-pagination"
     ></my-vuetable>
+    
     <br>
     <br>
 
@@ -65,17 +67,14 @@ export default {
           titleClass: 'center aligned',
           dataClass: 'center aligned'
         }
-      ],
-      data: {
-        username: ''
-      }
+      ]
     }
   },
   methods: {
     onActions (action, data) {
       // Non Parent-Child Communication (Staff -> UpdateStaff)
-      // EventBus.$emit('getUserId', action.data.userId)
-      router.push({ path: '/user/UpdateStaff' })
+      // /user/UpdateStaff/{userId}
+      router.push({ name: 'UpdateStaff', params: { userId: action.data.userId } })
       this.$nextTick(() => {
         EventBus.$emit('getUserId', action.data.userId)
       })
