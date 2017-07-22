@@ -58,6 +58,22 @@ const app = new Vue({
       console.log('Invoked emit to server:', val)
       this.$socket.emit('vueClient', val)
     },
+    initNotification: () => {
+      if (!('Notification' in window)) {
+        alert('This browser does not support desktop notification')
+      } else if (Notification.permission === 'granted') {
+        console.log('You are already subscribed to notifications!')
+      } else if (Notification.permission !== 'denied') {
+        Notification.requestPermission((permission) => {
+          if (!('permission' in Notification)) {
+            Notification.permission = permission
+          }
+          if (permission === 'granted') {
+            console.log('You just granted permissions for notifications!')
+          }
+        })
+      }
+    },
     loadNotifications: (val) => {
       var title = val.notificationTitle
       if (!('Notification' in window)) {
@@ -79,6 +95,7 @@ const app = new Vue({
     }
   },
   created () {
+    this.initNotification()
     Event.listen('triggerNotification', (data) => {
       this.loadNotifications(data)
     })
