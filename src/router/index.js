@@ -69,7 +69,8 @@ export default new Router({
         component: AddResident
       },
       {
-        path: 'UpdateResident',
+        path: 'UpdateResident/:userId',
+        name: 'UpdateResident',
         component: UpdateResident
       }
       ]

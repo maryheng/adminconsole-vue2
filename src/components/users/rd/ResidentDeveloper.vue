@@ -9,6 +9,9 @@
     <my-vuetable
       :api-url="apiUrl"
       :fields="fields"   
+      @onBtnClick="onActions"
+      pagination-path=""
+      pagination-component="vuetable-pagination"      
       ></my-vuetable>
     <br>
     <br>
@@ -21,16 +24,20 @@
 
 <script>
 import MyVuetable from '../../../components/vuetable/MyVuetable.vue'
+import CustomActions from '../../../components/vuetable/CustomActions.vue'
 import moment from 'moment'
+import router from '../../../router'
+import { rdUrl } from '../../../config.js'
 
 export default {
   name: 'app',
   components: {
-    MyVuetable
+    MyVuetable,
+    CustomActions
   },
   data () {
     return {
-      apiUrl: 'https://fypadminconsoletest.azurewebsites.net/api/residentdevelopers',
+      apiUrl: rdUrl,
       fields:
       [
         'userId', 'name',
@@ -67,6 +74,16 @@ export default {
       return (value == null)
         ? ''
         : moment(value, 'YYYY-MM-DD').format(fmt)
+    },
+    // Click "Edit" Button -> routes user to update page
+    onActions (action, data) {
+      // ~/user/UpdateResident/{userId}
+      router.push({ name: 'UpdateResident', params: { userId: action.data.userId } })
+    }
+  },
+  computed: {
+    href () {
+      return '' + this.name.toLowerCase().replace(/\s+/g, '')
     }
   }
 }

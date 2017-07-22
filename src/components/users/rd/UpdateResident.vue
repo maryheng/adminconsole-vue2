@@ -16,7 +16,8 @@
           <div class="field is-grouped">
             <div id="chooseFileDiv">
               <p class="control">
-                <input type="file" class="input" ref="image" name="image" id="image">
+                <img :src="image" />
+                <input type="file" @change="onFileChange" class="input" ref="image" name="image" id="image">           
               </p>
             </div>
           </div>
@@ -37,6 +38,34 @@
         </div>
       </div>
   
+      <!--Input field for NRIC-->
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">NRIC/Passport Number:</label>
+        </div>
+        <div class="field-body">
+          <div class="field is-grouped">
+            <p class="control">
+              <input class="input" type="text" v-model="data.nricPassportNo">
+            </p>
+          </div>
+        </div>
+      </div>   
+  
+      <!--Input field for Company Name-->
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">Company Name:</label>
+        </div>
+        <div class="field-body">
+          <div class="field is-grouped">
+            <p class="control">
+              <input class="input" type="text" v-model="data.company">
+            </p>
+          </div>
+        </div>
+      </div>
+  
       <!--Input field for Email-->
       <div class="field is-horizontal">
         <div class="field-label is-normal">
@@ -50,21 +79,7 @@
           </div>
         </div>
       </div>
-  
-      <!--Input field for NRIC-->
-      <div class="field is-horizontal">
-        <div class="field-label is-normal">
-          <label class="label">NRIC/Passport Number:</label>
-        </div>
-        <div class="field-body">
-          <div class="field is-grouped">
-            <p class="control">
-              <input class="input" type="text" v-model="data.nric">
-            </p>
-          </div>
-        </div>
-      </div>
-  
+
       <!--Input field for Mobile Number-->
       <div class="field is-horizontal">
         <div class="field-label is-normal">
@@ -73,11 +88,12 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8" v-model="data.mobileNumber">
+              <input class="input" type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" 
+              maxlength="8" v-model="data.mobileNo">
             </p>
           </div>
         </div>
-      </div>
+      </div>      
   
       <br>
       <br>
@@ -94,13 +110,13 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="text" v-model="data.keyCardReferenceNo">
+              <input class="input" type="text" v-model="data.keyCardRefNo">
             </p>
           </div>
         </div>
       </div>
   
-      <!--Input field for Issurance Date-->
+      <!--Input field for Issuance Date-->
       <div class="field is-horizontal">
         <div class="field-label is-normal">
           <label class="label">Issurance Date:</label>
@@ -108,7 +124,7 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="date" v-model="data.issuranceData">
+              <input class="input" type="date" v-model="data.issuanceDate">
             </p>
           </div>
         </div>
@@ -171,73 +187,97 @@ export default {
     return {
       data: {
         name: '',
+        nricPassportNo: '',
+        company: '',
         email: '',
-        nric: '',
-        mobileNumber: '',
-        keyCardReferenceNo: ''
+        mobileNo: '',
+        keyCardRefNo: '',
+        issuanceDate: ''
       },
-      image: ''
+      image: '',
+      rdUserId: ''
     }
   },
   methods: {
     updateRdBtn () {
-    //   axios.post('/testing', {
-    //     issuranceDate: moment(this.data.issuranceData).format('DD-MM-YYYY')
-    //   })
-    //     .then((response) => {
-    //       console.log(response)
-    //     })
-    //     .catch((error) => {
-    //       console.log(error)
-    //     })
       let self = this
-      if (self.$refs.image.files[0]) {
-        let formData = new FormData()
+      // if (self.$refs.image.files[0]) {
+      //   let formData = new FormData()
 
-        formData.append('userImage', self.$refs.image.files[0])
-        formData.append('name', this.data.name)
-        formData.append('email', this.data.email)
-        formData.append('nric', this.data.nric)
-        formData.append('mobileNumber', this.data.mobileNumber)
-        formData.append('keyCardReferenceNo', this.data.keyCardReferenceNo)
-        formData.append('issuranceData', moment(this.data.issuranceData).format('DD-MM-YYYY'))
+      //   // ************* IMAHE ******************
+      //   formData.append('name', this.data.name)
+      //   formData.append('nricPassportNo', this.data.nricPassportNo)
+      //   formData.append('company', this.data.company)
+      //   formData.append('email', this.data.email)
+      //   formData.append('mobileNo', this.data.mobileNo)
+      //   formData.append('keyCardRefNo', this.data.keyCardRefNo)
+      //   formData.append('issuanceDate', this.data.issuanceDate)
 
-        // Post Staff FormData to server
-        axios.post('/testing', formData)
-          .then((response) => {
-            let closeFn = () => {
-              router.push({ path: '/user/residentdeveloper' })
-            }
-            let successAlert = {
-              title: 'Success',
-              message: 'Resident Developer record successfully created!',
-              type: 'success',
-              onClose: closeFn
-            }
-            self.$refs.simplert.openSimplert(successAlert)
-          })
-          .catch((error) => {
-            console.log(error)
-          })
-      }
+      //   // Post Staff FormData to server
+      //   axios.put(rdUrl + self.rdUserId, formData)
+      //     .then((response) => {
+      //       let closeFn = () => {
+      //         router.push({ path: '/user/residentdeveloper' })
+      //       }
+      //       let successAlert = {
+      //         title: 'Success',
+      //         message: 'Resident Developer record successfully created!',
+      //         type: 'success',
+      //         onClose: closeFn
+      //       }
+      //       self.$refs.simplert.openSimplert(successAlert)
+      //     })
+      //     .catch((error) => {
+      //       console.log(error)
+      //     })
+      // Post Staff FormData to server
+      axios.put(rdUrl + self.rdUserId, {
+        name: this.data.name,
+        nricPassportNo: this.data.nricPassportNo,
+        company: this.data.company,
+        email: this.data.email,
+        mobileNo: this.data.mobileNo,
+        keyCardRefNo: this.data.keyCardRefNo,
+        issuanceDate: this.data.issuanceDate
+      })
+        .then((response) => {
+          let closeFn = () => {
+            router.push({ path: '/user/residentdeveloper' })
+          }
+          let successAlert = {
+            title: 'Success',
+            message: 'Resident Developer record successfully created!',
+            type: 'success',
+            onClose: closeFn
+          }
+          self.$refs.simplert.openSimplert(successAlert)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
     // Delete RD Record
     deleteBtn () {
       let self = this
       let confirmFn = () => {
-        axios.delete(rdUrl + '/159e4b54-bc64-4fd3-9c6c-187c81d87cb6')
+        axios.delete(rdUrl + self.rdUserId)
         .then((response) => {
           console.log(response)
+          let closeFn = () => {
+            // After deletion, route to Resident Developer Page
+            router.push({ path: '/user/residentdeveloper' })
+          }
+          let successAlert = {
+            title: 'Success',
+            message: 'Resident Developer record successfully deleted!',
+            type: 'success',
+            onClose: closeFn
+          }
+          self.$refs.simplert.openSimplert(successAlert)
         })
           .catch((error) => {
             console.log(error)
           })
-        let successAlert = {
-          title: 'Success',
-          message: 'Resident Developer record successfully deleted!',
-          type: 'success'
-        }
-        self.$refs.simplert.openSimplert(successAlert)
       }
       let deleteAlert = {
         title: 'Warning',
@@ -247,17 +287,47 @@ export default {
         onConfirm: confirmFn
       }
       self.$refs.simplert.openSimplert(deleteAlert)
+    },
+    onFileChange (e) {
+      var files = e.target.files || e.dataTransfer.files
+      if (!files.length) {
+        return
+      }
+      this.createImage(files[0])
+    },
+    createImage (file) {
+      var reader = new FileReader()
+      var vm = this
+
+      reader.onload = (e) => {
+        vm.image = e.target.result
+      }
+      reader.readAsDataURL(file)
     }
   }, // end of Methods ()
-  // Created Hook
   created () {
-    // ~~~~~~~~~~~~ HARDCODED ~~~~~~~~~~~~~~
     let self = this
-    axios.get(rdUrl + '/159e4b54-bc64-4fd3-9c6c-187c81d87cb6')
+    // Grab path from URL
+    const path = window.location.pathname
+
+    // Break the path into segments
+    // ""/"user"/"UpdateResident"/"{userId}"
+    const segments = path.split('/')
+
+    // Assigned userId
+    self.rdUserId = segments[3]
+
+    // Based on the userId in the URL, get data for the user
+    axios.get(rdUrl + self.rdUserId)
       .then((response) => {
-        // need to ask about the PHOTO
-        self.data.username = response.data.username
+        // ****** IMAGE ********
         self.data.name = response.data.name
+        self.data.nricPassportNo = response.data.nricPassportNo
+        self.data.company = response.data.company
+        self.data.email = response.data.email
+        self.data.mobileNo = response.data.mobileNo
+        self.data.keyCardRefNo = response.data.keyCardRefNo
+        self.data.issuanceDate = moment(response.data.issuanceDate).format('YYYY-MM-DD')
       })
       .catch((error) => {
         console.log(error)
@@ -312,5 +382,15 @@ button {
 .deleteBtn {
   float: left;
   margin-top: 2%;
+}
+
+img {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  margin: auto;
+  display: block;
+  margin-bottom: 30px;
+  margin-left: 15%;
 }
 </style>

@@ -185,7 +185,6 @@ import modal from '../../modal/Modal.vue'
 import { staffUrl } from '../../../config'
 import axios from 'axios'
 import Simplert from 'vue2-simplert/src/components/simplert'
-// import { EventBus } from './event-bus.js'
 
 export default {
   name: 'app',
@@ -217,7 +216,7 @@ export default {
       // formData.append('name', this.data.name)
       // formData.append('username', this.data.username)
 
-      // axios.put(staffUrl + '/' + self.staffUserId, formData)
+      // axios.put(staffUrl + self.staffUserId, formData)
       //   .then((response) => {
       //     let closeFn = () => {
       //       router.push({ path: '/user/staff' })
@@ -237,7 +236,7 @@ export default {
       let self = this
 
       // Update Staff's details & Picture
-      axios.put(staffUrl + '/' + self.staffUserId, {
+      axios.put(staffUrl + self.staffUserId, {
         name: this.data.name,
         username: this.data.username
       })
@@ -255,14 +254,13 @@ export default {
         })
         .catch((error) => {
           console.log(error)
-          alert('Something went wrong!')
         })
     },
     // Update Password for Staff
     updatePwdBtn () {
       let self = this
       // Update Staff's Password
-      axios.put(staffUrl + '/' + self.staffUserId + '/changePasswords', {
+      axios.put(staffUrl + self.staffUserId + '/changePasswords', {
         newPassword: this.data.newPassword,
         newRePassword: this.data.newRePassword
       })
@@ -286,22 +284,25 @@ export default {
     deleteBtn () {
       let self = this
       let confirmFn = () => {
-        axios.delete(staffUrl + '/' + self.staffUserId)
+        axios.delete(staffUrl + self.staffUserId)
         .then((response) => {
           console.log(response)
+          // Success Alert
+          let closeFn = () => {
+            // After deletion, go to Staff Page
+            router.push({ path: '/user/staff' })
+          }
+          let successAlert = {
+            title: 'Success',
+            message: 'Staff record has been deleted!',
+            type: 'success',
+            onClose: closeFn
+          }
+          self.$refs.simplert.openSimplert(successAlert)
         })
           .catch((error) => {
             console.log(error)
           })
-        // After deletion, go to Staff Page
-        router.push({ path: '/user/staff' })
-
-        let successAlert = {
-          title: 'Success',
-          message: 'Staff record has been deleted!',
-          type: 'success'
-        }
-        self.$refs.simplert.openSimplert(successAlert)
       }
       let deleteAlert = {
         title: 'Warning',
@@ -342,7 +343,7 @@ export default {
     self.staffUserId = segments[3]
 
     // Based on the userId in the URL, get data for the user
-    axios.get(staffUrl + '/' + self.staffUserId)
+    axios.get(staffUrl + self.staffUserId)
       .then((response) => {
         self.data.username = response.data.username
         self.data.name = response.data.name

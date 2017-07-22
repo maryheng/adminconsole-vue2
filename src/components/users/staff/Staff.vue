@@ -26,6 +26,7 @@
 import MyVuetable from '../../../components/vuetable/MyVuetable.vue'
 import CustomActions from '../../../components/vuetable/CustomActions.vue'
 import router from '../../../router'
+import { staffUrl } from '../../../config.js'
 
 export default {
   name: 'app',
@@ -35,7 +36,7 @@ export default {
   },
   data () {
     return {
-      apiUrl: 'https://fypadminconsoletest.azurewebsites.net/api/staffs',
+      apiUrl: staffUrl,
       fields:
       [
         {

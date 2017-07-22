@@ -116,7 +116,7 @@
         </div>
       </div>
   
-      <!--Input field for issuance Date-->
+      <!--Input field for Issuance Date-->
       <div class="field is-horizontal">
         <div class="field-label is-normal">
           <label class="label">Issurance Date:</label>
@@ -204,9 +204,8 @@ export default {
         formData.append('nricPassportNo', this.data.nricPassportNo)
         formData.append('mobileNo', this.data.mobileNo)
         formData.append('keyCardRefNo', this.data.keyCardRefNo)
-        // formData.append('issuanceDate', (new Date(this.data.issuanceDate)).toISOString())
         formData.append('issuanceDate', this.data.issuanceDate)
-        console.log(formData)
+
         // Post Staff FormData to server
         axios.post(rdUrl, formData)
           .then((response) => {
