@@ -236,6 +236,7 @@ export default {
       //   })
       let self = this
 
+      // Update Staff's details & Picture
       axios.put(staffUrl + '/' + self.staffUserId, {
         name: this.data.name,
         username: this.data.username
@@ -260,13 +261,14 @@ export default {
     // Update Password for Staff
     updatePwdBtn () {
       let self = this
+      // Update Staff's Password
       axios.put(staffUrl + '/' + self.staffUserId + '/changePasswords', {
         newPassword: this.data.newPassword,
         newRePassword: this.data.newRePassword
       })
         .then((response) => {
           let closeFn = () => {
-            router.push({ path: '/user/UpdateStaff' })
+            router.push({ name: 'UpdateStaff', params: { userId: self.staffUserId } })
           }
           let successAlert = {
             title: 'Success',
@@ -284,7 +286,7 @@ export default {
     deleteBtn () {
       let self = this
       let confirmFn = () => {
-        axios.delete(staffUrl + self.staffUserId)
+        axios.delete(staffUrl + '/' + self.staffUserId)
         .then((response) => {
           console.log(response)
         })
@@ -292,7 +294,7 @@ export default {
             console.log(error)
           })
         // After deletion, go to Staff Page
-        router.push({ path: '/user/UpdateStaff' })
+        router.push({ path: '/user/staff' })
 
         let successAlert = {
           title: 'Success',
