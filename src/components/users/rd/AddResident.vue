@@ -265,11 +265,11 @@ export default {
 }
 
 input {
-  margin-top: 10px;
+  margin-top: 5%;
 }
 
 label {
-  margin-top: 8px;
+  margin-top: 2.4%;
 }
 
 hr {

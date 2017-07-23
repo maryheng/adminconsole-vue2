@@ -13,6 +13,8 @@ import UpdateStaff from '../components/users/staff/UpdateStaff.vue'
 import UpdateResident from '../components/users/rd/UpdateResident.vue'
 
 import Item from '../views/item/Item.vue'
+import AddItem from '../components/items/AddItem.vue'
+import UpdateItem from '../components/items/UpdateItem.vue'
 
 import Category from '../views/category/Category.vue'
 import AddCategory from '../components/categories/AddCategory.vue'
@@ -53,10 +55,12 @@ export default new Router({
       },
       {
         path: 'ResidentDeveloper',
+        name: 'ResidentDeveloper',
         component: ResidentDeveloper
       },
       {
         path: 'AddStaff',
+        name: 'AddStaff',
         component: AddStaff
       },
       {
@@ -66,6 +70,7 @@ export default new Router({
       },
       {
         path: 'AddResident',
+        name: 'AddResident',
         component: AddResident
       },
       {
@@ -81,16 +86,28 @@ export default new Router({
       component: Item
     },
     {
+      path: '/AddItem',
+      name: 'AddItem',
+      component: AddItem
+    },
+    {
+      path: '/UpdateItem',
+      name: 'UpdateItem',
+      component: UpdateItem
+    },
+    {
       path: '/category',
       name: 'Category',
       component: Category
     },
     {
       path: '/AddCategory',
+      name: 'AddCategory',
       component: AddCategory
     },
     {
-      path: '/UpdateCategory',
+      path: '/UpdateCategory/:userId',
+      name: 'UpdateCategory',
       component: UpdateCategory
     },
     {

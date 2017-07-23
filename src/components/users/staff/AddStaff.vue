@@ -166,7 +166,6 @@ export default {
 
 <style>
 .field {
-  margin-right: -700px;
   margin: 0 auto;
 }
 
@@ -187,11 +186,11 @@ hr {
 }
 
 input {
-  margin-top: 10px;
+  margin-top: 5%;
 }
 
 label {
-  margin-top: 8px;
+  margin-top: 2.4%;
 }
 
 button {
@@ -199,8 +198,8 @@ button {
 }
 
 .header {
-  margin-left: 200px;
-  margin-top: 1%;
+  margin-left: 6%;
+  margin-top: 1.5%;
 }
 
 .saveBtn {

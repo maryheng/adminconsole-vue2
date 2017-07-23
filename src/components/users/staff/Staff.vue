@@ -11,8 +11,6 @@
     :api-url="apiUrl"
     :fields="fields"
     @onBtnClick="onActions"
-    pagination-path=""
-    pagination-component="vuetable-pagination"
     ></my-vuetable>
     
     <br>

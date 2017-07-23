@@ -11,9 +11,8 @@
       <my-vuetable
         :api-url="apiUrl"
         :fields="fields"   
-        pagination-path=""   
-        pagination-component="vuetable-pagination"     
-        ></my-vuetable>
+        @onBtnClick="onActions"
+        ></my-vuetable>   
       <br>
       <br>
 
@@ -26,16 +25,20 @@
 
 <script>
 import MyVuetable from '../../components/vuetable/MyVuetable.vue'
-import axios from 'axios'
+// import axios from 'axios'
+import CustomActions from '../../components/vuetable/CustomActions.vue'
+import router from '../../router'
+import { categoryUrl } from '../../config.js'
 
 export default {
   name: 'app',
   components: {
-    MyVuetable
+    MyVuetable,
+    CustomActions
   },
   data () {
     return {
-      apiUrl: 'https://fypadminconsoletest.azurewebsites.net/api/categories',
+      apiUrl: categoryUrl,
       fields:
       [
         {
@@ -48,6 +51,10 @@ export default {
           title: 'Category Name'
         },
         {
+          name: 'SubCategories',
+          title: 'SubCategories'
+        },
+        {
           name: '__component:custom-actions',
           title: 'Actions',
           titleClass: 'center aligned',
@@ -56,11 +63,12 @@ export default {
       ]
     }
   },
-  created () {
-    axios.get('https://fypadminconsoletest.azurewebsites.net/api/categories')
-      .then((response) => {
-        console.log(response)
-      })
+  methods: {
+    // Click "Edit" Button -> routes user to update page
+    onActions (action, data) {
+      // ~/UpdateCategory/{userId}
+      router.push({ name: 'UpdateCategory', params: { userId: action.data.categoryId } })
+    }
   }
 }
 

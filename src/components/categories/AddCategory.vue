@@ -144,18 +144,21 @@ export default {
         })
         .then((response) => {
           console.log(response)
+          // After POST is success, show Success Alert
+          let closeFn = () => {
+            router.push({ path: 'category' })
+          }
+          let successAlert = {
+            title: 'Success',
+            message: 'Category is created!',
+            type: 'success',
+            onClose: closeFn
+          }
+          self.$refs.simplert.openSimplert(successAlert)
         })
         .catch((error) => {
           console.log(error)
         })
-        // After POST is success, show Success Alert
-        let successAlert = {
-          title: 'Success',
-          message: 'Category is created!',
-          type: 'success'
-        }
-        self.$refs.simplert.openSimplert(successAlert)
-        router.push({ path: 'category' })
       } // End of confirmFn()
       let warningAlert = {
         title: 'Warning',

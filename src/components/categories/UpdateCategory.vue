@@ -34,7 +34,7 @@
             <div class="field is-grouped">
               <p class="control">
                 <label class="checkbox">
-                  <input type="checkbox" value="Yes" v-model="checked" @change="setCatType"> Yes
+                  <input type="checkbox" value="Yes" v-model="checked" disabled> Yes
                 </label>
               </p>
             </div>
@@ -50,41 +50,65 @@
           <div class="field-body">
             <div class="field is-grouped">
               <div class="multiselectDiv">
-              <p class="control">
-                <!-- <multiselect v-model="data.selected" placeholder="Add one or more sub-category!" label="subCategoryName" 
-                :options="options" :hide-selected="true" :multiple="true" :taggable="true" @tag="addTag" 
-                @update="updateSelected">
-                </multiselect> -->
-                <multiselect :multiple="true" v-model="data.subCategoryNames" :hide-selected="true" :selected="data.subCategoryNames" :options="options" :taggable="true" @tag="addTag">
-                </multiselect>
-                <pre>{{$data | json}}</pre>
-              </p>
-            </div>
-            </div>
-          </div>
-        </div>
-  
-        <div class="field is-horizontal">
-          <div class="field-label">
-          </div>
-          <div class="field-body">
-            <div class="field">
-              <div class="control">
-                <button class="button is-primary" @click="submitBtn">
-                  Save
-                </button>
+                <p class="control">
+                  <!-- <multiselect v-model="data.selected" placeholder="Add one or more sub-category!" label="subCategoryName" 
+                  :options="options" :hide-selected="true" :multiple="true" :taggable="true" @tag="addTag" 
+                  @update="updateSelected">
+                  </multiselect> -->
+                  <multiselect :multiple="true"
+                  v-model="data.subCategoryNames"
+                  :hide-selected="true"
+                  :selected="data.subCategoryNames"
+                  :options="options"
+                  :taggable="true"
+                  @tag="addTag"
+                  >
+                  </multiselect>
+                   <pre>{{$data | json}}</pre> 
+                </p>
               </div>
             </div>
           </div>
         </div>
-
-      <!-- Simplert Notification -->
-      <simplert 
-        :useRadius="true"
-        :useIcon="true"
-        ref="simplert">
-      </simplert>
-
+  
+        <!-- Update Category Button -->
+        <div class="updateCatBtn">
+          <div class="field is-horizontal">
+            <div class="field-label">
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <button class="button is-primary" @click="updateCatBtn">
+                    Update
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Delete Category Button -->
+        <div class="deleteBtn">
+          <div class="field is-horizontal">
+            <div class="field-label">
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <button class="button">
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Simplert Notification -->
+        <simplert :useRadius="true" :useIcon="true" ref="simplert">
+        </simplert>
+  
       </div>
     </div>
   </div>
@@ -111,7 +135,8 @@ export default {
         subCategoryNames: []
       },
       options: [],
-      checked: false
+      checked: '',
+      getCategoryId: ''
     }
   },
   methods: {
@@ -119,22 +144,7 @@ export default {
       this.options.push(newTag)
       this.data.subCategoryNames.push(newTag)
     },
-    setCatType () {
-      axios.get(categoryTypesUrl)
-        .then((response) => {
-          const noSubCat = response.data[0].categoryTypeId
-          if (this.checked === false) {
-            this.data.categoryTypeId = noSubCat
-          } else {
-            const subCat = response.data[1].categoryTypeId
-            this.data.categoryTypeId = subCat
-          }
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    },
-    submitBtn () {
+    updateCatBtn () {
       let self = this
       let confirmFn = () => {
         axios.post(categoryUrl, {
@@ -165,19 +175,45 @@ export default {
         onConfirm: confirmFn
       } // End of warningAlert
       self.$refs.simplert.openSimplert(warningAlert)
+    },
+    getCategoryData () {
+      return axios.get(categoryUrl + this.getCategoryId)
+    },
+    getCategoryTyoe () {
+      return axios.get(categoryTypesUrl)
     }
   },
-  mounted () {
-    axios.get(categoryTypesUrl)
-      .then((response) => {
-        const noSubCat = response.data[0].categoryTypeId
-        if (this.checked === false) {
-          this.data.categoryTypeId = noSubCat
+  created () {
+    let self = this
+    // Grab path from URL
+    const path = window.location.pathname
+
+    // Break the path into segments
+    // ""/"UpdateCategory"/"{categoryId}"
+    const segments = path.split('/')
+
+    // Assigned categoryId
+    self.getCategoryId = segments[2]
+
+    // Based on the categoryId in the URL, get data for the user
+    axios.all([this.getCategoryData(), this.getCategoryTyoe()])
+      .then(axios.spread((acct, perms) => {
+        console.log(acct) // category id
+        // console.log(perms) // category type
+        self.data.categoryName = acct.data.categoryName
+        const noSubCat = perms.data[0].categoryTypeId
+        console.log(acct.data.SubCategories)
+
+        // self.data.subCategoryNames = acct.data.SubCategories[0].subCategoryName
+        self.data.subCategoryNames = acct.data.SubCategories
+        // check against categoryTypeId in getCategoryDat() response
+        self.data.categoryTypeId = acct.data.fk_categoryTypeId
+        if (self.data.categoryTypeId === noSubCat) {
+          this.checked = false
+        } else {
+          this.checked = true
         }
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+      }))
   }
 }
 
@@ -229,5 +265,14 @@ button {
 
 p {
   font-size: 13px;
+}
+
+.deleteBtn {
+  float: left;
+  margin-top:7.5%;
+}
+
+.updateCatBtn {
+  margin-left: 7.9%;
 }
 </style>
