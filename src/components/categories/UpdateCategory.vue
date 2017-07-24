@@ -55,16 +55,26 @@
                   :options="options" :hide-selected="true" :multiple="true" :taggable="true" @tag="addTag" 
                   @update="updateSelected">
                   </multiselect> -->
-                  <multiselect :multiple="true"
+                  <!-- <multiselect :multiple="true"
                   v-model="data.subCategoryNames"
                   :hide-selected="true"
                   :selected="data.subCategoryNames"
-                  :options="options"
+                  :options="computedSubCategoryNames"
                   :taggable="true"
-                  @tag="addTag"
+                  @tag="addTag"            
                   >
-                  </multiselect>
-                   <pre>{{$data | json}}</pre> 
+                  </multiselect> -->
+                  <multiselect :multiple="true"
+                  v-model="data.subCategories"
+                  :hide-selected="true"
+                  :selected="data.subCategories"
+                  :taggable="true"
+                  @tag="addTag"    
+                  :options="options" 
+                  label="subCategoryName"    
+                  track-by="subCategoryName"
+                  >
+                  </multiselect>                   
                 </p>
               </div>
             </div>
@@ -96,7 +106,7 @@
             <div class="field-body">
               <div class="field">
                 <div class="control">
-                  <button class="button">
+                  <button class="button" @click="deleteBtn">
                     Delete
                   </button>
                 </div>
@@ -132,55 +142,102 @@ export default {
       data: {
         categoryName: '',
         categoryTypeId: '',
-        subCategoryNames: []
+        subCategories: []
       },
       options: [],
       checked: '',
-      getCategoryId: ''
+      getCategoryId: '',
+      allSubCategoryNames: []
     }
   },
   methods: {
     addTag (newTag) {
-      this.options.push(newTag)
-      this.data.subCategoryNames.push(newTag)
+      const tag = {
+        subCategoryId: 0,
+        subCategoryName: newTag
+      }
+      // this.data.subCategories.push(tag)
+      this.data.subCategories.push(tag)
+      // this.options.push(tag)
     },
     updateCatBtn () {
       let self = this
-      let confirmFn = () => {
-        axios.post(categoryUrl, {
-          categoryName: this.data.categoryName,
-          categoryTypeId: this.data.categoryTypeId,
-          subCategoryNames: this.data.subCategoryNames
-        })
-        .then((response) => {
-          console.log(response)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+      axios.put(categoryUrl + self.getCategoryId, {
+        categoryName: this.data.categoryName,
+        categoryTypeId: this.data.categoryTypeId,
+        subCategories: this.data.subCategories
+      })
+      .then((response) => {
+        console.log(response)
+        let closeFn = () => {
+          router.push({ path: '/category' })
+        }
         // After POST is success, show Success Alert
         let successAlert = {
           title: 'Success',
-          message: 'Category is created!',
-          type: 'success'
+          message: 'Category is updated!',
+          type: 'success',
+          onClose: closeFn
         }
         self.$refs.simplert.openSimplert(successAlert)
-        router.push({ path: 'category' })
-      } // End of confirmFn()
-      let warningAlert = {
-        title: 'Warning',
-        message: 'Once you have saved a category type to have sub-categories or without, you cannot change the type anymore!',
-        type: 'warning',
-        useConfirmBtn: true,
-        onConfirm: confirmFn
-      } // End of warningAlert
-      self.$refs.simplert.openSimplert(warningAlert)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
     },
     getCategoryData () {
       return axios.get(categoryUrl + this.getCategoryId)
     },
     getCategoryTyoe () {
       return axios.get(categoryTypesUrl)
+    },
+    // Delete Staff Record
+    deleteBtn () {
+      let self = this
+      let confirmFn = () => {
+        axios.delete(categoryUrl + self.getCategoryId)
+        .then((response) => {
+          console.log(response)
+          // Success Alert
+          let closeFn = () => {
+            // After deletion, go to Category Page
+            router.push({ path: '/category' })
+          }
+          let successAlert = {
+            title: 'Success',
+            message: 'Category record has been deleted!',
+            type: 'success',
+            onClose: closeFn
+          }
+          self.$refs.simplert.openSimplert(successAlert)
+        })
+          .catch((error) => {
+            console.log(error)
+          })
+      }
+      let deleteAlert = {
+        title: 'Warning',
+        message: 'Are you sure you want to delete category record?',
+        type: 'warning',
+        useConfirmBtn: true,
+        onConfirm: confirmFn
+      }
+      self.$refs.simplert.openSimplert(deleteAlert)
+    }
+  },
+  computed: {
+    computedSubCategoryNames () {
+      // https://stackoverflow.com/questions/45273964/get-data-from-nested-json-and-display-using-vue-multiselect
+      // Gets objects from nested json, array. Take out each item from the array and GET the item's subCategoryName
+      return this.allSubCategoryNames.map((item) => {
+        const oldTag = {
+          subCategory: item.subCategoryId,
+          subCategoryName: item.subCategoryName
+        }
+        this.options.push(oldTag)
+        this.data.subCategories.push(oldTag)
+        return item.subCategoryName
+      })
     }
   },
   created () {
@@ -198,14 +255,12 @@ export default {
     // Based on the categoryId in the URL, get data for the user
     axios.all([this.getCategoryData(), this.getCategoryTyoe()])
       .then(axios.spread((acct, perms) => {
-        console.log(acct) // category id
-        // console.log(perms) // category type
         self.data.categoryName = acct.data.categoryName
-        const noSubCat = perms.data[0].categoryTypeId
-        console.log(acct.data.SubCategories)
+        self.allSubCategoryNames = acct.data.SubCategories
 
-        // self.data.subCategoryNames = acct.data.SubCategories[0].subCategoryName
-        self.data.subCategoryNames = acct.data.SubCategories
+        // Assign variable to categoryTypeId
+        const noSubCat = perms.data[0].categoryTypeId
+
         // check against categoryTypeId in getCategoryDat() response
         self.data.categoryTypeId = acct.data.fk_categoryTypeId
         if (self.data.categoryTypeId === noSubCat) {
@@ -213,6 +268,16 @@ export default {
         } else {
           this.checked = true
         }
+
+        // Checks json objects in nested json, and take it out and call it "item"
+        self.allSubCategoryNames.map((item) => {
+          const oldTag = {
+            subCategoryId: item.subCategoryId,
+            subCategoryName: item.subCategoryName
+          }
+          self.options.push(oldTag)
+          self.data.subCategories.push(oldTag)
+        })
       }))
   }
 }

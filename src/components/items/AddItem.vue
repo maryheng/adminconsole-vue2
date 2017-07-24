@@ -30,8 +30,8 @@
             <div class="field is-grouped">
               <div class="multiselectDiv">
                 <p class="control">
-                  <multiselect :multiple="true" v-model="categoryNames" :hide-selected="true" :options="options" :searchable="false" :allow-empty="true" track-by="categoryName">
-                  </multiselect>
+                   <multiselect :multiple="true" v-model="categoryNames" :hide-selected="true" :options="options" :searchable="false" :allow-empty="true" track-by="categoryName">
+                  </multiselect> 
                   <!-- <multiselect 
                         :multiple="true"
                         v-model="data.subCategoryNames"
@@ -40,8 +40,7 @@
                         :options="options"
                         :taggable="true" 
                         @tag="addTag">
-                        </multiselect>                  -->
-                  <!-- <pre>{{$data | json}}</pre>    -->
+                        </multiselect>                  --> 
                 </p>
               </div>
             </div>
@@ -149,7 +148,7 @@
 <script>
 // import router from '../../../router'
 // import { categoryUrl } from '../../config'
-// import axios from 'axios'
+import axios from 'axios'
 import Simplert from 'vue2-simplert/src/components/simplert'
 import Multiselect from 'vue-multiselect'
 
@@ -195,12 +194,12 @@ export default {
     }
   },
   created () {
-    // let self = this
-    // axios.get('https://fypadminconsoletest.azurewebsites.net/api/categories?sort=&page=1&per_page=10')
-    //   .then((response) => {
-    //     console.log(response.data.data)
-    //     self.options = response.data.data
-    //   })
+    let self = this
+    axios.get('https://fypadminconsoletest.azurewebsites.net/api/categories?sort=&page=1&per_page=10')
+      .then((response) => {
+        console.log(response.data.data)
+        self.options = response.data.data
+      })
   }
 }
 </script>
