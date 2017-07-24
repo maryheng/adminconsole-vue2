@@ -33,14 +33,14 @@
                   <multiselect :multiple="true" v-model="categoryNames" :hide-selected="true" :options="options" :searchable="false" :allow-empty="true" track-by="categoryName">
                   </multiselect>
                   <!-- <multiselect 
-                      :multiple="true"
-                      v-model="data.subCategoryNames"
-                      :hide-selected="true"
-                      :selected="data.subCategoryNames"
-                      :options="options"
-                      :taggable="true" 
-                      @tag="addTag">
-                      </multiselect>                  -->
+                        :multiple="true"
+                        v-model="data.subCategoryNames"
+                        :hide-selected="true"
+                        :selected="data.subCategoryNames"
+                        :options="options"
+                        :taggable="true" 
+                        @tag="addTag">
+                        </multiselect>                  -->
                   <!-- <pre>{{$data | json}}</pre>    -->
                 </p>
               </div>
@@ -71,51 +71,58 @@
           <p class="subtitle is-5">Add multiple item details if you have the same item with different details</p>
         </div>
         <hr>
-  
-        
-      <div id="space"></div>
+          <div id="addRowBtn">
+          <button class="button is-info is-focused" @click="addRow">Add</button>
+          </div>
+        <div id="space"></div>
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Adding new rows ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
         <div class="itemDetailsDiv">
-         
-              <div class="field is-grouped" v-for="item in itemArray" :key="item">
   
-                <p class="control">
-                  <label class="label">Item ID</label>
-                  <input class="input" type="text" placeholder="Item ID" v-model="item.itemId">
-                </p>
-                <p class="control">   
-                  <label class="label">Serial No</label>             
-                  <input class="input" type="text" placeholder="Serial No" v-model="item.serialNo">
-                </p>
-                <p class="control">     
-                  <label class="label">IDA Asset No</label>          
-                  <input class="input" type="text" placeholder="IDA Asset No" v-model="item.idaAssetNo">
-                </p>
-                <p class="control">      
-                  <label class="label">IMDA Asset No</label>   
-                  <input class="input" type="text" placeholder="IMDA Asset No" v-model="item.imdaAssetNo">
-                </p>
-                <p class="control">        
-                  <label class="label">Managed By</label>    
-                  <input class="input" type="text" placeholder="Managed By" v-model="item.staffId">
-                </p>
-                <p class="control">
-                  <label class="label">Loanable (Tick if yes)</label>   
-                  <input type="checkbox" value="Yes" v-model="item.checked">
-                </p>
-                <p class="control">
-                  <button class="button is-info is-focused" @click="addRow">Add</button>
-                </p>                
-              </div>
-            
-        </div>        
-
-  <pre>
-    {{ $data | json }}
-  </pre>
-
+          <div class="field is-grouped" v-for="item in itemArray" :key="item">
+  
+            <p class="control">
+              <label class="label">Item ID</label>
+              <input class="input" type="text" placeholder="Item ID" v-model="item.itemId">
+            </p>
+            <p class="control">
+              <label class="label">Serial No</label>
+              <input class="input" type="text" placeholder="Serial No" v-model="item.serialNo">
+            </p>
+            <p class="control">
+              <label class="label">IDA Asset No</label>
+              <input class="input" type="text" placeholder="IDA Asset No" v-model="item.idaAssetNo">
+            </p>
+            <p class="control">
+              <label class="label">IMDA Asset No</label>
+              <input class="input" type="text" placeholder="IMDA Asset No" v-model="item.imdaAssetNo">
+            </p>
+            <p class="control">
+              <label class="label">Managed By</label>
+              <input class="input" type="text" placeholder="Managed By" v-model="item.staffId">
+            </p>
+            <p class="control">
+              <label class="label">Loanable (Tick if yes)</label>
+              <input type="checkbox" value="Yes" v-model="item.checked">
+            </p>
+            <!-- <p class="control">
+                    <button class="button is-info is-focused" @click="addRow">Add</button>
+                  </p>                 -->
+            <div id="delBtn">
+              <button class="button is-danger" @click="delRow(item)">-</button>
+            </div>
+          </div>
+  
+        </div>
+        <!-- <p class="control">
+          <button class="button is-info is-focused" @click="addRow">Add</button>
+        </p> -->
+  
+        <pre>
+      {{ $data | json }}
+    </pre>
+  
         <!-- Save Button -->
-         <div class="saveBtn">
+        <div class="saveBtn">
           <div class="field is-horizontal">
             <div class="field-label">
             </div>
@@ -129,7 +136,7 @@
               </div>
             </div>
           </div>
-        </div> 
+        </div>
   
         <!-- Simplert Notification -->
         <simplert :useRadius="true" :useIcon="true" ref="simplert">
@@ -181,6 +188,10 @@ export default {
         staffId: '',
         checked: ''
       })
+    },
+    delRow (item) {
+      const index = this.itemArray.indexOf(item)
+      this.itemArray.splice(index, 1)
     }
   },
   created () {
@@ -252,6 +263,15 @@ button {
 
 #space {
   padding-bottom: 0.35%;
+}
+
+#delBtn {
+  margin-top: 1.3%;
+}
+
+#addRowBtn {
+  margin-left: 35%;
+  margin-top: -1%;
 }
 </style>
 
