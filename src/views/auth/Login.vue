@@ -76,12 +76,21 @@ export default {
         window.localStorage.setItem('access_token', response.data.token)
         window.localStorage.setItem('cookie_expiry', new Date(Date.now() + 28800000).toString())
 
-        router.push({ path: '/dashboard' })
+        // Include token in all request headers
+        if (window.localStorage.getItem('access_token') !== null) {
+          // axios.defaults.headers.common['authorization'] = 'Bearer ' + window.localStorage.getItem('access_token')
+          axios.defaults.headers.common['authorization'] = window.getToken()
+        }
+        router.push({ path: '/' })
       })
         .catch((error) => {
           console.log(error)
         })
     }
+  },
+  created () {
+    console.log(`csrf token is: ${this.$cookie.get('_xsrf')}`)
+    axios.defaults.headers.common['x-xsrf-token'] = this.$cookie.get('_xsrf')
   }
 }
 </script>

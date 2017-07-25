@@ -6,10 +6,12 @@ import router from './router'
 import axios from 'axios'
 import VueSocketio from 'vue-socket.io'
 import { baseUrl } from './config.js'
+import VueCookie from 'vue-cookie'
 
 Vue.prototype.$http = axios
 Vue.axios = axios
 Vue.use(VueSocketio, baseUrl, { forceNew: true })
+Vue.use(VueCookie)
 
 // Enable devtools
 Vue.config.productionTip = true
@@ -28,6 +30,27 @@ class Dispatcher {
 }
 
 window.Event = new Dispatcher()
+// Return headers function
+window.getToken = () => {
+  console.log('Getting headers in main')
+  var accessToken = window.localStorage.getItem('access_token')
+  if (accessToken) {
+    return `Bearer ${accessToken}`
+  } else {
+    return null
+  }
+}
+
+// Global axios default (config default that will be applied to every request)
+axios.defaults.baseURL = `${baseUrl}/`
+// Accounts for refresh or reload page
+if (window.getToken() !== null) {
+  axios.defaults.headers.common['authorization'] = window.getToken()
+}
+
+if (VueCookie.get('_xsrf') !== null) {
+  axios.defaults.headers.common['x-xsrf-token'] = VueCookie.get('_xsrf')
+}
 
 // Global axios default (config default that will be applied to every request)
 var accessToken = window.localStorage.getItem('access_token')
@@ -94,6 +117,17 @@ const app = new Vue({
       }
     }
   },
+  beforeCreate () {
+    // Redirect back to login if user access resource directly via url or refresh and no token is already available
+    if (window.getToken()) {
+      if (window.location.pathname.toLowerCase() === '/login') {
+        router.push('/')
+      }
+    } else {
+      console.log('No token from direct url, redirect to login')
+      router.push('/login')
+    }
+  },
   created () {
     this.initNotification()
     Event.listen('triggerNotification', (data) => {
@@ -114,11 +148,13 @@ const app = new Vue({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth !== false) { // check the meta field
-    if (window.localStorage.getItem('access_token') !== null) {
+    if (window.getToken() !== null) {
       console.log('User is authorised.') // check if the user is authenticated
       next() // the next method allow the user to continue to the router
     } else {
       console.log('User is not authorised.')
+      axios.defaults.headers.common['authorization'] = null
+      axios.defaults.headers.common['x-xsrf-token'] = null
       next('/login') // Redirect the user to the main page
     }
   } else {

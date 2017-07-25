@@ -52,7 +52,8 @@ export default {
         },
         {
           name: 'SubCategories',
-          title: 'SubCategories'
+          title: 'SubCategories',
+          callback: 'combineSubCat'
         },
         {
           name: '__component:custom-actions',
@@ -64,6 +65,15 @@ export default {
     }
   },
   methods: {
+    combineSubCat (value) {
+      return value.map(d => {
+        return {
+          subCategories: d.SubCategories.reduce((acc, c) => {
+            return acc ? acc + ', ' + c.subCategoryName : c.subCategoryName
+          }, '')
+        }
+      })
+    },
     // Click "Edit" Button -> routes user to update page
     onActions (action, data) {
       // ~/UpdateCategory/{userId}

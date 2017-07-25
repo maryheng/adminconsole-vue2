@@ -4,7 +4,7 @@
     <vuetable
       ref="vuetable"
       :api-url="apiUrl"
-      :http-options="{ headers: $http.defaults.headers }"
+      :http-options="httpOptions"
       :fields="fields"
       pagination-path=""
       @vuetable:pagination-data="onPaginationData"
@@ -66,7 +66,9 @@ export default {
     httpOptions: {
       type: Object,
       default () {
-        return {}
+        return {
+          headers: this.$http.defaults.headers
+        }
       }
     }
   },

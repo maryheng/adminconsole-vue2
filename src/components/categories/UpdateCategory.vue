@@ -51,19 +51,6 @@
             <div class="field is-grouped">
               <div class="multiselectDiv">
                 <p class="control">
-                  <!-- <multiselect v-model="data.selected" placeholder="Add one or more sub-category!" label="subCategoryName" 
-                  :options="options" :hide-selected="true" :multiple="true" :taggable="true" @tag="addTag" 
-                  @update="updateSelected">
-                  </multiselect> -->
-                  <!-- <multiselect :multiple="true"
-                  v-model="data.subCategoryNames"
-                  :hide-selected="true"
-                  :selected="data.subCategoryNames"
-                  :options="computedSubCategoryNames"
-                  :taggable="true"
-                  @tag="addTag"            
-                  >
-                  </multiselect> -->
                   <multiselect :multiple="true"
                   v-model="data.subCategories"
                   :hide-selected="true"
@@ -81,6 +68,10 @@
           </div>
         </div>
   
+        <pre>
+      {{ $data | json }}
+    </pre>
+
         <!-- Update Category Button -->
         <div class="updateCatBtn">
           <div class="field is-horizontal">
@@ -156,9 +147,7 @@ export default {
         subCategoryId: 0,
         subCategoryName: newTag
       }
-      // this.data.subCategories.push(tag)
       this.data.subCategories.push(tag)
-      // this.options.push(tag)
     },
     updateCatBtn () {
       let self = this

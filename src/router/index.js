@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import App from '../App.vue'
 import Dashboard from '../views/dashboard/Dashboard.vue'
 import Login from '../views/auth/Login.vue'
 
@@ -32,15 +31,11 @@ import Training from '../views/training/Training.vue'
 Vue.use(Router)
 
 export default new Router({
+  saveScrollPosition: true,
   mode: 'history',
   routes: [
     {
       path: '/',
-      name: 'App',
-      component: App
-    },
-    {
-      path: '/dashboard',
       name: 'Dashboard',
       component: Dashboard
     },

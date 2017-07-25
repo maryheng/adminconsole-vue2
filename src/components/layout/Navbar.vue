@@ -15,27 +15,12 @@
 </template>
 
 <script>
-import router from '../../router'
-
 export default {
   name: 'app',
   components: 'navbar',
   data () {
     return {
       token: window.localStorage.getItem('access_token')
-    }
-  },
-  // props: {
-  //   showLogout: {
-  //     type: Boolean,
-  //     default () {
-  //       return false
-  //     }
-  //   }
-  // },
-  methods: {
-    homeRedirect () {
-      router.push({ path: '/dashboard' })
     }
   }
 }

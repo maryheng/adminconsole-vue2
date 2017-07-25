@@ -4,7 +4,7 @@
     General
   </p>
   <ul class="menu-list">
-    <router-link :to=" { path: '/dashboard'} "><li><a>Dashboard</a></li></router-link>
+    <router-link :to=" { path: '/'} "><li><a>Dashboard</a></li></router-link>
     <router-link :to=" { path: '/user/staff'} "><li><a>Manager Users</a></li></router-link>
   </ul>
   <p class="menu-label">

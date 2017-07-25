@@ -30,33 +30,44 @@
             <div class="field is-grouped">
               <div class="multiselectDiv">
                 <p class="control">
-                   <multiselect :multiple="true" v-model="categoryNames" :hide-selected="true" :options="options" :searchable="false" :allow-empty="true" track-by="categoryName">
-                  </multiselect> 
-                  <!-- <multiselect 
-                        :multiple="true"
-                        v-model="data.subCategoryNames"
-                        :hide-selected="true"
-                        :selected="data.subCategoryNames"
-                        :options="options"
-                        :taggable="true" 
-                        @tag="addTag">
-                        </multiselect>                  --> 
+                  <multiselect
+                  v-model="selectedCat"
+                  :options="options"
+                  :searchable="false"
+                  :allow-empty="true"
+                  deselect-label="Can't remove this value"
+                  label="categoryName"
+                  track-by="categoryName">
+                  </multiselect>
                 </p>
               </div>
             </div>
           </div>
         </div>
   
-        <!--nput field for Type of Sub-Category-->
+        <!-- Input field for Type of Category -->
         <div class="field is-horizontal">
           <div class="field-label is-normal">
             <label class="label">Type of Sub-Category:</label>
           </div>
           <div class="field-body">
             <div class="field is-grouped">
-              <p class="control">
-  
-              </p>
+              <div class="multiselectDiv">
+                <p class="control">
+                  <multiselect
+                  v-model="selectedSubCat"
+                  :options="computedsubCatOptions"
+                  :hide-selected="true"
+                  :selected="selectedSubCat"                  
+                  :searchable="false"
+                  :allow-empty="true"
+                  deselect-label="Can't remove this value"
+                  label="subCategoryName"
+                  track-by="subCategoryName"              
+                  >
+                  </multiselect>                  
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -70,9 +81,9 @@
           <p class="subtitle is-5">Add multiple item details if you have the same item with different details</p>
         </div>
         <hr>
-          <div id="addRowBtn">
+        <div id="addRowBtn">
           <button class="button is-info is-focused" @click="addRow">Add</button>
-          </div>
+        </div>
         <div id="space"></div>
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Adding new rows ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
         <div class="itemDetailsDiv">
@@ -97,28 +108,38 @@
             </p>
             <p class="control">
               <label class="label">Managed By</label>
-              <input class="input" type="text" placeholder="Managed By" v-model="item.staffId">
+              <!-- <input class="input" type="text" placeholder="Managed By" v-model="item.staffId"> -->
+
+              <multiselect
+              v-model="selectedSubCat"
+              :options="computedsubCatOptions"
+              :hide-selected="true"
+              :selected="selectedSubCat"                  
+              :searchable="false"
+              :allow-empty="true"
+              deselect-label="Can't remove this value"
+              label="subCategoryName"
+              track-by="subCategoryName"              
+              >
+              </multiselect>             
             </p>
             <p class="control">
               <label class="label">Loanable (Tick if yes)</label>
               <input type="checkbox" value="Yes" v-model="item.checked">
             </p>
             <!-- <p class="control">
-                    <button class="button is-info is-focused" @click="addRow">Add</button>
-                  </p>                 -->
+                      <button class="button is-info is-focused" @click="addRow">Add</button>
+                    </p>                 -->
             <div id="delBtn">
               <button class="button is-danger" @click="delRow(item)">-</button>
             </div>
           </div>
   
         </div>
-        <!-- <p class="control">
-          <button class="button is-info is-focused" @click="addRow">Add</button>
-        </p> -->
   
         <pre>
-      {{ $data | json }}
-    </pre>
+        {{ $data | json }}
+      </pre>
   
         <!-- Save Button -->
         <div class="saveBtn">
@@ -128,7 +149,7 @@
             <div class="field-body">
               <div class="field">
                 <div class="control">
-                  <button class="button is-primary">
+                  <button class="button is-primary" @click="saveItemBtn">
                     Save
                   </button>
                 </div>
@@ -147,7 +168,7 @@
 
 <script>
 // import router from '../../../router'
-// import { categoryUrl } from '../../config'
+import { categoriesForOptions, subcategoriesForOptions } from '../../config'
 import axios from 'axios'
 import Simplert from 'vue2-simplert/src/components/simplert'
 import Multiselect from 'vue-multiselect'
@@ -165,6 +186,8 @@ export default {
         categoryId: '',
         subCategoryId: ''
       },
+      selectedCat: [],
+      selectedSubCat: [],
       itemArray: [{
         itemId: '',
         serialNo: '',
@@ -174,7 +197,8 @@ export default {
         checked: ''
       }],
       options: [],
-      categoryNames: ''
+      allCategories: '',
+      allSubCategories: ''
     }
   },
   methods: {
@@ -191,15 +215,75 @@ export default {
     delRow (item) {
       const index = this.itemArray.indexOf(item)
       this.itemArray.splice(index, 1)
+    },
+    saveItemBtn () {
+      let self = this
+      self.data.categoryId = self.selectedCat.categoryId
+      self.data.subCategoryId = self.selectedSubCat.subCategoryId
+      // axios.post(itemUrl, {
+      //   itemName: self.data.itemName,
+      //   categoryId: self.data.categoryId,
+      //   subCategoryId: self.data.subCategoryId,
+      //   itemArray: self.itemArray
+      // })
+      //   .then((response) => {
+      //     console.log(response)
+      //   })
+      //   .catch((error) => {
+      //     console.log(error)
+      //   })
+    }
+  },
+  computed: {
+    computedsubCatOptions () {
+      let self = this
+      const subCats = self.allSubCategories
+      return subCats.filter((item) => {
+        return item.fk_categoryId === this.selectedCat.categoryId
+      })
     }
   },
   created () {
     let self = this
-    axios.get('https://fypadminconsoletest.azurewebsites.net/api/categories?sort=&page=1&per_page=10')
+
+    // Get Sub-Categories from API
+    axios.get(subcategoriesForOptions)
       .then((response) => {
-        console.log(response.data.data)
-        self.options = response.data.data
+        self.allSubCategories = response.data
       })
+      .catch((error) => {
+        console.log(error)
+      })
+
+    // Get Categories from API
+    axios.get(categoriesForOptions)
+      .then((response) => {
+        self.allCategories = response.data
+
+        // Checks json objects in nested json, and take it out and call it "item"
+        self.allCategories.map((item) => {
+          const oldTag = {
+            categoryId: item.categoryId,
+            categoryName: item.categoryName
+          }
+          self.options.push(oldTag)
+        })
+      })
+
+    // Get Staff from API
+    // axios.get(categoriesForOptions)
+    //   .then((response) => {
+    //     self.allCategories = response.data
+
+    //     // Checks json objects in nested json, and take it out and call it "item"
+    //     self.allCategories.map((item) => {
+    //       const oldTag = {
+    //         categoryId: item.categoryId,
+    //         categoryName: item.categoryName
+    //       }
+    //       self.options.push(oldTag)
+    //     })
+    //   })
   }
 }
 </script>
@@ -258,6 +342,11 @@ button {
 
 .itemDetailsDiv input {
   width: 200px;
+}
+
+.itemDetailsDiv .multiselect {
+  width: 200px;
+  margin-top: 7%;
 }
 
 #space {
