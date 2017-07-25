@@ -21,7 +21,6 @@ import UpdateCategory from '../components/categories/UpdateCategory.vue'
 
 import Loan from '../views/loan/Loan.vue'
 import OngoingLoans from '../components/loan/ongoingloans/OngoingLoans.vue'
-import AdvanceLoans from '../components/loan/advanceloans/AdvanceLoans.vue'
 import DueLoans from '../components/loan/dueloans/DueLoans.vue'
 import LoanArchive from '../components/loan/loanarchive/LoanArchive.vue'
 
@@ -118,11 +117,6 @@ export default new Router({
         path: 'OngoingLoans',
         name: 'OngoingLoans',
         component: OngoingLoans
-      },
-      {
-        path: 'AdvanceLoans',
-        name: 'AdvanceLoans',
-        component: AdvanceLoans
       },
       {
         path: 'DueLoans',
