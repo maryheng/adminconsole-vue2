@@ -91,8 +91,8 @@
           <div class="field is-grouped" v-for="item in itemArray" :key="item">
   
             <p class="control">
-              <label class="label">Item ID</label>
-              <input class="input" type="text" placeholder="Item ID" v-model="item.itemId">
+              <label class="label">Item Label</label>
+              <input class="input" type="text" placeholder="Item Label" v-model="item.itemChildLabel">
             </p>
             <p class="control">
               <label class="label">Serial No</label>
@@ -108,28 +108,20 @@
             </p>
             <p class="control">
               <label class="label">Managed By</label>
-              <!-- <input class="input" type="text" placeholder="Managed By" v-model="item.staffId"> -->
-
               <multiselect
-              v-model="selectedSubCat"
-              :options="computedsubCatOptions"
-              :hide-selected="true"
-              :selected="selectedSubCat"                  
-              :searchable="false"
-              :allow-empty="true"
-              deselect-label="Can't remove this value"
-              label="subCategoryName"
-              track-by="subCategoryName"              
-              >
-              </multiselect>             
+                v-model="item.staffId"
+                :options="staffOptions"
+                :searchable="false"
+                :allow-empty="false"
+                :show-labels="false"
+                label="name"
+                track-by="name">
+              </multiselect>         
             </p>
             <p class="control">
               <label class="label">Loanable (Tick if yes)</label>
-              <input type="checkbox" value="Yes" v-model="item.checked">
+              <input type="checkbox" value="true" v-model="item.loanOptionId">
             </p>
-            <!-- <p class="control">
-                      <button class="button is-info is-focused" @click="addRow">Add</button>
-                    </p>                 -->
             <div id="delBtn">
               <button class="button is-danger" @click="delRow(item)">-</button>
             </div>
@@ -168,7 +160,7 @@
 
 <script>
 // import router from '../../../router'
-import { categoriesForOptions, subcategoriesForOptions } from '../../config'
+import { categoriesForOptions, subcategoriesForOptions, loanOptions, staffsForOptions } from '../../config'
 import axios from 'axios'
 import Simplert from 'vue2-simplert/src/components/simplert'
 import Multiselect from 'vue-multiselect'
@@ -189,27 +181,31 @@ export default {
       selectedCat: [],
       selectedSubCat: [],
       itemArray: [{
-        itemId: '',
+        itemChildLabel: '',
         serialNo: '',
         idaAssetNo: '',
         imdaAssetNo: '',
         staffId: '',
-        checked: ''
+        loanOptionId: false
       }],
       options: [],
-      allCategories: '',
-      allSubCategories: ''
+      staffOptions: [],
+      unloanableId: '',
+      loanableId: '',
+      allStaffs: [],
+      allCategories: [],
+      allSubCategories: []
     }
   },
   methods: {
     addRow () {
       this.itemArray.push({
-        itemId: '',
+        itemChildLabel: '',
         serialNo: '',
         idaAssetNo: '',
         imdaAssetNo: '',
         staffId: '',
-        checked: ''
+        loanOptionId: false
       })
     },
     delRow (item) {
@@ -220,18 +216,28 @@ export default {
       let self = this
       self.data.categoryId = self.selectedCat.categoryId
       self.data.subCategoryId = self.selectedSubCat.subCategoryId
-      // axios.post(itemUrl, {
-      //   itemName: self.data.itemName,
-      //   categoryId: self.data.categoryId,
-      //   subCategoryId: self.data.subCategoryId,
-      //   itemArray: self.itemArray
-      // })
-      //   .then((response) => {
-      //     console.log(response)
-      //   })
-      //   .catch((error) => {
-      //     console.log(error)
-      //   })
+
+      // Assign loanOptionId value to checkbox value
+      self.itemArray.map((item) => {
+        if (item.loanOptionId === true) {
+          item.loanOptionId = self.loanableId
+        } else {
+          item.loanOptionId = self.unloanableId
+        }
+      })
+
+      axios.post('hi', {
+        itemName: self.data.itemName,
+        categoryId: self.data.categoryId,
+        subCategoryId: self.data.subCategoryId,
+        itemArray: self.itemArray
+      })
+        .then((response) => {
+          console.log(response)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   },
   computed: {
@@ -270,20 +276,28 @@ export default {
         })
       })
 
-    // Get Staff from API
-    // axios.get(categoriesForOptions)
-    //   .then((response) => {
-    //     self.allCategories = response.data
-
-    //     // Checks json objects in nested json, and take it out and call it "item"
-    //     self.allCategories.map((item) => {
-    //       const oldTag = {
-    //         categoryId: item.categoryId,
-    //         categoryName: item.categoryName
-    //       }
-    //       self.options.push(oldTag)
-    //     })
-    //   })
+    // Get Staffs from API
+    axios.get(staffsForOptions)
+      .then((response) => {
+        console.log(response)
+        self.allStaffs = response.data
+        // Checks json objects in nested json, and take it out and call it "item"
+        self.allStaffs.map((item) => {
+          const oldTag = {
+            staffId: item.Staff.staffId,
+            name: item.name
+          }
+          self.staffOptions.push(oldTag)
+        })
+      })
+  },
+  mounted () {
+    let self = this
+    axios.get(loanOptions)
+      .then((response) => {
+        self.unloanableId = response.data[0].loanOptionId
+        self.loanableId = response.data[1].loanOptionId
+      })
   }
 }
 </script>
