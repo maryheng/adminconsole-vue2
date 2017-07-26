@@ -1,22 +1,43 @@
 <template>
   <div id="container">
-    <p class="title is-4">Visitor Count</p>
+    <p class="title is-4">Manage Visitors</p>
     <div class="box">
-      <h1>hELlo</h1>
+      <tabs>
+        <!--Visitor Details Tab-->
+        <tab name="Visitor Details" :selected="true" href="/visitor/visitordetails">       
+          <router-view></router-view>
+        </tab>
+
+        <!--Purpose of Visit Tab-->
+        <tab name="Purpose Of Visit" href="/visitor/purposeofvisit">
+          <router-view></router-view>          
+        </tab>     
+
+      </tabs>
     </div>
   </div>
+  <!--Staff Tab-->
 </template>
 
 
 
 <script>
+import tabs from '../../components/layout/Tabs.vue'
+import tab from '../../components/layout/Tab.vue'
+
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    tabs,
+    tab
+  }
 }
 
 </script>
 
 
 <style>
-
+.button {
+  margin-left: 2px;
+}
 </style>

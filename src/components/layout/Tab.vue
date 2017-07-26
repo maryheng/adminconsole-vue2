@@ -19,7 +19,7 @@ export default {
     href () {
       // Resident Developer --> resident-developer
       // return '#' + this.name.toLowerCase().replace(/ /g, '-')
-      return '/user/' + this.name.toLowerCase().replace(/\s+/g, '')
+      return '' + this.name.toLowerCase().replace(/\s+/g, '')
     }
   },
   mounted () {

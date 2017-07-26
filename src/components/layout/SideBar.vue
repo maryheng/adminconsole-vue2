@@ -24,7 +24,7 @@
     Visitor Count
   </p>
   <ul class="menu-list">
-    <router-link :to=" { path: '/visitor'} "><li><a>Manage Visitor Count</a></li></router-link>
+    <router-link :to=" { path: '/visitor/visitordetails'} "><li><a>Manage Visitor Count</a></li></router-link>
   </ul>
   <p class="menu-label">
     Training of Faces

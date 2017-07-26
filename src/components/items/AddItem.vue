@@ -37,7 +37,8 @@
                   :allow-empty="true"
                   deselect-label="Can't remove this value"
                   label="categoryName"
-                  track-by="categoryName">
+                  track-by="categoryName"
+                  >
                   </multiselect>
                 </p>
               </div>
@@ -109,13 +110,16 @@
             <p class="control">
               <label class="label">Managed By</label>
               <multiselect
-                v-model="item.staffId"
+                :id="item"
                 :options="staffOptions"
                 :searchable="false"
                 :allow-empty="false"
                 :show-labels="false"
                 label="name"
-                track-by="name">
+                track-by="name"
+                @input="updateStaffData"
+                @open="openStaffOptions"
+                >
               </multiselect>         
             </p>
             <p class="control">
@@ -160,7 +164,7 @@
 
 <script>
 // import router from '../../../router'
-import { categoriesForOptions, subcategoriesForOptions, loanOptions, staffsForOptions } from '../../config'
+import { itemUrl, categoriesForOptions, subcategoriesForOptions, loanOptions, staffsForOptions } from '../../config'
 import axios from 'axios'
 import Simplert from 'vue2-simplert/src/components/simplert'
 import Multiselect from 'vue-multiselect'
@@ -194,10 +198,25 @@ export default {
       loanableId: '',
       allStaffs: [],
       allCategories: [],
-      allSubCategories: []
+      allSubCategories: [],
+      subStaffId: '',
+      indexOfItemArray: ''
     }
   },
   methods: {
+    // Multiselect @open - when you open the dropdown
+    openStaffOptions (id) {
+      // Get ID of staffOption Multiselect Dropdown
+      const itemArray = this.itemArray
+      // Get the index of the array the multiselect is positioned in
+      this.indexOfItemArray = itemArray.indexOf(id)
+    },
+    // Multiselect @input - when the value changes
+    updateStaffData (value) {
+      this.subStaffId = value.staffId
+      this.itemArray[this.indexOfItemArray].staffId = this.subStaffId
+    },
+    // Add itemChild row
     addRow () {
       this.itemArray.push({
         itemChildLabel: '',
@@ -208,6 +227,7 @@ export default {
         loanOptionId: false
       })
     },
+    // Delete itemChild row
     delRow (item) {
       const index = this.itemArray.indexOf(item)
       this.itemArray.splice(index, 1)
@@ -226,7 +246,7 @@ export default {
         }
       })
 
-      axios.post('hi', {
+      axios.post(itemUrl, {
         itemName: self.data.itemName,
         categoryId: self.data.categoryId,
         subCategoryId: self.data.subCategoryId,
@@ -234,6 +254,7 @@ export default {
       })
         .then((response) => {
           console.log(response)
+          console.log('post item is done')
         })
         .catch((error) => {
           console.log(error)
@@ -241,6 +262,7 @@ export default {
     }
   },
   computed: {
+    // Filter for Sub-Category options dropdown
     computedsubCatOptions () {
       let self = this
       const subCats = self.allSubCategories
@@ -279,12 +301,11 @@ export default {
     // Get Staffs from API
     axios.get(staffsForOptions)
       .then((response) => {
-        console.log(response)
         self.allStaffs = response.data
         // Checks json objects in nested json, and take it out and call it "item"
         self.allStaffs.map((item) => {
           const oldTag = {
-            staffId: item.Staff.staffId,
+            staffId: item.staffId,
             name: item.name
           }
           self.staffOptions.push(oldTag)

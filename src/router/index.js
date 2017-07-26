@@ -25,6 +25,9 @@ import DueLoans from '../components/loan/dueloans/DueLoans.vue'
 import LoanArchive from '../components/loan/loanarchive/LoanArchive.vue'
 
 import Visitor from '../views/visitor/Visitor.vue'
+import VisitorDetails from '../components/visitors/purposeOfVisit/PurposeOfVisit.vue'
+import PurposeOfVisit from '../components/visitors/visitorDetails/VisitorDetails.vue'
+
 import Training from '../views/training/Training.vue'
 
 Vue.use(Router)
@@ -50,6 +53,7 @@ export default new Router({
       component: User,
       children: [{
         path: 'Staff',
+        name: 'Staff',
         component: Staff
       },
       {
@@ -133,7 +137,18 @@ export default new Router({
     {
       path: '/visitor',
       name: 'Visitor',
-      component: Visitor
+      component: Visitor,
+      children: [{
+        path: 'VisitorDetails',
+        name: 'VisitorDetails',
+        component: VisitorDetails
+      },
+      {
+        path: 'PurposeOfVisit',
+        name: 'PurposeOfVisit',
+        component: PurposeOfVisit
+      }
+      ]
     },
     {
       path: '/training',
