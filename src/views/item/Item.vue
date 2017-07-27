@@ -42,20 +42,12 @@ export default {
       fields:
       [
         {
-          name: 'ItemParent.itemParentId',
+          name: 'itemParentId',
           title: 'Item Parent ID'
         },
         {
-          name: 'ItemParent.itemName',
-          title: 'Item Parent'
-        },
-        {
-          name: 'itemChildId',
-          title: 'Item Child ID'
-        },
-        {
-          name: 'itemChildLabel',
-          title: 'Item Child Name'
+          name: 'itemName',
+          title: 'Item Name'
         },
         {
           name: '__component:custom-actions',
