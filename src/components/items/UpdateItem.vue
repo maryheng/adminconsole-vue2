@@ -137,16 +137,16 @@
         {{ $data | json }}
       </pre>
   
-        <!-- Save Button -->
-        <div class="saveBtn">
+        <!-- Update Button -->
+        <div class="updateBtn">
           <div class="field is-horizontal">
             <div class="field-label">
             </div>
             <div class="field-body">
               <div class="field">
                 <div class="control">
-                  <button class="button is-primary" @click="saveItemBtn">
-                    Save
+                  <button class="button is-primary" @click="updateItemBtn">
+                    Update
                   </button>
                 </div>
               </div>
@@ -200,7 +200,21 @@ export default {
       allCategories: [],
       allSubCategories: [],
       subStaffId: '',
-      indexOfItemArray: ''
+      indexOfItemArray: '',
+      itemParentId: '',
+      getCatId: '',
+      getSubCatId: '',
+      getStaffIds: '',
+      getCatJson: [],
+      getSubCatJson: [],
+      getStaffArray: [],
+      getStaffJson: [],
+      staffArr: [],
+      idArr: [],
+      computedStaff: '',
+      deletedItemIdArray: [],
+      updatedItemArray: [],
+      newItemArray: []
     }
   },
   methods: {
@@ -229,36 +243,95 @@ export default {
     },
     // Delete itemChild row
     delRow (item) {
+      console.log(item.itemChildId)
+      this.deletedItemIdArray.push(item.itemChildId)
       const index = this.itemArray.indexOf(item)
       this.itemArray.splice(index, 1)
     },
-    saveItemBtn () {
+    updateItemBtn () {
       let self = this
       self.data.categoryId = self.selectedCat.categoryId
       self.data.subCategoryId = self.selectedSubCat.subCategoryId
 
       // Assign loanOptionId value to checkbox value
       self.itemArray.map((item) => {
-        if (item.loanOptionId === true) {
+        if (item.loanOptionId === true || item.loanOptionId === self.loanableId) {
           item.loanOptionId = self.loanableId
         } else {
           item.loanOptionId = self.unloanableId
         }
       })
 
-      axios.post(itemUrl, {
+      self.itemArray.map((item) => {
+        console.log(item)
+        if (item.itemChildId) {
+          const oldTag = {
+            itemChildId: item.itemChildId,
+            serialNo: item.serialNo,
+            idaAssetNo: item.idaAssetNo,
+            imdaAssetNo: item.imdaAssetNo,
+            itemChildLabel: item.itemChildLabel,
+            loanOptionId: item.loanOptionId,
+            staffId: item.staffId
+          }
+          self.updatedItemArray.push(oldTag)
+        } else {
+          const oldTag = {
+            serialNo: item.serialNo,
+            idaAssetNo: item.idaAssetNo,
+            imdaAssetNo: item.imdaAssetNo,
+            itemChildLabel: item.itemChildLabel,
+            loanOptionId: item.loanOptionId,
+            staffId: item.staffId
+          }
+          self.newItemArray.push(oldTag)
+        }
+      })
+
+      axios.put(itemUrl + self.itemParentId, {
         itemName: self.data.itemName,
         categoryId: self.data.categoryId,
         subCategoryId: self.data.subCategoryId,
-        itemArray: self.itemArray
+        deletedItemIdArray: self.deletedItemIdArray,
+        newItemArray: self.newItemArray,
+        updatedItemArray: self.updatedItemArray
       })
         .then((response) => {
           console.log(response)
-          console.log('post item is done')
+          console.log('UPDATE item is done')
         })
         .catch((error) => {
           console.log(error)
         })
+    },
+    getCatData () {
+      let self = this
+      const allCats = self.allCategories
+      return allCats.filter((item) => {
+        return item.categoryId === self.getCatId
+      })
+    },
+    getSubCatData () {
+      let self = this
+      const allSubCats = self.allSubCategories
+      return allSubCats.filter((item) => {
+        return item.subCategoryId === self.getSubCatId
+      })
+    },
+    getStaffData () {
+      let self = this
+
+      self.getStaffArray.forEach((element) => {
+        self.allStaffs.forEach((item) => {
+          if (item.staffId === element.staffId) {
+            console.log(item.name)
+            const staffIdArr = self.allStaffs.indexOf(item)
+            self.staffArr.push(item.name)
+            self.idArr.push(staffIdArr)
+            return item.name
+          }
+        })
+      }, this)
     }
   },
   computed: {
@@ -273,6 +346,70 @@ export default {
   },
   created () {
     let self = this
+
+    // Grab path from URL
+    const path = window.location.pathname
+
+    // Break the path into segments
+    // ""/"UpdateItem"/{itemParentId}"
+    const segments = path.split('/')
+
+    // Assigned itemParentId
+    self.itemParentId = segments[2]
+
+    // Get ID itemParent data
+    axios.get(itemUrl + self.itemParentId)
+      .then((response) => {
+        console.log(response)
+        self.data.itemName = response.data.itemName
+        self.getCatId = response.data.fk_categoryId
+        self.getSubCatId = response.data.fk_subCategoryId
+
+        // Get Category JSON and assign to multiselect
+        self.getCatJson = self.getCatData()
+        self.selectedCat = self.getCatJson[0]
+
+        let getItemArray = response.data.ItemChildren
+        getItemArray.map((item, index) => {
+          const oldTag = {
+            itemChildId: item.itemChildId,
+            serialNo: item.serialNo,
+            idaAssetNo: item.idaAssetNo,
+            imdaAssetNo: item.imdaAssetNo,
+            itemChildLabel: item.itemChildLabel,
+            loanOptionId: item.fk_loanOptionId,
+            staffId: item.fk_staffId
+          }
+          self.itemArray.push(oldTag)
+        })
+        self.itemArray.splice(0, 1)
+        // Get Staff ID from nested json of itemChildren
+        self.itemArray.map((item) => {
+          const oldTag = {
+            staffId: item.fk_staffId
+          }
+          self.getStaffArray.push(oldTag)
+        })
+        // If there is sub-categories, go through getSubCatData()
+        if (!(self.getSubCatId === null)) {
+          // Get Sub-Category JSON and assign to multiselect
+          self.getSubCatJson = self.getSubCatData()
+          self.selectedSubCat = self.getSubCatJson[0]
+        }
+        // Get Staff JSON and assign to multiselect
+        self.getStaffData()
+        // Checkbox is either true or false according to loanOptionId
+        self.itemArray.map((item) => {
+          if (item.loanOptionId === self.loanableId) {
+            item.loanableId = true
+          } else {
+            item.loanOptionId = false
+          }
+        })
+      })
+      .catch((error) => {
+        console.log(error)
+      })
 
     // Get Sub-Categories from API
     axios.get(subcategoriesForOptions)
@@ -362,7 +499,7 @@ button {
   margin-top: 1%;
 }
 
-.saveBtn {
+.updateBtn {
   margin-left: 21.5%;
 }
 

@@ -267,7 +267,7 @@ export default {
       let self = this
       const subCats = self.allSubCategories
       return subCats.filter((item) => {
-        return item.fk_categoryId === this.selectedCat.categoryId
+        return item.fk_categoryId === self.selectedCat.categoryId
       })
     }
   },

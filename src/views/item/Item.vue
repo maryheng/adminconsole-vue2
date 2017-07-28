@@ -61,8 +61,8 @@ export default {
   methods: {
     // Click "Edit" Button -> routes user to update page
     onActions (action, data) {
-      // ~/UpdateCategory/{userId}
-      router.push({ name: 'UpdateCategory', params: { userId: action.data.categoryId } })
+      // ~/UpdateItem/{itemParentId}
+      router.push({ name: 'UpdateItem', params: { itemParentId: action.data.itemParentId } })
     }
   }
 }

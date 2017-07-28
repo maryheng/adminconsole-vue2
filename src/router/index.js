@@ -94,7 +94,7 @@ export default new Router({
       component: AddItem
     },
     {
-      path: '/UpdateItem',
+      path: '/UpdateItem/:itemParentId',
       name: 'UpdateItem',
       component: UpdateItem
     },
