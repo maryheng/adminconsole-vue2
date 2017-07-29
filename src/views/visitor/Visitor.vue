@@ -4,7 +4,7 @@
     <div class="box">
       <tabs>
         <!--Visitor Details Tab-->
-        <tab name="Visitor Details" :selected="true" href="/visitor/">       
+        <tab name="Visitor Details" :selected="true">       
           <router-view></router-view>
         </tab>
 
@@ -30,6 +30,11 @@ export default {
   components: {
     tabs,
     tab
+  },
+  computed: {
+    href () {
+      return '/visitor/VisitorDetails' + this.name.toLowerCase().replace(/\s+/g, '')
+    }
   }
 }
 
