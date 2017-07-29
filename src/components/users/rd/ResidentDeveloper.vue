@@ -38,7 +38,7 @@ export default {
       apiUrl: rdUrl,
       fields:
       [
-        'userId', 'name',
+        'residentDeveloperId', 'name',
         {
           name: 'nricPassportNo',
           title: 'NRIC/Passport No',
@@ -76,7 +76,7 @@ export default {
     // Click "Edit" Button -> routes user to update page
     onActions (action, data) {
       // ~/user/UpdateResident/{userId}
-      router.push({ name: 'UpdateResident', params: { userId: action.data.userId } })
+      router.push({ name: 'UpdateResident', params: { userId: action.data.residentDeveloperId } })
     }
   },
   computed: {
