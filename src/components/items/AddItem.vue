@@ -316,8 +316,8 @@ export default {
     let self = this
     axios.get(loanOptions)
       .then((response) => {
-        self.unloanableId = response.data[0].loanOptionId
-        self.loanableId = response.data[1].loanOptionId
+        self.loanableId = response.data[0].loanOptionId
+        self.unloanableId = response.data[1].loanOptionId
       })
   }
 }

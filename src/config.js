@@ -10,5 +10,6 @@ export const itemUrl = baseUrl + '/api/items/'
 export const staffsForOptions = baseUrl + '/api/staffs/staffsforoptions/'
 export const loanOptions = baseUrl + '/api/loanoptions/'
 export const visitPurpose = baseUrl + '/api/visitpurpose/'
+export const visitors = baseUrl + '/api/visitors/'
 export const logoutUrl = baseUrl + '/logout/'
 //  For actual production, don't need base url, vue will be part of nodejs program, so '/' will suffice

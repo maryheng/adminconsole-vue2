@@ -25,8 +25,12 @@ import DueLoans from '../components/loan/dueloans/DueLoans.vue'
 import LoanArchive from '../components/loan/loanarchive/LoanArchive.vue'
 
 import Visitor from '../views/visitor/Visitor.vue'
-import VisitorDetails from '../components/visitors/purposeOfVisit/PurposeOfVisit.vue'
-import PurposeOfVisit from '../components/visitors/visitorDetails/VisitorDetails.vue'
+import PurposeOfVisit from '../components/visitors/purposeOfVisit/PurposeOfVisit.vue'
+import VisitorDetails from '../components/visitors/visitorDetails/VisitorDetails.vue'
+import AddVisitorDetails from '../components/visitors/visitorDetails/AddVisitorDetails.vue'
+import UpdateVisitorDetails from '../components/visitors/visitorDetails/UpdateVisitorDetails.vue'
+import AddPurposeOfVisit from '../components/visitors/purposeOfVisit/AddPurposeOfVisit.vue'
+import UpdatePurposeOfVisit from '../components/visitors/purposeOfVisit/UpdatePurposeOfVisit.vue'
 
 import Training from '../views/training/Training.vue'
 
@@ -147,6 +151,26 @@ export default new Router({
         path: 'PurposeOfVisit',
         name: 'PurposeOfVisit',
         component: PurposeOfVisit
+      },
+      {
+        path: 'AddVisitorDetails',
+        name: 'AddVisitorDetails',
+        component: AddVisitorDetails
+      },
+      {
+        path: 'UpdateVisitorDetails',
+        name: 'UpdateVisitorDetails',
+        component: UpdateVisitorDetails
+      },
+      {
+        path: 'AddPurposeOfVisit',
+        name: 'AddPurposeOfVisit',
+        component: AddPurposeOfVisit
+      },
+      {
+        path: 'UpdatePurposeOfVisit',
+        name: 'UpdatePurposeOfVisit',
+        component: UpdatePurposeOfVisit
       }
       ]
     },

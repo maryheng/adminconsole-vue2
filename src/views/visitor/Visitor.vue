@@ -4,12 +4,12 @@
     <div class="box">
       <tabs>
         <!--Visitor Details Tab-->
-        <tab name="Visitor Details" :selected="true" href="/visitor/visitordetails">       
+        <tab name="Visitor Details" :selected="true" href="/visitor/">       
           <router-view></router-view>
         </tab>
 
         <!--Purpose of Visit Tab-->
-        <tab name="Purpose Of Visit" href="/visitor/purposeofvisit">
+        <tab name="Purpose Of Visit">
           <router-view></router-view>          
         </tab>     
 

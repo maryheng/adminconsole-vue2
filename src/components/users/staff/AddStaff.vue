@@ -203,7 +203,7 @@ button {
 }
 
 .saveBtn {
-  margin-left: 8.7%;
+  margin-left: 8.4%;
 }
 
 img {

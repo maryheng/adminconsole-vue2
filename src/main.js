@@ -11,6 +11,7 @@ import VueCookie from 'vue-cookie'
 Vue.prototype.$http = axios
 Vue.axios = axios
 Vue.use(VueSocketio, baseUrl, { forceNew: true })
+// Vue.use(VueSocketio, '/', { forceNew: true })
 Vue.use(VueCookie)
 
 // Enable devtools

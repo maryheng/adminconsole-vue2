@@ -35,7 +35,6 @@
                   :options="options"
                   :searchable="false"
                   :allow-empty="true"
-                  deselect-label="Can't remove this value"
                   label="categoryName"
                   track-by="categoryName"
                   >
@@ -357,6 +356,13 @@ export default {
     // Assigned itemParentId
     self.itemParentId = segments[2]
 
+    // Assign loanOptionId is true/false
+    axios.get(loanOptions)
+      .then((response) => {
+        self.loanableId = response.data[0].loanOptionId
+        self.unloanableId = response.data[1].loanOptionId
+      })
+
     // Get ID itemParent data
     axios.get(itemUrl + self.itemParentId)
       .then((response) => {
@@ -447,14 +453,6 @@ export default {
           }
           self.staffOptions.push(oldTag)
         })
-      })
-  },
-  mounted () {
-    let self = this
-    axios.get(loanOptions)
-      .then((response) => {
-        self.unloanableId = response.data[0].loanOptionId
-        self.loanableId = response.data[1].loanOptionId
       })
   }
 }

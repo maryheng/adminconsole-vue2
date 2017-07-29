@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <router-link to="/user/AddStaff">
+    <router-link to="/visitor/AddVisitorDetails">
       <button type="submit" class="button is-primary">Add Visitor Details</button>
     </router-link>
     <br>
@@ -24,7 +24,7 @@
 import MyVuetable from '../../../components/vuetable/MyVuetable.vue'
 import CustomActions from '../../../components/vuetable/CustomActions.vue'
 import router from '../../../router'
-import { staffUrl } from '../../../config.js'
+import { visitors } from '../../../config.js'
 
 export default {
   name: 'app',
@@ -34,7 +34,7 @@ export default {
   },
   data () {
     return {
-      apiUrl: staffUrl,
+      apiUrl: visitors,
       fields:
       [
         {
@@ -44,20 +44,20 @@ export default {
           dataClass: 'right aligned'
         },
         {
-          name: 'userId',
-          title: 'User ID'
+          name: 'organizationName',
+          title: 'Organization Name'
         },
         {
-          name: 'staffId',
-          title: 'Staff ID'
+          name: 'visitorCount',
+          title: 'Visitor Count'
         },
         {
-          name: 'name',
-          title: 'Name'
+          name: 'visitPurposeText',
+          title: 'visitPurposeText'
         },
         {
-          name: 'username',
-          title: 'Username'
+          name: 'visitRecordId',
+          title: 'visitRecordId'
         },
         {
           name: '__component:custom-actions',
