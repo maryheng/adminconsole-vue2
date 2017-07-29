@@ -73,7 +73,7 @@ export default {
       })
         .then((response) => {
           let closeFn = () => {
-            router.push({ path: 'purposeofvisit' })
+            router.push({ path: '/visitor/PurposeOfVisit' })
           }
           let successAlert = {
             title: 'Success',

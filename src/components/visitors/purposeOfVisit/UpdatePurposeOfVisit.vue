@@ -38,7 +38,7 @@
         </div>
       </div>
   
-      <!-- Delete Category Button -->
+      <!-- Delete Purpose of Visit Button -->
       <div class="deleteBtn">
         <div class="field is-horizontal">
           <div class="field-label">
@@ -91,7 +91,7 @@ export default {
       })
         .then((response) => {
           let closeFn = () => {
-            router.push({ path: 'PurposeOfVisit' })
+            router.push({ path: '/visitor/PurposeOfVisit' })
           }
           let successAlert = {
             title: 'Success',
@@ -115,7 +115,7 @@ export default {
           // Success Alert
           let closeFn = () => {
             // After deletion, go to Purpose of Visit Page
-            router.push({ path: '/PurposeOfVisit' })
+            router.push({ path: '/visitor/PurposeOfVisit' })
           }
           let successAlert = {
             title: 'Success',
@@ -154,7 +154,6 @@ export default {
 
     axios.get(visitPurpose + self.visitPurposeOptionId)
       .then((response) => {
-        console.log(response)
         self.data.visitPurpose = response.data.visitPurposeText
       })
   }

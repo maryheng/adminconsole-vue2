@@ -158,7 +158,7 @@ export default new Router({
         component: AddVisitorDetails
       },
       {
-        path: 'UpdateVisitorDetails',
+        path: 'UpdateVisitorDetails/:visitRecordId',
         name: 'UpdateVisitorDetails',
         component: UpdateVisitorDetails
       },
@@ -168,7 +168,7 @@ export default new Router({
         component: AddPurposeOfVisit
       },
       {
-        path: 'UpdatePurposeOfVisit',
+        path: 'UpdatePurposeOfVisit/:visitPurposeOptionId',
         name: 'UpdatePurposeOfVisit',
         component: UpdatePurposeOfVisit
       }

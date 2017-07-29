@@ -82,7 +82,7 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <button class="button is-primary" @click="saveStaffBtn">
+                <button class="button is-primary" @click="saveVisitorDetailsBtn">
                   Save
                 </button>
               </div>
@@ -92,24 +92,24 @@
       </div>
   
       <!-- Simplert Notification -->
-      <!-- <simplert :useRadius="true" :useIcon="true" ref="simplert">
-      </simplert> -->
+       <simplert :useRadius="true" :useIcon="true" ref="simplert">
+      </simplert> 
   
     </div>
   </div>
 </template>
 
 <script>
-// import router from '../../../router'
+import router from '../../../router'
 import axios from 'axios'
-// import Simplert from 'vue2-simplert/src/components/simplert'
-import { visitPurpose } from '../../../config'
+import Simplert from 'vue2-simplert/src/components/simplert'
+import { visitors, visitPurposesForOptions } from '../../../config'
 import Multiselect from 'vue-multiselect'
 
 export default {
   name: 'app',
   components: {
-   // Simplert,
+    Simplert,
     Multiselect
   },
   data () {
@@ -120,27 +120,58 @@ export default {
         visitDateTime: '',
         visitPurposeText: ''
       },
+      purposeText: '',
+      addedDT: '',
+      editedDateTime: '',
       selectedVisitPurpose: [],
       options: [],
       allVisitPurpose: []
     }
   },
   methods: {
-    saveStaffBtn () {
+    saveVisitorDetailsBtn () {
+      let self = this
+      // Assign multiselect's selected value to purposeText
+      self.purposeText = self.selectedVisitPurpose.visitPurposeText
+
+      // Make visitDateTime a ISOstring format
+      self.addedDT = ':00.000Z'
+      self.editedDateTime = self.data.visitDateTime.concat(self.addedDT)
+
+      // POST visitorDetails data to server
+      axios.post(visitors, {
+        organizationName: self.data.organizationName,
+        visitorCount: self.data.visitorCount,
+        visitDateTime: self.editedDateTime,
+        visitPurposeText: self.purposeText
+      })
+        .then((response) => {
+          let closeFn = () => {
+            router.push({ path: '/visitor/VisitorDetails' })
+          }
+          let successAlert = {
+            title: 'Success',
+            message: 'Visitor Details successfully created!',
+            type: 'success',
+            onClose: closeFn
+          }
+          self.$refs.simplert.openSimplert(successAlert)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   },
   created () {
     let self = this
     // Get visit purpose data
-    axios.get(visitPurpose)
+    axios.get(visitPurposesForOptions)
       .then((response) => {
         self.allVisitPurpose = response.data
 
         self.allVisitPurpose.map((item) => {
-          console.log(item)
           const oldTag = {
-            visitPurposeText: item.visitPurposeText,
-            visitPurposeOptionId: item.visitPurposeOptionId
+            visitPurposeText: item.visitPurposeText
           }
           self.options.push(oldTag)
         })

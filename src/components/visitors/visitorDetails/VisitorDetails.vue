@@ -25,6 +25,7 @@ import MyVuetable from '../../../components/vuetable/MyVuetable.vue'
 import CustomActions from '../../../components/vuetable/CustomActions.vue'
 import router from '../../../router'
 import { visitors } from '../../../config.js'
+import moment from 'moment'
 
 export default {
   name: 'app',
@@ -53,7 +54,12 @@ export default {
         },
         {
           name: 'visitPurposeText',
-          title: 'visitPurposeText'
+          title: 'Purpose of Visit'
+        },
+        {
+          name: 'visitDateTime',
+          title: 'Date of Visit',
+          callback: 'formatDate|DD-MM-YYYY'
         },
         {
           name: 'visitRecordId',
@@ -72,7 +78,12 @@ export default {
     // Click "Edit" Button -> routes user to update page
     onActions (action, data) {
       // ~/user/UpdateStaff/{userId}
-      router.push({ name: 'UpdateStaff', params: { userId: action.data.userId } })
+      router.push({ name: 'UpdateVisitorDetails', params: { visitRecordId: action.data.visitRecordId } })
+    },
+    formatDate (value, fmt = 'D MMM YYYY, h:mm:ss a') {
+      return (value == null)
+        ? ''
+        : moment(value, 'YYYY-MM-DD').format(fmt)
     }
   },
   computed: {

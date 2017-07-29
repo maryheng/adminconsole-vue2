@@ -359,8 +359,8 @@ export default {
     // Assign loanOptionId is true/false
     axios.get(loanOptions)
       .then((response) => {
-        self.loanableId = response.data[0].loanOptionId
-        self.unloanableId = response.data[1].loanOptionId
+        self.unloanableId = response.data[0].loanOptionId
+        self.loanableId = response.data[1].loanOptionId
       })
 
     // Get ID itemParent data

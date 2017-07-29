@@ -4,7 +4,7 @@
     <div class="box">
       <tabs>
         <!--Staff Tab-->
-        <tab name="Staff" :selected="true" href="/user/">       
+        <tab name="Staff" :selected="true">       
           <router-view></router-view>
         </tab>
 
@@ -30,6 +30,11 @@ export default {
   components: {
     tabs,
     tab
+  },
+  computed: {
+    href () {
+      return '/user/staff' + this.name.toLowerCase().replace(/\s+/g, '')
+    }
   }
 }
 

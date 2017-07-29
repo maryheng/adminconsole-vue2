@@ -169,18 +169,6 @@ export default {
       } // End of warningAlert
       self.$refs.simplert.openSimplert(warningAlert)
     }
-  },
-  mounted () {
-    axios.get(categoryTypesUrl)
-      .then((response) => {
-        const noSubCat = response.data[0].categoryTypeId
-        if (this.checked === false) {
-          this.data.categoryTypeId = noSubCat
-        }
-      })
-      .catch((error) => {
-        console.log(error)
-      })
   }
 }
 
