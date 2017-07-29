@@ -30,15 +30,7 @@
             <div class="field is-grouped">
               <div class="multiselectDiv">
                 <p class="control">
-                  <multiselect
-                  v-model="selectedCat"
-                  :options="options"
-                  :searchable="false"
-                  :allow-empty="true"
-                  deselect-label="Can't remove this value"
-                  label="categoryName"
-                  track-by="categoryName"
-                  >
+                  <multiselect v-model="selectedCat" :options="options" :searchable="false" :allow-empty="true" deselect-label="Can't remove this value" label="categoryName" track-by="categoryName">
                   </multiselect>
                 </p>
               </div>
@@ -55,18 +47,8 @@
             <div class="field is-grouped">
               <div class="multiselectDiv">
                 <p class="control">
-                  <multiselect
-                  v-model="selectedSubCat"
-                  :options="computedsubCatOptions"
-                  :hide-selected="true"
-                  :selected="selectedSubCat"                  
-                  :searchable="false"
-                  :allow-empty="true"
-                  deselect-label="Can't remove this value"
-                  label="subCategoryName"
-                  track-by="subCategoryName"              
-                  >
-                  </multiselect>                  
+                  <multiselect v-model="selectedSubCat" :options="computedsubCatOptions" :hide-selected="true" :selected="selectedSubCat" :searchable="false" :allow-empty="true" deselect-label="Can't remove this value" label="subCategoryName" track-by="subCategoryName">
+                  </multiselect>
                 </p>
               </div>
             </div>
@@ -109,18 +91,8 @@
             </p>
             <p class="control">
               <label class="label">Managed By</label>
-              <multiselect
-                :id="item"
-                :options="staffOptions"
-                :searchable="false"
-                :allow-empty="false"
-                :show-labels="false"
-                label="name"
-                track-by="name"
-                @input="updateStaffData"
-                @open="openStaffOptions"
-                >
-              </multiselect>         
+              <multiselect :id="item" :options="staffOptions" :searchable="false" :allow-empty="false" :show-labels="false" label="name" track-by="name" @input="updateStaffData" @open="openStaffOptions">
+              </multiselect>
             </p>
             <p class="control">
               <label class="label">Loanable (Tick if yes)</label>
@@ -134,8 +106,8 @@
         </div>
   
         <pre>
-        {{ $data | json }}
-      </pre>
+          {{ $data | json }}
+        </pre>
   
         <!-- Save Button -->
         <div class="saveBtn">
@@ -163,7 +135,7 @@
 </template>
 
 <script>
-// import router from '../../../router'
+import router from '../../router'
 import { itemUrl, categoriesForOptions, subcategoriesForOptions, loanOptions, staffsForOptions } from '../../config'
 import axios from 'axios'
 import Simplert from 'vue2-simplert/src/components/simplert'
@@ -200,7 +172,8 @@ export default {
       allCategories: [],
       allSubCategories: [],
       subStaffId: '',
-      indexOfItemArray: ''
+      indexOfItemArray: '',
+      allLoanOptions: []
     }
   },
   methods: {
@@ -224,8 +197,7 @@ export default {
         idaAssetNo: '',
         imdaAssetNo: '',
         staffId: '',
-        loanOptionId: false,
-        allLoanOptions: []
+        loanOptionId: false
       })
     },
     // Delete itemChild row
@@ -242,7 +214,8 @@ export default {
       self.itemArray.map((item) => {
         if (item.loanOptionId === true) {
           item.loanOptionId = self.loanableId
-        } else {
+        }
+        if (item.loanOptionId === false) {
           item.loanOptionId = self.unloanableId
         }
       })
@@ -254,8 +227,16 @@ export default {
         itemArray: self.itemArray
       })
         .then((response) => {
-          console.log(response)
-          console.log('post item is done')
+          let closeFn = () => {
+            router.push({ path: '/item' })
+          }
+          let successAlert = {
+            title: 'Success',
+            message: 'Item record successfully created!',
+            type: 'success',
+            onClose: closeFn
+          }
+          self.$refs.simplert.openSimplert(successAlert)
         })
         .catch((error) => {
           console.log(error)

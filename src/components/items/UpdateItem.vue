@@ -162,7 +162,7 @@
 </template>
 
 <script>
-// import router from '../../../router'
+import router from '../../router'
 import { itemUrl, categoriesForOptions, subcategoriesForOptions, loanOptions, staffsForOptions } from '../../config'
 import axios from 'axios'
 import Simplert from 'vue2-simplert/src/components/simplert'
@@ -261,6 +261,7 @@ export default {
         }
       })
 
+      // Move items to updatedItemArray
       self.itemArray.map((item) => {
         console.log(item)
         if (item.itemChildId) {
@@ -287,6 +288,7 @@ export default {
         }
       })
 
+      // Update Item details to API
       axios.put(itemUrl + self.itemParentId, {
         itemName: self.data.itemName,
         categoryId: self.data.categoryId,
@@ -296,8 +298,21 @@ export default {
         updatedItemArray: self.updatedItemArray
       })
         .then((response) => {
-          console.log(response)
-          console.log('UPDATE item is done')
+          // Clear contents in updatedItemArray and newItemArray
+          self.updatedItemArray.length = 0
+          self.newItemArray.length = 0
+
+          // Simplert
+          let closeFn = () => {
+            router.push({ path: '/item' })
+          }
+          let successAlert = {
+            title: 'Success',
+            message: 'Item record successfully updated!',
+            type: 'success',
+            onClose: closeFn
+          }
+          self.$refs.simplert.openSimplert(successAlert)
         })
         .catch((error) => {
           console.log(error)
@@ -356,11 +371,20 @@ export default {
     // Assigned itemParentId
     self.itemParentId = segments[2]
 
-    // Assign loanOptionId is true/false
+   // Get Loan Options from API
     axios.get(loanOptions)
       .then((response) => {
-        self.unloanableId = response.data[0].loanOptionId
-        self.loanableId = response.data[1].loanOptionId
+        const allLoanOptions = response.data
+
+        // Check through if loanOptionId is true/false
+        allLoanOptions.forEach((item) => {
+          if (item.loanOptionBool === true) {
+            self.loanableId = item.loanOptionId
+          }
+          if (item.loanOptionBool === false) {  // loanOptionBool is false
+            self.unloanableId = item.loanOptionId
+          }
+        }, this)
       })
 
     // Get ID itemParent data
@@ -396,19 +420,23 @@ export default {
           }
           self.getStaffArray.push(oldTag)
         })
+
         // If there is sub-categories, go through getSubCatData()
         if (!(self.getSubCatId === null)) {
           // Get Sub-Category JSON and assign to multiselect
           self.getSubCatJson = self.getSubCatData()
           self.selectedSubCat = self.getSubCatJson[0]
         }
+
         // Get Staff JSON and assign to multiselect
         self.getStaffData()
+
         // Checkbox is either true or false according to loanOptionId
         self.itemArray.map((item) => {
           if (item.loanOptionId === self.loanableId) {
-            item.loanableId = true
-          } else {
+            item.loanOptionId = true
+          }
+          if (item.loanOptionId === self.unloanableId) {
             item.loanOptionId = false
           }
         })
