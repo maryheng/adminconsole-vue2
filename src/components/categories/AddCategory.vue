@@ -34,7 +34,7 @@
             <div class="field is-grouped">
               <p class="control">
                 <label class="checkbox">
-                  <input type="checkbox" value="Yes" v-model="checked" @change="setCatType"> Yes
+                  <input type="checkbox" value="Yes" v-model="checked"> Yes
                 </label>
               </p>
             </div>
@@ -111,7 +111,8 @@ export default {
         subCategoryNames: []
       },
       options: [],
-      checked: false
+      checked: false,
+      allCatTypes: []
     }
   },
   methods: {
@@ -119,28 +120,29 @@ export default {
       this.options.push(newTag)
       this.data.subCategoryNames.push(newTag)
     },
-    setCatType () {
-      axios.get(categoryTypesUrl)
-        .then((response) => {
-          const noSubCat = response.data[0].categoryTypeId
-          if (this.checked === false) {
-            this.data.categoryTypeId = noSubCat
-          } else {
-            const subCat = response.data[1].categoryTypeId
-            this.data.categoryTypeId = subCat
-          }
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+    filterCatType () {
+      let self = this
+      const allCatTypes = self.allCatTypes
+      allCatTypes.forEach((item) => {
+        if (self.checked === true && item.categoryTypeBool === true) {
+          self.data.categoryTypeId = item.categoryTypeId
+        }
+        if (self.checked === false && item.categoryTypeBool === false) { // checkbox is unticked
+          alert('checkbox is not ticked')
+          alert(item.categoryTypeBool)
+          self.data.categoryTypeId = item.categoryTypeId
+          alert(self.data.categoryTypeId)
+        }
+      }, this)
     },
     submitBtn () {
       let self = this
+      self.filterCatType()
       let confirmFn = () => {
         axios.post(categoryUrl, {
-          categoryName: this.data.categoryName,
-          categoryTypeId: this.data.categoryTypeId,
-          subCategoryNames: this.data.subCategoryNames
+          categoryName: self.data.categoryName,
+          categoryTypeId: self.data.categoryTypeId,
+          subCategoryNames: self.data.subCategoryNames
         })
         .then((response) => {
           console.log(response)
@@ -169,6 +171,17 @@ export default {
       } // End of warningAlert
       self.$refs.simplert.openSimplert(warningAlert)
     }
+  },
+  created () {
+    let self = this
+
+    axios.get(categoryTypesUrl)
+      .then((response) => {
+        self.allCatTypes = response.data
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 }
 
