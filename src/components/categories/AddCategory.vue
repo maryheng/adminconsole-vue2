@@ -123,15 +123,14 @@ export default {
     filterCatType () {
       let self = this
       const allCatTypes = self.allCatTypes
+
+      // Check through if categoryTypeBool is true/false
       allCatTypes.forEach((item) => {
         if (self.checked === true && item.categoryTypeBool === true) {
           self.data.categoryTypeId = item.categoryTypeId
         }
         if (self.checked === false && item.categoryTypeBool === false) { // checkbox is unticked
-          alert('checkbox is not ticked')
-          alert(item.categoryTypeBool)
           self.data.categoryTypeId = item.categoryTypeId
-          alert(self.data.categoryTypeId)
         }
       }, this)
     },

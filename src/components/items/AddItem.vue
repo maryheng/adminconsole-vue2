@@ -224,7 +224,8 @@ export default {
         idaAssetNo: '',
         imdaAssetNo: '',
         staffId: '',
-        loanOptionId: false
+        loanOptionId: false,
+        allLoanOptions: []
       })
     },
     // Delete itemChild row
@@ -298,6 +299,21 @@ export default {
         })
       })
 
+   // Get Loan Options from API
+    axios.get(loanOptions)
+      .then((response) => {
+        const allLoanOptions = response.data
+
+        // Check through if loanOptionId is true/false
+        allLoanOptions.forEach((item) => {
+          if (item.loanOptionBool === true) {
+            self.loanableId = item.loanOptionId
+          } else { // loanOptionBool is false
+            self.unloanableId = item.loanOptionId
+          }
+        }, this)
+      })
+
     // Get Staffs from API
     axios.get(staffsForOptions)
       .then((response) => {
@@ -310,14 +326,6 @@ export default {
           }
           self.staffOptions.push(oldTag)
         })
-      })
-  },
-  mounted () {
-    let self = this
-    axios.get(loanOptions)
-      .then((response) => {
-        self.unloanableId = response.data[0].loanOptionId
-        self.loanableId = response.data[1].loanOptionId
       })
   }
 }
