@@ -201,45 +201,19 @@ export default {
   methods: {
     updateRdBtn () {
       let self = this
-      // if (self.$refs.image.files[0]) {
-      //   let formData = new FormData()
+      let formData = new FormData()
 
-      //   // ************* IMAHE ******************
-      //   formData.append('name', this.data.name)
-      //   formData.append('nricPassportNo', this.data.nricPassportNo)
-      //   formData.append('company', this.data.company)
-      //   formData.append('email', this.data.email)
-      //   formData.append('mobileNo', this.data.mobileNo)
-      //   formData.append('keyCardRefNo', this.data.keyCardRefNo)
-      //   formData.append('issuanceDate', this.data.issuanceDate)
+      formData.append('userImage', self.$refs.image.files[0])
+      formData.append('name', this.data.name)
+      formData.append('nricPassportNo', this.data.nricPassportNo)
+      formData.append('company', this.data.company)
+      formData.append('email', this.data.email)
+      formData.append('mobileNo', this.data.mobileNo)
+      formData.append('keyCardRefNo', this.data.keyCardRefNo)
+      formData.append('issuanceDate', this.data.issuanceDate)
 
-      //   // Post Staff FormData to server
-      //   axios.put(rdUrl + self.rdUserId, formData)
-      //     .then((response) => {
-      //       let closeFn = () => {
-      //         router.push({ path: '/user/residentdeveloper' })
-      //       }
-      //       let successAlert = {
-      //         title: 'Success',
-      //         message: 'Resident Developer record successfully created!',
-      //         type: 'success',
-      //         onClose: closeFn
-      //       }
-      //       self.$refs.simplert.openSimplert(successAlert)
-      //     })
-      //     .catch((error) => {
-      //       console.log(error)
-      //     })
       // Post Staff FormData to server
-      axios.put(rdUrl + self.rdUserId, {
-        name: this.data.name,
-        nricPassportNo: this.data.nricPassportNo,
-        company: this.data.company,
-        email: this.data.email,
-        mobileNo: this.data.mobileNo,
-        keyCardRefNo: this.data.keyCardRefNo,
-        issuanceDate: this.data.issuanceDate
-      })
+      axios.put(rdUrl + self.rdUserId, formData)
         .then((response) => {
           let closeFn = () => {
             router.push({ path: '/user/residentdeveloper' })
@@ -255,6 +229,31 @@ export default {
         .catch((error) => {
           console.log(error)
         })
+      // Post Staff FormData to server
+      // axios.put(rdUrl + self.rdUserId, {
+      //   name: this.data.name,
+      //   nricPassportNo: this.data.nricPassportNo,
+      //   company: this.data.company,
+      //   email: this.data.email,
+      //   mobileNo: this.data.mobileNo,
+      //   keyCardRefNo: this.data.keyCardRefNo,
+      //   issuanceDate: this.data.issuanceDate
+      // })
+      //   .then((response) => {
+      //     let closeFn = () => {
+      //       router.push({ path: '/user/residentdeveloper' })
+      //     }
+      //     let successAlert = {
+      //       title: 'Success',
+      //       message: 'Resident Developer record successfully created!',
+      //       type: 'success',
+      //       onClose: closeFn
+      //     }
+      //     self.$refs.simplert.openSimplert(successAlert)
+      //   })
+      //   .catch((error) => {
+      //     console.log(error)
+      //   })
     },
     // Delete RD Record
     deleteBtn () {
@@ -328,6 +327,7 @@ export default {
         self.data.mobileNo = response.data.mobileNo
         self.data.keyCardRefNo = response.data.keyCardRefNo
         self.data.issuanceDate = moment(response.data.issuanceDate).format('YYYY-MM-DD')
+        self.image = response.data.userImageUrl
       })
       .catch((error) => {
         console.log(error)

@@ -208,38 +208,15 @@ export default {
   methods: {
     // Update Staff Record; image, name, username
     updateStaffBtn () {
-      // let self = this
-
-      // let formData = new FormData()
-      // // Post Staff data to server
-      // // formData.append('userImage', self.$refs.image.files[0])
-      // formData.append('name', this.data.name)
-      // formData.append('username', this.data.username)
-
-      // axios.put(staffUrl + self.staffUserId, formData)
-      //   .then((response) => {
-      //     let closeFn = () => {
-      //       router.push({ path: '/user/staff' })
-      //     }
-      //     let successAlert = {
-      //       title: 'Success',
-      //       message: 'Staff record successfully updated!',
-      //       type: 'success',
-      //       onClose: closeFn
-      //     }
-      //     self.$refs.simplert.openSimplert(successAlert)
-      //   })
-      //   .catch((error) => {
-      //     console.log(error)
-      //     alert('Something went wrong!')
-      //   })
       let self = this
 
-      // Update Staff's details & Picture
-      axios.put(staffUrl + self.staffUserId, {
-        name: this.data.name,
-        username: this.data.username
-      })
+      let formData = new FormData()
+      // Post Staff data to server
+      formData.append('userImage', self.$refs.image.files[0])
+      formData.append('name', this.data.name)
+      formData.append('username', this.data.username)
+
+      axios.put(staffUrl + self.staffUserId, formData)
         .then((response) => {
           let closeFn = () => {
             router.push({ path: '/user/staff' })
@@ -255,6 +232,28 @@ export default {
         .catch((error) => {
           console.log(error)
         })
+    //   let self = this
+
+    //   // Update Staff's details & Picture
+    //   axios.put(staffUrl + self.staffUserId, {
+    //     name: this.data.name,
+    //     username: this.data.username
+    //   })
+    //     .then((response) => {
+    //       let closeFn = () => {
+    //         router.push({ path: '/user/staff' })
+    //       }
+    //       let successAlert = {
+    //         title: 'Success',
+    //         message: 'Staff record successfully updated!',
+    //         type: 'success',
+    //         onClose: closeFn
+    //       }
+    //       self.$refs.simplert.openSimplert(successAlert)
+    //     })
+    //     .catch((error) => {
+    //       console.log(error)
+    //     })
     },
     // Update Password for Staff
     updatePwdBtn () {
@@ -345,9 +344,9 @@ export default {
     // Based on the userId in the URL, get data for the user
     axios.get(staffUrl + self.staffUserId)
       .then((response) => {
-        console.log(response)
         self.data.username = response.data.username
         self.data.name = response.data.name
+        self.image = response.data.userImageUrl
       })
       .catch((error) => {
         console.log(error)

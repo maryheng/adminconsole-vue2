@@ -109,6 +109,7 @@
             <p class="control">
               <label class="label">Managed By</label>
               <multiselect
+                v-model="staffArr"
                 :id="item"
                 :options="staffOptions"
                 :searchable="false"
@@ -390,7 +391,6 @@ export default {
     // Get ID itemParent data
     axios.get(itemUrl + self.itemParentId)
       .then((response) => {
-        console.log(response)
         self.data.itemName = response.data.itemName
         self.getCatId = response.data.fk_categoryId
         self.getSubCatId = response.data.fk_subCategoryId
@@ -412,7 +412,10 @@ export default {
           }
           self.itemArray.push(oldTag)
         })
+
+        // Remove redundent first row
         self.itemArray.splice(0, 1)
+
         // Get Staff ID from nested json of itemChildren
         self.itemArray.map((item) => {
           const oldTag = {
