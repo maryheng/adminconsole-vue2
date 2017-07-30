@@ -23,6 +23,7 @@ import Loan from '../views/loan/Loan.vue'
 import OngoingLoans from '../components/loan/ongoingloans/OngoingLoans.vue'
 import DueLoans from '../components/loan/dueloans/DueLoans.vue'
 import LoanArchive from '../components/loan/loanarchive/LoanArchive.vue'
+import AddLoan from '../components/loan/loancrud/AddLoan.vue'
 
 import Visitor from '../views/visitor/Visitor.vue'
 import PurposeOfVisit from '../components/visitors/purposeOfVisit/PurposeOfVisit.vue'
@@ -81,7 +82,7 @@ export default new Router({
         component: AddResident
       },
       {
-        path: 'UpdateResident/:userId',
+        path: 'UpdateResident/:residentDeveloperId',
         name: 'UpdateResident',
         component: UpdateResident
       }
@@ -135,6 +136,11 @@ export default new Router({
         path: 'LoanArchive',
         name: 'LoanArchive',
         component: LoanArchive
+      },
+      {
+        path: 'AddLoan',
+        name: 'AddLoan',
+        component: AddLoan
       }
       ]
     },

@@ -38,7 +38,7 @@
           </div>
         </div>
   
-        <!-- Input field for Type of Category -->
+        <!-- Input field for Type of Sub-Category -->
         <div class="field is-horizontal">
           <div class="field-label is-normal">
             <label class="label">Type of Sub-Category:</label>

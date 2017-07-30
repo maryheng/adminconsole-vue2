@@ -76,7 +76,7 @@ export default {
     // Click "Edit" Button -> routes user to update page
     onActions (action, data) {
       // ~/user/UpdateResident/{userId}
-      router.push({ name: 'UpdateResident', params: { userId: action.data.residentDeveloperId } })
+      router.push({ name: 'UpdateResident', params: { residentDeveloperId: action.data.residentDeveloperId } })
     }
   },
   computed: {
