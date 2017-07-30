@@ -30,7 +30,7 @@
             <div class="field is-grouped">
               <div class="multiselectDiv">
                 <p class="control">
-                  <multiselect v-model="selectedCat" :options="options" :searchable="false" :allow-empty="true" deselect-label="Can't remove this value" label="categoryName" track-by="categoryName">
+                  <multiselect v-model="selectedCat" @input="clearSubCat" :options="options" :searchable="false" :allow-empty="true" deselect-label="Can't remove this value" label="categoryName" track-by="categoryName">
                   </multiselect>
                 </p>
               </div>
@@ -173,7 +173,8 @@ export default {
       allSubCategories: [],
       subStaffId: '',
       indexOfItemArray: '',
-      allLoanOptions: []
+      allLoanOptions: [],
+      emptyJson: []
     }
   },
   methods: {
@@ -241,6 +242,10 @@ export default {
         .catch((error) => {
           console.log(error)
         })
+    },
+    clearSubCat () {
+      let self = this
+      self.selectedSubCat = self.emptyJson
     }
   },
   computed: {
