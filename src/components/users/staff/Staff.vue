@@ -72,7 +72,7 @@ export default {
     // Click "Edit" Button -> routes user to update page
     onActions (action, data) {
       // ~/user/UpdateStaff/{userId}
-      router.push({ name: 'UpdateStaff', params: { userId: action.data.userId } })
+      router.push({ name: 'UpdateStaff', params: { userId: action.data.staffId } })
     }
   },
   computed: {
