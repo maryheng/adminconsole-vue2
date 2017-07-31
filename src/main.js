@@ -68,57 +68,57 @@ const app = new Vue({
   components: {
     App
   },
-  sockets: {
-    connect: () => {
-      console.log('Socket connected!')
-    },
-    notification: (data) => {
-      Event.fire('triggerNotification', data)
-    },
-    disconnect: () => {
-      console.log('Disconnected from socket')
-    }
-  },
+  // sockets: {
+  //   connect: () => {
+  //     console.log('Socket connected!')
+  //   },
+  //   notification: (data) => {
+  //     Event.fire('triggerNotification', data)
+  //   },
+  //   disconnect: () => {
+  //     console.log('Disconnected from socket')
+  //   }
+  // },
   methods: {
-    emitToServer: function (val) {
-      console.log('Invoked emit to server:', val)
-      this.$socket.emit('vueClient', val)
-    },
-    initNotification: () => {
-      if (!('Notification' in window)) {
-        alert('This browser does not support desktop notification')
-      } else if (Notification.permission === 'granted') {
-        console.log('You are already subscribed to notifications!')
-      } else if (Notification.permission !== 'denied') {
-        Notification.requestPermission((permission) => {
-          if (!('permission' in Notification)) {
-            Notification.permission = permission
-          }
-          if (permission === 'granted') {
-            console.log('You just granted permissions for notifications!')
-          }
-        })
-      }
-    },
-    loadNotifications: (val) => {
-      var title = val.notificationTitle
-      if (!('Notification' in window)) {
-        alert('This browser does not support desktop notification')
-      } else if (Notification.permission === 'granted') {
-        var notification = new Notification(title)
-        notification.title
-      } else if (Notification.permission !== 'denied') {
-        Notification.requestPermission((permission) => {
-          if (!('permission' in Notification)) {
-            Notification.permission = permission
-          }
-          if (permission === 'granted') {
-            var notification = new Notification(title)
-            notification.body
-          }
-        })
-      }
-    }
+    // emitToServer: function (val) {
+    //   console.log('Invoked emit to server:', val)
+    //   this.$socket.emit('vueClient', val)
+    // },
+    // initNotification: () => {
+    //   if (!('Notification' in window)) {
+    //     alert('This browser does not support desktop notification')
+    //   } else if (Notification.permission === 'granted') {
+    //     console.log('You are already subscribed to notifications!')
+    //   } else if (Notification.permission !== 'denied') {
+    //     Notification.requestPermission((permission) => {
+    //       if (!('permission' in Notification)) {
+    //         Notification.permission = permission
+    //       }
+    //       if (permission === 'granted') {
+    //         console.log('You just granted permissions for notifications!')
+    //       }
+    //     })
+    //   }
+    // },
+    // loadNotifications: (val) => {
+    //   var title = val.notificationTitle
+    //   if (!('Notification' in window)) {
+    //     alert('This browser does not support desktop notification')
+    //   } else if (Notification.permission === 'granted') {
+    //     var notification = new Notification(title)
+    //     notification.title
+    //   } else if (Notification.permission !== 'denied') {
+    //     Notification.requestPermission((permission) => {
+    //       if (!('permission' in Notification)) {
+    //         Notification.permission = permission
+    //       }
+    //       if (permission === 'granted') {
+    //         var notification = new Notification(title)
+    //         notification.body
+    //       }
+    //     })
+    //   }
+    // }
   },
   beforeCreate () {
     // Redirect back to login if user access resource directly via url or refresh and no token is already available
@@ -130,18 +130,18 @@ const app = new Vue({
       console.log('No token from direct url, redirect to login')
       router.push('/login')
     }
-  },
-  created () {
-    this.initNotification()
-    Event.listen('triggerNotification', (data) => {
-      this.loadNotifications(data)
-    })
-  },
-  mounted () {
-    setTimeout(() => {
-      this.emitToServer('Vue client is connected')
-    }, 1000)
   }
+  // created () {
+  //   this.initNotification()
+  //   Event.listen('triggerNotification', (data) => {
+  //     this.loadNotifications(data)
+  //   })
+  // },
+  // mounted () {
+  //   setTimeout(() => {
+  //     this.emitToServer('Vue client is connected')
+  //   }, 1000)
+  // }
 })
 
 // const app = new Vue({

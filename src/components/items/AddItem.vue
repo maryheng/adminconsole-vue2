@@ -91,7 +91,15 @@
             </p>
             <p class="control">
               <label class="label">Managed By</label>
-              <multiselect :id="item" :options="staffOptions" :searchable="false" :allow-empty="false" :show-labels="false" label="name" track-by="name" @input="updateStaffData" @open="openStaffOptions">
+              <multiselect :id="item" 
+              :options="staffOptions"
+              :searchable="false"
+              :allow-empty="false"
+              :show-labels="false"
+              label="name"
+              track-by="name"
+              @input="updateStaffData"
+              @open="openStaffOptions">
               </multiselect>
             </p>
             <p class="control">
@@ -173,8 +181,7 @@ export default {
       allSubCategories: [],
       subStaffId: '',
       indexOfItemArray: '',
-      allLoanOptions: [],
-      emptyJson: []
+      allLoanOptions: []
     }
   },
   methods: {
@@ -245,7 +252,7 @@ export default {
     },
     clearSubCat () {
       let self = this
-      self.selectedSubCat = self.emptyJson
+      self.selectedSubCat = []
     }
   },
   computed: {

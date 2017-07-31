@@ -44,7 +44,15 @@
             <div class="field is-grouped">
               <div class="multiselectDiv">
                 <p class="control">
-                  <multiselect v-model="selectedCat" @input="clearSubCat" :options="options" :searchable="false" :allow-empty="true" deselect-label="Can't remove this value" label="categoryName" track-by="categoryName">
+                  <multiselect
+                  v-model="selectedCat"
+                  @input="checkSubCat"
+                  :options="options"
+                  :searchable="false"
+                  :allow-empty="true"
+                  label="categoryName"
+                  track-by="categoryName"
+                  >
                   </multiselect>
                 </p>
               </div>
@@ -61,7 +69,17 @@
             <div class="field is-grouped">
               <div class="multiselectDiv">
                 <p class="control">
-                  <multiselect v-model="selectedSubCat" :options="computedsubCatOptions" :hide-selected="true" :selected="selectedSubCat" :searchable="false" :allow-empty="true" deselect-label="Can't remove this value" label="subCategoryName" track-by="subCategoryName">
+                  <multiselect
+                  v-model="selectedSubCat" 
+                  :options="computedsubCatOptions"
+                  :hide-selected="true"
+                  :selected="selectedSubCat"
+                  :searchable="false"
+                  :allow-empty="true"
+                  label="subCategoryName"
+                  track-by="subCategoryName"
+                  @input="subCatGetItems"
+                  >
                   </multiselect>
                 </p>
               </div>
@@ -105,16 +123,33 @@
         <table class="table is-narrow is-bordered">
           <thead>
             <tr>
-              <td><strong>No.</strong></td>
               <td><strong>Item Name</strong></td>
               <td><strong>Item Id</strong></td>
             </tr>
           </thead>
           <tbody>
             <tr v-for="row in rows" :key="row">
-              <td><input type="text" v-model="row.name"></td>
-              <td><input type="text" v-model="row.job"></td>
-              <td><input type="text" v-model="row.job"></td>
+              <td>{{ row.itemParent }}</td>
+              <!-- {{ row.itemChild }} -->
+              <td>
+                <div id="multiselectDivItemChild">
+                  <p class="control">
+                    <multiselect
+                    :multiple="true"
+                    v-model="itemChildNames"
+                    :hide-selected="true"
+                    :selected="selectedItemChildNames"
+                    :options="optionsForItemChild"
+                    :id="row"
+                    @open="getIdOfMultiselect"
+                    open-direction="bottom"
+                    label="itemChildName"
+                    track-by="itemChildName"
+                    >
+                    </multiselect>
+                  </p>
+                </div>
+              </td>
             </tr>
           </tbody>  
         </table>   
@@ -122,33 +157,38 @@
       </div>
       
       
-      <div class="secondTable">
+       <div class="secondTable">
         <div class="pclass">
-          <p>List of selected items: </p>
+          <p>List of selected items to loan: </p>
         </div>
         <br>
         <div class="scrollingtable">
         <table class="table is-narrow is-bordered">
           <thead>
             <tr>
-              <td><strong>No.</strong></td>
-              <td><strong>Item Name</strong></td>
-              <td><strong>Item Id</strong></td>
+              <td><strong>Item label</strong></td>
+              <td><strong>Remarks</strong></td>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="row in rows" :key="row">
-              <td><input type="text" v-model="row.name"></td>
-              <td><input type="text" v-model="row.job"></td>
-              <td><input type="text" v-model="row.job"></td>
+            <tr v-for="row in itemChildNames" :key="row">
+              <td>
+                <div id="multiselectDivItemChild">
+                  <p class="control">
+                    {{ row.itemChildName }}
+                  </p>                 
+                </div>
+              </td>
+              <td>
+                <div id="remarks">
+                  <input class="input" type="text" v-model="row.remarks">   
+                </div>          
+              </td>
             </tr>
           </tbody>  
         </table>   
         </div> 
-      </div>
-        <!-- <pre>
-          {{ $data | json }}
-        </pre>   -->
+      </div> 
   
       <!-- Save Button -->
       <div class="saveBtn">
@@ -176,12 +216,11 @@
 </template>
 
 <script>
-// import router from '../../../router'
+import router from '../../../router'
 import axios from 'axios'
 import Simplert from 'vue2-simplert/src/components/simplert'
 import Multiselect from 'vue-multiselect'
-// import { itemUrl, categoriesForOptions, subcategoriesForOptions, loanOptions, staffsForOptions } from '../../config'
-import { categoriesForOptions, subcategoriesForOptions, userOptions } from '../../../config'
+import { loanUrl, categoriesForOptions, subcategoriesForOptions, userOptions, catItemOptionsForLoan, subCatItemOptionsForLoan } from '../../../config'
 import moment from 'moment'
 
 export default {
@@ -196,14 +235,13 @@ export default {
         startDateTime: '',
         dueDateTime: ''
       },
-      rows: [
-        {name: 'James Bond', job: 'spy'},
-        {name: 'Goldfinger', job: 'villain'},
-        {name: 'Goldfinger', job: 'villain'},
-        {name: 'Goldfinger', job: 'villain'},
-        {name: 'Goldfinger', job: 'villain'},
-        {name: 'Goldfinger', job: 'villain'}
-      ],
+      loanDetails: [],
+      itemChildNames: [],
+      rows: [],
+      selectedItemChildNames: [],
+      optionsForItemChild: [],
+      itemParentArray: [],
+      itemChildArray: [],
       currentDateTime: '',
       selectedUser: [],
       selectedCat: [],
@@ -211,37 +249,107 @@ export default {
       options: [],
       allUsers: [],
       allCategories: [],
-      allSubCategories: [],
-      emptyJson: []
+      allSubCategories: []
     }
   },
   methods: {
     saveLoanBtn () {
-      // let self = this
+      let self = this
 
-      // Post Staff FormData to server
-      // axios.post(staffUrl, formData)
-      //   .then((response) => {
-      //     let closeFn = () => {
-      //       router.push({ path: '/user/staff' })
-      //     }
-      //     let successAlert = {
-      //       title: 'Success',
-      //       message: 'Staff record successfully created!',
-      //       type: 'success',
-      //       onClose: closeFn
-      //     }
-      //     self.$refs.simplert.openSimplert(successAlert)
-      //   })
-      //   .catch((error) => {
-      //     console.log(error)
-      //   })
+      // Rearrange arrays to put into desired arrays to send to API
+      self.itemChildNames.map((item) => {
+        const oldTag = {
+          startDateTime: self.data.startDateTime,
+          dueDateTime: self.data.dueDateTime,
+          itemChildId: item.itemChildId,
+          remarks: item.remarks
+        }
+        self.loanDetails.push(oldTag)
+      })
+
+      // Post Loan data to API
+      axios.post(loanUrl, {
+        userId: self.selectedUser.userId,
+        loanDetails: self.loanDetails
+      })
+        .then((response) => {
+          let closeFn = () => {
+            router.push({ path: '/loan/OngoingLoans' })
+          }
+          let successAlert = {
+            title: 'Success',
+            message: 'Loan record successfully created!',
+            type: 'success',
+            onClose: closeFn
+          }
+          self.$refs.simplert.openSimplert(successAlert)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
-    clearSubCat () {
+    // Check if Category has sub-categories
+    // If category does not have sub-categories, retrieve all items
+    checkSubCat () {
       let self = this
       // Clear contents in selected sub-category array
-      self.selectedSubCat = self.emptyJson
-      console.log(self.selectedSubCat)
+      self.selectedSubCat = []
+      self.rows = []
+      // If categoryType = false, means category do not have sub-categories
+      // Hence, do a GET api to fetch items related to Category w/o sub-cats
+      if (self.selectedCat.categoryType === false) {
+        axios.get(catItemOptionsForLoan + self.selectedCat.categoryId)
+          .then((response) => {
+            self.itemParentArray = response.data
+
+            // Get all itemParent names in an array
+            self.itemParentArray.map((item) => {
+              const oldTag = {
+                itemParent: item.itemName,
+                itemChild: item.ItemChildren
+              }
+              self.rows.push(oldTag)
+            })
+          })
+      }
+    },
+    // If category has sub-categories, retrieve items from sub-category
+    subCatGetItems () {
+      let self = this
+      self.rows = []
+      // If categoryType = true, means category have sub-categories
+      // Hence, do a GET api to fetch items related to the chosen sub-category
+      if (self.selectedCat.categoryType === true) {
+        axios.get(subCatItemOptionsForLoan + self.selectedSubCat.subCategoryId)
+          .then((response) => {
+            self.itemParentArray = response.data
+
+            // Get all itemParent names in an array
+            self.itemParentArray.map((item) => {
+              const oldTag = {
+                itemParent: item.itemName,
+                itemChild: item.ItemChildren
+              }
+              self.rows.push(oldTag)
+            })
+          })
+      }
+    },
+    getIdOfMultiselect (id) {
+      let self = this
+
+      // Clear contents in json array
+      self.optionsForItemChild = []
+
+      // Get idealized json array with itemChildName, itemChildId, remarks
+      id.itemChild.map((item) => {
+        const oldTag = {
+          itemChildName: item.itemChildLabel,
+          itemChildId: item.itemChildId,
+          remarks: ''
+        }
+        self.optionsForItemChild.push(oldTag)
+      })
     }
   },
   computed: {
@@ -260,6 +368,7 @@ export default {
     // Set current Date to calendar
     self.currentDateTime = new Date()
     self.data.startDateTime = moment(self.currentDateTime, 'YYYY-MM-DD').format('YYYY-MM-DD')
+    self.data.dueDateTime = moment(self.currentDateTime, 'YYYY-MM-DD').format('YYYY-MM-DD')
 
     // Get Sub-Categories from API
     axios.get(subcategoriesForOptions)
@@ -279,7 +388,8 @@ export default {
         self.allCategories.map((item) => {
           const oldTag = {
             categoryId: item.categoryId,
-            categoryName: item.categoryName
+            categoryName: item.categoryName,
+            categoryType: item.categoryType
           }
           self.options.push(oldTag)
         })
@@ -293,9 +403,6 @@ export default {
       .catch((error) => {
         console.log(error)
       })
-
-    // Get Item Parent from API
-    axios.get()
   }
 }
 
@@ -341,7 +448,7 @@ button {
 }
 
 .saveBtn {
-  margin-left: 17.5%;
+  margin-left: 18.8%;
 }
 
 .multiselect {
@@ -362,14 +469,33 @@ button {
 }
 
 .firstTable {
-    margin-top: 2%;
+    margin-top: 1%;
 }
 
 .secondTable {
-  margin-top: 3%;
+  margin-top: 1%;
 }
 
 .pclass {
   margin-left: 5%;
+  font-size: 1.1em;
+}
+
+#multiselectDivItemChild {
+  padding: 1%;
+}
+
+#multiselectDivItemChild .multiselect {
+  width: 400px;
+  margin-top: 0%;
+}
+
+#remarks {
+  margin-top: -4%;
+  padding: 1%;
+}
+
+#remarks input {
+  width: 300px;
 }
 </style>

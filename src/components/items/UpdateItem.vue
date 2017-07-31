@@ -109,9 +109,8 @@
             <p class="control">
               <label class="label">Managed By</label>
               <multiselect
-                v-model="staffArr"
                 :id="item"
-                :options="staffOptions"
+                :options="allStaffs"
                 :searchable="false"
                 :allow-empty="false"
                 :show-labels="false"
@@ -193,7 +192,6 @@ export default {
         loanOptionId: false
       }],
       options: [],
-      staffOptions: [],
       unloanableId: '',
       loanableId: '',
       allStaffs: [],
@@ -204,14 +202,9 @@ export default {
       itemParentId: '',
       getCatId: '',
       getSubCatId: '',
-      getStaffIds: '',
       getCatJson: [],
       getSubCatJson: [],
       getStaffArray: [],
-      getStaffJson: [],
-      staffArr: [],
-      idArr: [],
-      computedStaff: '',
       deletedItemIdArray: [],
       updatedItemArray: [],
       newItemArray: []
@@ -224,10 +217,12 @@ export default {
       const itemArray = this.itemArray
       // Get the index of the array the multiselect is positioned in
       this.indexOfItemArray = itemArray.indexOf(id)
+      console.log(this.indexOfItemArray)
     },
     // Multiselect @input - when the value changes
     updateStaffData (value) {
       this.subStaffId = value.staffId
+      console.log(this.subStaffId)
       this.itemArray[this.indexOfItemArray].staffId = this.subStaffId
     },
     // Add itemChild row
@@ -276,7 +271,7 @@ export default {
             staffId: item.staffId
           }
           self.updatedItemArray.push(oldTag)
-        } else {
+        } else { // if itemChildId does not exist, push json to newItemArray
           const oldTag = {
             serialNo: item.serialNo,
             idaAssetNo: item.idaAssetNo,
@@ -332,21 +327,6 @@ export default {
       return allSubCats.filter((item) => {
         return item.subCategoryId === self.getSubCatId
       })
-    },
-    getStaffData () {
-      let self = this
-
-      self.getStaffArray.forEach((element) => {
-        self.allStaffs.forEach((item) => {
-          if (item.staffId === element.staffId) {
-            console.log(item.name)
-            const staffIdArr = self.allStaffs.indexOf(item)
-            self.staffArr.push(item.name)
-            self.idArr.push(staffIdArr)
-            return item.name
-          }
-        })
-      }, this)
     }
   },
   computed: {
@@ -431,9 +411,6 @@ export default {
           self.selectedSubCat = self.getSubCatJson[0]
         }
 
-        // Get Staff JSON and assign to multiselect
-        self.getStaffData()
-
         // Checkbox is either true or false according to loanOptionId
         self.itemArray.map((item) => {
           if (item.loanOptionId === self.loanableId) {
@@ -476,14 +453,6 @@ export default {
     axios.get(staffsForOptions)
       .then((response) => {
         self.allStaffs = response.data
-        // Checks json objects in nested json, and take it out and call it "item"
-        self.allStaffs.map((item) => {
-          const oldTag = {
-            staffId: item.staffId,
-            name: item.name
-          }
-          self.staffOptions.push(oldTag)
-        })
       })
   }
 }

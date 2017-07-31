@@ -30,7 +30,7 @@ export default {
 <style scoped>
 .nav {
   height: 60px;
-  width: 100%;
+
 }
 
 p {
