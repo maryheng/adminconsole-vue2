@@ -30,6 +30,7 @@ export default {
 <style scoped>
 .nav {
   height: 60px;
+  width: 100%;
 }
 
 p {
@@ -40,5 +41,10 @@ p {
 .button {
   margin-top: 12px;
 }
+
+/* #app {
+  position: absolute;``
+  width: 100%
+} */
 
 </style>

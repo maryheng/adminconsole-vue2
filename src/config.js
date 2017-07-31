@@ -15,4 +15,8 @@ export const visitPurpose = baseUrl + '/api/visitpurposes/'
 export const visitPurposesForOptions = baseUrl + '/api/visitPurposes/visitPurposesForOptions/'
 export const visitors = baseUrl + '/api/visitors/'
 export const logoutUrl = baseUrl + '/logout/'
+
+// Report Generation / Graphs
+export const visitorDataUrl = baseUrl + '/api/reports/visitorData/'
+export const loanArchiveDataUrl = baseUrl + '/api/reports/loanArchiveData/'
 //  For actual production, don't need base url, vue will be part of nodejs program, so '/' will suffice

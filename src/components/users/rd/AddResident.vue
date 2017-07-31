@@ -17,7 +17,9 @@
             <div id="chooseFileDiv">
               <p class="control">
                 <img :src="image" />
-                <input type="file" @change="onFileChange" class="input" ref="image" name="image" id="image">           
+                <input type="file" v-validate="'required|image'" :class="{'input': true, 'is-danger': errors.has('image') }" 
+                @change="onFileChange" class="input" ref="image" name="image" id="image">      
+                <span v-show="errors.has('image')" class="help is-danger">{{ errors.first('image') }}</span>     
               </p>
             </div>
           </div>
@@ -32,7 +34,9 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="text" v-model="data.name">
+              <input class="input" name="name" v-validate="'required|alpha'" :class="{'input': true, 'is-danger': errors.has('name') }"  
+              type="text" v-model="data.name">
+              <span v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</span>
             </p>
           </div>
         </div>
@@ -46,7 +50,9 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="text" v-model="data.nricPassportNo">
+              <input class="input" type="text" name="NRIC/Passport Number" v-validate="'required|alpha'" :class="{'input': true, 'is-danger': errors.has('NRIC/Passport Number') }"
+              v-model="data.nricPassportNo">
+              <span v-show="errors.has('NRIC/Passport Number')" class="help is-danger">{{ errors.first('NRIC/Passport Number') }}</span>
             </p>
           </div>
         </div>
@@ -60,7 +66,9 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="text" v-model="data.company">
+              <input class="input" type="text" name="company name" v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('company name') }"
+              v-model="data.company">
+              <span v-show="errors.has('company name')" class="help is-danger">{{ errors.first('company name') }}</span>
             </p>
           </div>
         </div>
@@ -74,7 +82,8 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="email" v-model="data.email">
+              <input name="email" v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }" type="email" v-model="data.email">
+              <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
             </p>
           </div>
         </div>
@@ -88,8 +97,10 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" 
+              <input class="input" type="number" name="mobile number" v-validate="'required|numeric'" :class="{'input': true, 'is-danger': errors.has('mobile number') }"
+              oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" 
               maxlength="8" v-model="data.mobileNo">
+              <span v-show="errors.has('mobile number')" class="help is-danger">{{ errors.first('mobile number') }}</span>
             </p>
           </div>
         </div>
@@ -110,7 +121,9 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="text" v-model="data.keyCardRefNo">
+              <input class="input" type="text" name="key card reference number" v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('key card reference number') }"
+              v-model="data.keyCardRefNo">
+              <span v-show="errors.has('key card reference number')" class="help is-danger">{{ errors.first('key card reference number') }}</span>
             </p>
           </div>
         </div>
@@ -124,7 +137,9 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="date" v-model="data.issuanceDate">
+              <input class="input" type="date" name="issuance date" v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('issuance date') }"
+              v-model="data.issuanceDate">
+              <span v-show="errors.has('issuance date')" class="help is-danger">{{ errors.first('issuance date') }}</span>
             </p>
           </div>
         </div>
@@ -182,17 +197,6 @@ export default {
   },
   methods: {
     saveRdBtn () {
-      // axios.post('/testing', {
-      //   // issuanceDate: (new Date(this.data.issuanceDate)).toISOString()
-      //   // issuanceDate: moment(this.data.issuanceDate).format('DD-MM-YYYY')
-      //   issuanceDate: this.data.issuanceDate
-      // })
-      //   .then((response) => {
-      //     console.log(response)
-      //   })
-      //   .catch((error) => {
-      //     console.log(error)
-      //   })
       let self = this
       if (self.$refs.image.files[0]) {
         let formData = new FormData()
@@ -269,7 +273,7 @@ input {
 }
 
 label {
-  margin-top: 2.4%;
+  margin-top: 3.5%;
 }
 
 hr {

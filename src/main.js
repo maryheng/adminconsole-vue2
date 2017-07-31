@@ -7,30 +7,32 @@ import axios from 'axios'
 import VueSocketio from 'vue-socket.io'
 import { baseUrl } from './config.js'
 import VueCookie from 'vue-cookie'
+import VeeValidate from 'vee-validate'
 
 Vue.prototype.$http = axios
 Vue.axios = axios
 Vue.use(VueSocketio, baseUrl, { forceNew: true })
 // Vue.use(VueSocketio, '/', { forceNew: true })
 Vue.use(VueCookie)
+Vue.use(VeeValidate)
 
 // Enable devtools
 Vue.config.productionTip = true
 
 // Vue custom event dispatcher
-class Dispatcher {
-  constructor () {
-    this.vue = new Vue()
-  }
-  fire (event, data = null) {
-    this.vue.$emit(event, data)
-  }
-  listen (event, callback) {
-    this.vue.$on(event, callback)
-  }
-}
+// class Dispatcher {
+//   constructor () {
+//     this.vue = new Vue()
+//   }
+//   fire (event, data = null) {
+//     this.vue.$emit(event, data)
+//   }
+//   listen (event, callback) {
+//     this.vue.$on(event, callback)
+//   }
+// }
 
-window.Event = new Dispatcher()
+// window.Event = new Dispatcher()
 // Return headers function
 window.getToken = () => {
   console.log('Getting headers in main')
@@ -166,5 +168,6 @@ router.beforeEach((to, from, next) => {
 export {
   app,
   router,
-  axios
+  axios,
+  VeeValidate
 }
