@@ -1,5 +1,6 @@
 <template>
   <div>
+    <filter-bar></filter-bar> 
     <vuetable
       ref="vuetable"
       :api-url="apiUrl"
@@ -24,18 +25,16 @@ import Vue from 'vue'
 import Vuetable from 'vuetable-2/src/components/Vuetable'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
-import CustomActions from './CustomActions'
+import CustomActionsThird from './CustomActions'
 import moment from 'moment'
-import BulmaPagination from './BulmaPagination'
 
-Vue.component('custom-actions', CustomActions)
+Vue.component('custom-actions-third', CustomActionsThird)
 
 export default {
   components: {
     Vuetable,
     VuetablePagination,
-    VuetablePaginationInfo,
-    BulmaPagination
+    VuetablePaginationInfo
   },
   data () {
     return {

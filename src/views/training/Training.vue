@@ -21,30 +21,28 @@
 
 
 <script>
-import MyVuetable from '../../components/vuetable/MyVuetable.vue'
-// import axios from 'axios'
-import CustomActions from '../../components/vuetable/CustomActions.vue'
+import MyVuetable from '../../components/vuetable3/MyVuetable.vue'
+import CustomActionsThird from '../../components/vuetable3/CustomActions.vue'
 import router from '../../router'
-import { categoryUrl } from '../../config.js'
+import { trainingUrl } from '../../config.js'
 
 export default {
   name: 'app',
   components: {
     MyVuetable,
-    CustomActions
+    CustomActionsThird
   },
   data () {
     return {
-      apiUrl: categoryUrl,
+      apiUrl: trainingUrl,
       fields:
       [
         {
-          name: 'categoryId',
-          title: 'category ID',
-          sortField: 'nricPassportNo'
+          name: 'name',
+          title: 'Name'
         },
         {
-          name: '__component:custom-actions',
+          name: '__component:custom-actions-third',
           title: 'Actions',
           titleClass: 'center aligned',
           dataClass: 'center aligned'
@@ -56,7 +54,7 @@ export default {
     // Click "Edit" Button -> routes user to update page
     onActions (action, data) {
       // ~/UpdateCategory/{userId}
-      router.push({ name: 'UpdateCategory', params: { userId: action.data.categoryId } })
+      router.push({ name: 'UpdateTraining', params: { trainingId: action.data.trainingId } })
     }
   }
 }

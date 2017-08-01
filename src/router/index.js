@@ -24,6 +24,7 @@ import OngoingLoans from '../components/loan/ongoingloans/OngoingLoans.vue'
 import DueLoans from '../components/loan/dueloans/DueLoans.vue'
 import LoanArchive from '../components/loan/loanarchive/LoanArchive.vue'
 import AddLoan from '../components/loan/loancrud/AddLoan.vue'
+import UpdateLoan from '../components/loan/loancrud/UpdateLoan.vue'
 
 import Visitor from '../views/visitor/Visitor.vue'
 import PurposeOfVisit from '../components/visitors/purposeOfVisit/PurposeOfVisit.vue'
@@ -34,6 +35,7 @@ import AddPurposeOfVisit from '../components/visitors/purposeOfVisit/AddPurposeO
 import UpdatePurposeOfVisit from '../components/visitors/purposeOfVisit/UpdatePurposeOfVisit.vue'
 
 import Training from '../views/training/Training.vue'
+import UpdateTraining from '../components/training/UpdateTraining.vue'
 
 Vue.use(Router)
 
@@ -72,7 +74,7 @@ export default new Router({
         component: AddStaff
       },
       {
-        path: 'UpdateStaff/:userId',
+        path: 'UpdateStaff/:staffId',
         name: 'UpdateStaff',
         component: UpdateStaff
       },
@@ -141,6 +143,11 @@ export default new Router({
         path: 'AddLoan',
         name: 'AddLoan',
         component: AddLoan
+      },
+      {
+        path: 'UpdateLoan',
+        name: 'UpdateLoan/:userId',
+        component: UpdateLoan
       }
       ]
     },
@@ -184,6 +191,11 @@ export default new Router({
       path: '/training',
       name: 'Training',
       component: Training
+    },
+    {
+      path: '/UpdateTraining/:trainingId',
+      name: 'UpdateTraining',
+      component: UpdateTraining
     }
   ]
 })

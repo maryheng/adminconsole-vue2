@@ -57,7 +57,7 @@ if (VueCookie.get('_xsrf') !== null) {
 
 // Global axios default (config default that will be applied to every request)
 var accessToken = window.localStorage.getItem('access_token')
-axios.defaults.baseURL = 'https://fypadminconsoletest.azurewebsites.net/'
+axios.defaults.baseURL = 'https://pixelmirror.me/'
 // axios.defaults.baseURL = 'http://192.168.0.55:3000/'
 axios.defaults.headers.common['authorization'] = 'Bearer ' + accessToken
 

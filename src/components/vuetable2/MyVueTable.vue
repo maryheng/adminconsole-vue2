@@ -24,18 +24,16 @@ import Vue from 'vue'
 import Vuetable from 'vuetable-2/src/components/Vuetable'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
-import CustomActions from './CustomActions'
+import CustomActionsSecond from './CustomActions'
 import moment from 'moment'
-import BulmaPagination from './BulmaPagination'
 
-Vue.component('custom-actions', CustomActions)
+Vue.component('custom-actions-second', CustomActionsSecond)
 
 export default {
   components: {
     Vuetable,
     VuetablePagination,
-    VuetablePaginationInfo,
-    BulmaPagination
+    VuetablePaginationInfo
   },
   data () {
     return {

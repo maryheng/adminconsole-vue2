@@ -23,6 +23,7 @@ export const itemUrl = baseUrl + '/api/items/'
 export const loanUrl = baseUrl + '/api/loans/'
 export const catItemOptionsForLoan = baseUrl + '/api/items/itemOptionsForLoan?sort=category&id='
 export const subCatItemOptionsForLoan = baseUrl + '/api/items/itemOptionsForLoan?sort=subcategory&id='
+export const loanReturned = baseUrl + '/api/loans/' + 'id' + '/returnloan'
 
 // Visitor Count
 export const visitPurpose = baseUrl + '/api/visitpurposes/'
@@ -35,6 +36,9 @@ export const staffsForOptions = baseUrl + '/api/staffs/staffsforoptions/'
 export const loanOptions = baseUrl + '/api/loanoptions/'
 export const userOptions = baseUrl + '/api/users/usersforoptions/'
 export const visitPurposesForOptions = baseUrl + '/api/visitPurposes/visitPurposesForOptions/'
+
+// Training
+export const trainingUrl = baseUrl + '/api/trainings/'
 
 // Logout
 export const logoutUrl = baseUrl + '/logout/'

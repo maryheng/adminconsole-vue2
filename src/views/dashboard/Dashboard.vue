@@ -124,7 +124,7 @@ export default {
 <style>
 .saveBtn {
   margin-left: 88%;
-  margin-top: 5%;
+  margin-top: 2%;
 }
 
 .NotiTable {

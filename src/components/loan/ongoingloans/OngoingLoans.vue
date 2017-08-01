@@ -11,6 +11,7 @@
     :api-url="apiUrl"
     :fields="fields"
     @onBtnClick="onActions"
+    @returnedAction="onReturnActions"
     ></my-vuetable>
     
     <br>
@@ -21,8 +22,8 @@
 </template>
 
 <script>
-import MyVuetable from '../../../components/vuetable/MyVuetable.vue'
-import CustomActions from '../../../components/vuetable/CustomActions.vue'
+import MyVuetable from '../../../components/vuetable2/MyVuetable.vue'
+import CustomActionsSecond from '../../../components/vuetable2/CustomActions.vue'
 import router from '../../../router'
 import { staffUrl } from '../../../config.js'
 
@@ -30,7 +31,7 @@ export default {
   name: 'app',
   components: {
     MyVuetable,
-    CustomActions
+    CustomActionsSecond
   },
   data () {
     return {
@@ -60,7 +61,7 @@ export default {
           title: 'Username'
         },
         {
-          name: '__component:custom-actions',
+          name: '__component:custom-actions-second',
           title: 'Actions',
           titleClass: 'center aligned',
           dataClass: 'center aligned'
@@ -73,6 +74,9 @@ export default {
     onActions (action, data) {
       // ~/user/UpdateStaff/{userId}
       router.push({ name: 'UpdateStaff', params: { userId: action.data.userId } })
+    },
+    onReturnActions (action, data) {
+      // RETURN LOAN LOGIC
     }
   },
   computed: {
