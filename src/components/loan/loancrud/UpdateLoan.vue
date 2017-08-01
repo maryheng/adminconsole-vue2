@@ -34,7 +34,7 @@
             <div class="field">
               <div class="control">
                 <button class="button is-primary" @click="saveLoanBtn">
-                  Save
+                  Update
                 </button>
               </div>
             </div>
@@ -53,7 +53,7 @@
 <script>
 // import router from '../../../router'
 // import axios from 'axios'
-// import Simplert from 'vue2-simplert/src/components/simplert'
+import Simplert from 'vue2-simplert/src/components/simplert'
 // import Multiselect from 'vue-multiselect'
 // import { loanUrl, categoriesForOptions, subcategoriesForOptions, userOptions, catItemOptionsForLoan, subCatItemOptionsForLoan } from '../../../config'
 import moment from 'moment'
@@ -61,7 +61,7 @@ import moment from 'moment'
 export default {
   name: 'app',
   components: {
-    // Simplert
+    Simplert
   },
   data () {
     return {

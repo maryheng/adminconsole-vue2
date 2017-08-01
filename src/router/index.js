@@ -145,8 +145,8 @@ export default new Router({
         component: AddLoan
       },
       {
-        path: 'UpdateLoan',
-        name: 'UpdateLoan/:userId',
+        path: 'UpdateLoan/:loanId',
+        name: 'UpdateLoan',
         component: UpdateLoan
       }
       ]

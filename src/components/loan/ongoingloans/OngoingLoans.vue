@@ -11,7 +11,7 @@
     :api-url="apiUrl"
     :fields="fields"
     @onBtnClick="onActions"
-    @returnedAction="onReturnActions"
+    @onReturnBtnClick="onReturnActions"
     ></my-vuetable>
     
     <br>
@@ -25,7 +25,9 @@
 import MyVuetable from '../../../components/vuetable2/MyVuetable.vue'
 import CustomActionsSecond from '../../../components/vuetable2/CustomActions.vue'
 import router from '../../../router'
-import { staffUrl } from '../../../config.js'
+import { loanUrl, loanReturned, ongoingLoansUrl } from '../../../config.js'
+import moment from 'moment'
+import axios from 'axios'
 
 export default {
   name: 'app',
@@ -35,7 +37,8 @@ export default {
   },
   data () {
     return {
-      apiUrl: staffUrl,
+      loanId: '',
+      apiUrl: ongoingLoansUrl,
       fields:
       [
         {
@@ -45,20 +48,26 @@ export default {
           dataClass: 'right aligned'
         },
         {
-          name: 'userId',
-          title: 'User ID'
+          name: 'itemName',
+          title: 'Item Name'
         },
         {
-          name: 'staffId',
-          title: 'Staff ID'
+          name: 'itemChildLabel',
+          title: 'Item Label'
         },
         {
-          name: 'name',
-          title: 'Name'
+          name: 'startDateTime',
+          title: 'Start Date',
+          callback: 'formatDate|DD-MM-YYYY'
         },
         {
-          name: 'username',
-          title: 'Username'
+          name: 'dueDateTime',
+          title: 'Due Date',
+          callback: 'formatDate|DD-MM-YYYY'
+        },
+        {
+          name: 'loanedBy',
+          title: 'Loaned By'
         },
         {
           name: '__component:custom-actions-second',
@@ -70,13 +79,28 @@ export default {
     }
   },
   methods: {
+    formatDate (value, fmt = 'D MMM YYYY') {
+      return (value == null)
+        ? ''
+        : moment(value, 'YYYY-MM-DD').format(fmt)
+    },
     // Click "Edit" Button -> routes user to update page
     onActions (action, data) {
-      // ~/user/UpdateStaff/{userId}
-      router.push({ name: 'UpdateStaff', params: { userId: action.data.userId } })
+      router.push({ name: 'UpdateLoan', params: { loanId: action.data.loanId } })
     },
     onReturnActions (action, data) {
       // RETURN LOAN LOGIC
+      console.log(action)
+      let self = this
+      self.loanId = action.data.loanId
+      axios.put(loanUrl + self.loanId + loanReturned)
+        .then((response) => {
+          console.log('Loan is returned!')
+          router.push({ name: 'OngoingLoans' })
+        })
+        .error((error) => {
+          console.log(error)
+        })
     }
   },
   computed: {

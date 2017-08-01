@@ -1,8 +1,9 @@
 <template>
   <div id="container">
-    <router-link to="/user/AddStaff">
+    <router-link to="/loan/AddLoan">
       <button type="submit" class="button is-primary">Add Loan</button>
     </router-link>
+    <br>
     <br>
     <!--Vue Table-->
     <my-vuetable
@@ -10,6 +11,7 @@
     :api-url="apiUrl"
     :fields="fields"
     @onBtnClick="onActions"
+    @returnedAction="onReturnActions"
     ></my-vuetable>
     
     <br>
@@ -20,20 +22,19 @@
 </template>
 
 <script>
-import MyVuetable from '../../../components/vuetable/MyVuetable.vue'
-import CustomActions from '../../../components/vuetable/CustomActions.vue'
+import MyVuetable from '../../../components/vuetable2/MyVuetable.vue'
 import router from '../../../router'
-import { staffUrl } from '../../../config.js'
+import { loanArchiveUrl } from '../../../config.js'
+import moment from 'moment'
 
 export default {
   name: 'app',
   components: {
-    MyVuetable,
-    CustomActions
+    MyVuetable
   },
   data () {
     return {
-      apiUrl: staffUrl,
+      apiUrl: loanArchiveUrl,
       fields:
       [
         {
@@ -43,23 +44,38 @@ export default {
           dataClass: 'right aligned'
         },
         {
-          name: 'userId',
-          title: 'User ID'
+          name: 'itemName',
+          title: 'Item Name'
         },
         {
-          name: 'staffId',
-          title: 'Staff ID'
+          name: 'itemChildLabel',
+          title: 'Item Label'
         },
         {
-          name: 'name',
-          title: 'Name'
+          name: 'startDateTime',
+          title: 'Start Date',
+          callback: 'formatDate|DD-MM-YYYY'
         },
         {
-          name: 'username',
-          title: 'Username'
+          name: 'dueDateTime',
+          title: 'Due Date',
+          callback: 'formatDate|DD-MM-YYYY'
         },
         {
-          name: '__component:custom-actions',
+          name: 'returnDateTime',
+          title: 'Returned Date',
+          callback: 'formatDate|DD-MM-YYYY'
+        },
+        {
+          name: 'loanedBy',
+          title: 'Loaned By'
+        },
+        {
+          name: 'remarks',
+          title: 'Remarks'
+        },
+        {
+          name: '__component:custom-actions-second',
           title: 'Actions',
           titleClass: 'center aligned',
           dataClass: 'center aligned'
@@ -68,10 +84,17 @@ export default {
     }
   },
   methods: {
+    formatDate (value, fmt = 'D MMM YYYY') {
+      return (value == null)
+        ? ''
+        : moment(value, 'YYYY-MM-DD').format(fmt)
+    },
     // Click "Edit" Button -> routes user to update page
     onActions (action, data) {
-      // ~/user/UpdateStaff/{userId}
-      router.push({ name: 'UpdateStaff', params: { userId: action.data.userId } })
+      router.push({ name: 'UpdateLoan', params: { loanId: action.data.loanId } })
+    },
+    onReturnActions (action, data) {
+      // RETURN LOAN LOGIC
     }
   },
   computed: {

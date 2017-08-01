@@ -1,7 +1,7 @@
 <template>
     <div class="custom-actions">
       <button class="button is-info" @click="itemAction('action-item', rowData)">Update</button>      
-      <button class="button is-danger" @click="returnedAction('action-item', rowData)">Returned</button>
+      <button class="button is-danger" @click="returnedAction('action-item', rowData)">Return</button>
     </div>
   </template>
 

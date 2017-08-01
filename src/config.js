@@ -23,7 +23,10 @@ export const itemUrl = baseUrl + '/api/items/'
 export const loanUrl = baseUrl + '/api/loans/'
 export const catItemOptionsForLoan = baseUrl + '/api/items/itemOptionsForLoan?sort=category&id='
 export const subCatItemOptionsForLoan = baseUrl + '/api/items/itemOptionsForLoan?sort=subcategory&id='
-export const loanReturned = baseUrl + '/api/loans/' + 'id' + '/returnloan'
+export const loanReturned = '/returnloan'
+export const ongoingLoansUrl = baseUrl + '/api/loans/ongoing/'
+export const dueLoansUrl = baseUrl + '/api/loans/due/'
+export const loanArchiveUrl = baseUrl + '/api/loans/archives/'
 
 // Visitor Count
 export const visitPurpose = baseUrl + '/api/visitpurposes/'
