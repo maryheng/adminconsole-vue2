@@ -20,10 +20,6 @@
           </div>
         </div>
       </div>      
-
-        <pre>
-        {{ $data | json }}
-      </pre>
   
       <!-- Save Button -->
       <div class="saveBtn">

@@ -67,10 +67,6 @@
             </div>
           </div>
         </div>
-  
-        <pre>
-      {{ $data | json }}
-    </pre>
 
         <!-- Update Category Button -->
         <div class="updateCatBtn">

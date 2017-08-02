@@ -110,13 +110,8 @@
               <button class="button is-danger" @click="delRow(item)">-</button>
             </div>
           </div>
-  
         </div>
-  
-        <pre>
-          {{ $data | json }}
-        </pre>
-  
+
         <!-- Save Button -->
         <div class="saveBtn">
           <div class="field is-horizontal">

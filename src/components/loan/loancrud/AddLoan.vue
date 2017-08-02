@@ -142,8 +142,10 @@
                     :id="row"
                     @open="getIdOfMultiselect"
                     open-direction="bottom"
-                    label="itemChildName"
-                    track-by="itemChildName"
+                    label="itemChildLabel"
+                    track-by="itemChildLabel"
+                    @select="selectedItemChildNamesMethod"
+                    @remove="removeOption"
                     >
                     </multiselect>
                   </p>
@@ -167,20 +169,28 @@
             <tr>
               <td><strong>Item label</strong></td>
               <td><strong>Remarks</strong></td>
+              <td><strong>Action</strong></td>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="row in itemChildNames" :key="row">
+            <tr v-for="row in selectedItemChildNames" :key="row">
               <td>
                 <div id="multiselectDivItemChild">
                   <p class="control">
-                    {{ row.itemChildName }}
+                    {{ row.itemChildLabel }}
                   </p>                 
                 </div>
               </td>
               <td>
                 <div id="remarks">
                   <input class="input" type="text" v-model="row.remarks">   
+                </div>          
+              </td>
+              <td>
+                <div id="removeBtn">
+                <button class="button is-danger" @click="delRow(row)">
+                  X
+                </button> 
                 </div>          
               </td>
             </tr>
@@ -260,7 +270,7 @@ export default {
       let self = this
 
       // Rearrange arrays to put into desired arrays to send to API
-      self.itemChildNames.map((item) => {
+      self.selectedItemChildNames.map((item) => {
         const oldTag = {
           startDateTime: self.data.startDateTime,
           dueDateTime: self.data.dueDateTime,
@@ -298,6 +308,7 @@ export default {
       // Clear contents in selected sub-category array
       self.selectedSubCat = []
       self.rows = []
+      self.itemChildNames = []
       // If categoryType = false, means category do not have sub-categories
       // Hence, do a GET api to fetch items related to Category w/o sub-cats
       if (self.selectedCat.categoryType === false) {
@@ -313,6 +324,7 @@ export default {
               }
               self.rows.push(oldTag)
             })
+            self.getSelectedItems()
           })
       }
     },
@@ -320,6 +332,7 @@ export default {
     subCatGetItems () {
       let self = this
       self.rows = []
+      self.itemChildNames = []
       // If categoryType = true, means category have sub-categories
       // Hence, do a GET api to fetch items related to the chosen sub-category
       if (self.selectedCat.categoryType === true) {
@@ -335,6 +348,7 @@ export default {
               }
               self.rows.push(oldTag)
             })
+            self.getSelectedItems()
           })
       }
     },
@@ -347,12 +361,50 @@ export default {
       // Get idealized json array with itemChildName, itemChildId, remarks
       id.itemChild.map((item) => {
         const oldTag = {
-          itemChildName: item.itemChildLabel,
+          itemChildLabel: item.itemChildLabel,
           itemChildId: item.itemChildId,
           remarks: ''
         }
         self.optionsForItemChild.push(oldTag)
       })
+    },
+    getSelectedItems () {
+      // Only display selected items in selected categories w / w/o subcats
+      let self = this
+      self.rows.forEach((element) => {
+        element.itemChild.forEach((item) => {
+          self.selectedItemChildNames.forEach((instance) => {
+            if (item.itemChildLabel === instance.itemChildLabel) {
+              alert('IDENTICAL!')
+              self.itemChildNames.push(instance)
+            }
+          }, this)
+        }, this)
+      }, this)
+    },
+    selectedItemChildNamesMethod (selectedOption, id) {
+      let self = this
+      self.selectedItemChildNames.push(selectedOption)
+    },
+    delRow (row) {
+      // itemChildNames > SELECTED ITEMS IN DROPDOWN
+      // selectedItemChildNames > SELECTED ITEMS IN TABLE
+      let self = this
+      const indexOfSelectedArr = this.selectedItemChildNames.indexOf(row)
+      self.itemChildNames.forEach((item, index) => {
+        if (row.itemChildLabel === item.itemChildLabel) {
+          self.itemChildNames.splice(index, 1)
+        }
+      }, this)
+      self.selectedItemChildNames.splice(indexOfSelectedArr, 1)
+    },
+    removeOption (removedOption) {
+      // Remove option in Multiselect dropdown event
+      this.selectedItemChildNames.forEach((item, index) => {
+        if (item.itemChildLabel === removedOption.itemChildLabel) {
+          this.selectedItemChildNames.splice(index, 1)
+        }
+      }, this)
     }
   },
   computed: {
@@ -500,5 +552,9 @@ button {
 
 #remarks input {
   width: 300px;
+}
+
+#removeBtn button {
+  margin-top: 7%;
 }
 </style>

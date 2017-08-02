@@ -57,7 +57,6 @@
                 </multiselect> -->
                 <multiselect :multiple="true" v-model="data.subCategoryNames" :hide-selected="true" :selected="data.subCategoryNames" :options="options" :taggable="true" @tag="addTag">
                 </multiselect>
-                <pre>{{$data | json}}</pre>
               </p>
             </div>
             </div>

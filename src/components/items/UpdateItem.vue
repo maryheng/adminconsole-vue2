@@ -129,12 +129,7 @@
               <button class="button is-danger" @click="delRow(item)">-</button>
             </div>
           </div>
-  
         </div>
-  
-        <pre>
-        {{ $data | json }}
-      </pre>
   
         <!-- Update Button -->
         <div class="updateBtn">
@@ -152,6 +147,22 @@
             </div>
           </div>
         </div>
+
+      <div class="deleteBtn">
+        <div class="field is-horizontal">
+          <div class="field-label">
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <button class="button" @click="deleteBtn" >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>        
   
         <!-- Simplert Notification -->
         <simplert :useRadius="true" :useIcon="true" ref="simplert">
@@ -217,12 +228,10 @@ export default {
       const itemArray = this.itemArray
       // Get the index of the array the multiselect is positioned in
       this.indexOfItemArray = itemArray.indexOf(id)
-      console.log(this.indexOfItemArray)
     },
     // Multiselect @input - when the value changes
     updateStaffData (value) {
       this.subStaffId = value.staffId
-      console.log(this.subStaffId)
       this.itemArray[this.indexOfItemArray].staffId = this.subStaffId
     },
     // Add itemChild row
@@ -238,7 +247,6 @@ export default {
     },
     // Delete itemChild row
     delRow (item) {
-      console.log(item.itemChildId)
       this.deletedItemIdArray.push(item.itemChildId)
       const index = this.itemArray.indexOf(item)
       this.itemArray.splice(index, 1)
@@ -327,6 +335,39 @@ export default {
       return allSubCats.filter((item) => {
         return item.subCategoryId === self.getSubCatId
       })
+    },
+    // Delete ItemParent Record
+    deleteBtn () {
+      let self = this
+      let confirmFn = () => {
+        axios.delete(itemUrl + self.itemParentId)
+        .then((response) => {
+          console.log(response)
+          // Success Alert
+          let closeFn = () => {
+            // After deletion, go to Staff Page
+            router.push({ path: '/Item' })
+          }
+          let successAlert = {
+            title: 'Success',
+            message: 'Item record has been deleted!',
+            type: 'success',
+            onClose: closeFn
+          }
+          self.$refs.simplert.openSimplert(successAlert)
+        })
+          .catch((error) => {
+            console.log(error)
+          })
+      }
+      let deleteAlert = {
+        title: 'Warning',
+        message: 'Are you sure you want to delete Item record?',
+        type: 'warning',
+        useConfirmBtn: true,
+        onConfirm: confirmFn
+      }
+      self.$refs.simplert.openSimplert(deleteAlert)
     }
   },
   computed: {
@@ -529,6 +570,11 @@ button {
 
 #addRowBtn {
   margin-left: 35%;
+  margin-top: -1%;
+}
+
+.deleteBtn {
+  float: left;
   margin-top: -1%;
 }
 </style>
