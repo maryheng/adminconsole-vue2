@@ -8,8 +8,8 @@ export const loginUrl = baseUrl + '/login/'
 export const notificationUrl = baseUrl + '/api/notifications/'
 
 // Dashboard - Report Generation / Graphs
-export const visitorDataUrl = baseUrl + '/api/reports/visitorData/'
-export const loanArchiveDataUrl = baseUrl + '/api/reports/loanArchiveData/'
+export const visitorDataUrl = baseUrl + '/api/reports/visitors/chart'
+export const loanArchiveDataUrl = baseUrl + '/api/reports/loanArchives/chart'
 
 // Users
 export const staffUrl = baseUrl + '/api/staffs/'
