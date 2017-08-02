@@ -10,14 +10,14 @@
               <strong>Loan Notification</strong>
             </p>
             <div class="NotiTable">
-              <table class="table is-narrow is-bordered">
+              <table class="table is-narrow is-striped is-bordered">
                 <tbody>
-                  <tr v-for="row in loanArray" :key="row">
+                  <tr v-for="row in loanNotiArray" :key="row" @click="redirectLoanUrl(row)">
                     <td>
-                      <input type="text" v-model="row.date">
+                      {{ row.triggerDateTime }}
                     </td>
                     <td>
-                      <input type="text" v-model="row.description">
+                      {{ row.notificationBody }}
                     </td>
                   </tr>
                 </tbody>
@@ -34,14 +34,14 @@
               <strong>Training Notification</strong>
             </p>
             <div class="NotiTable">
-              <table class="table is-narrow is-bordered">
+              <table class="table is-narrow is-striped is-bordered">
                 <tbody>
-                  <tr v-for="row in loanArray" :key="row">
+                  <tr v-for="row in trainingNotiArray" :key="row" @click="redirectTrainingUrl(row)">
                     <td>
-                      <input type="text" v-model="row.date">
+                      {{ row.triggerDateTime }}
                     </td>
                     <td>
-                      <input type="text" v-model="row.description">
+                      {{ row.notificationBody }}
                     </td>
                   </tr>
                 </tbody>
@@ -96,6 +96,10 @@
       </div>
     </div>
   
+<pre>
+  {{ $data|json }}
+  </pre>
+
   </div>
 </template>
 
@@ -104,6 +108,10 @@
 <script>
 import VisitorRecordGraph from '../../components/dashboard/VisitorRecordsGraph.vue'
 import LoanUsageGraph from '../../components/dashboard/LoanUsageGraph.vue'
+import { notificationUrl } from '../../config.js'
+import axios from 'axios'
+import moment from 'moment'
+import router from '../../router'
 
 export default {
   name: 'app',
@@ -113,8 +121,67 @@ export default {
   },
   data () {
     return {
-      loanArray: []
+      trainingNotiArray: [],
+      loanNotiArray: [],
+      allNotifications: []
     }
+  },
+  methods: {
+    filterNotificationsForLoan () {
+      let self = this
+      const allNotifications = self.allNotifications
+      return allNotifications.filter((item) => {
+        return item.fk_trainingId === null // If true, notifications belong to due loans!
+      })
+    },
+    filterNotificationsForTraining () {
+      let self = this
+      const allNotifications = self.allNotifications
+      return allNotifications.filter((item) => {
+        return item.fk_loanId === null // If true, notifications belong to training!
+      })
+    },
+    redirectTrainingUrl (row) {
+      window.open(row.redirectUrl, '_self')
+    },
+    redirectLoanUrl (row) {
+      router.push({ path: '/loan/DueLoans' })
+    }
+  },
+  created () {
+    let self = this
+    axios.get(notificationUrl)
+      .then((response) => {
+        self.allNotifications = response.data
+
+        // Separate notifications between LOAN & TRAINING
+        var getTrainingNotification = self.filterNotificationsForTraining()
+        var getLoanNotification = self.filterNotificationsForLoan()
+
+        // Format DateTime to be proper
+        getLoanNotification.map((item) => {
+          const oldTag = {
+            triggerDateTime: moment(item.triggerDateTime).format('DD-MM-YYYY'),
+            notificationBody: item.notificationBody,
+            redirectUrl: item.redirectUrl,
+            lookedAt: item.lookedAt
+          }
+          self.loanNotiArray.push(oldTag)
+        })
+        // Format DateTime to be proper
+        getTrainingNotification.map((item) => {
+          const oldTag = {
+            triggerDateTime: moment(item.triggerDateTime).format('DD-MM-YYYY'),
+            notificationBody: item.notificationBody,
+            redirectUrl: item.redirectUrl,
+            lookedAt: item.lookedAt
+          }
+          self.trainingNotiArray.push(oldTag)
+        })
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 }
 
@@ -127,7 +194,12 @@ export default {
   margin-top: 2%;
 }
 
-.NotiTable {
-  height: 200px;
+ .NotiTable {
+  height: 270px;
+  overflow: auto;
+  overflow-y: scroll;
+} 
+tr:hover{
+cursor: pointer;
 }
 </style>

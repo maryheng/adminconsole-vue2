@@ -22,8 +22,8 @@
 </template>
 
 <script>
-import MyVuetable from '../../../components/vuetable/MyVuetable.vue'
-import CustomActions from '../../../components/vuetable/CustomActions.vue'
+import MyVuetable from '../../../components/vuetable2/MyVuetable.vue'
+import CustomActionsSecond from '../../../components/vuetable2/CustomActions.vue'
 import router from '../../../router'
 import { loanUrl, loanReturned, dueLoansUrl } from '../../../config.js'
 import moment from 'moment'
@@ -33,7 +33,7 @@ export default {
   name: 'app',
   components: {
     MyVuetable,
-    CustomActions
+    CustomActionsSecond
   },
   data () {
     return {
@@ -85,20 +85,21 @@ export default {
     },
     // Click "Edit" Button -> routes user to update page
     onActions (action, data) {
-      // ~/user/UpdateStaff/{userId}
-      router.push({ name: 'UpdateStaff', params: { userId: action.data.userId } })
+      router.push({ name: 'UpdateLoan', params: { loanId: action.data.loanId } })
     },
     onReturnActions (action, data) {
-      // RETURN LOAN LOGIC
-      console.log(action)
       let self = this
+
+      // Get loanId
       self.loanId = action.data.loanId
+
+      // Update return loan
       axios.put(loanUrl + self.loanId + loanReturned)
         .then((response) => {
           console.log('Loan is returned!')
           router.push({ name: 'DueLoans' })
         })
-        .error((error) => {
+        .catch((error) => {
           console.log(error)
         })
     }

@@ -89,16 +89,18 @@ export default {
       router.push({ name: 'UpdateLoan', params: { loanId: action.data.loanId } })
     },
     onReturnActions (action, data) {
-      // RETURN LOAN LOGIC
-      console.log(action)
       let self = this
+
+      // Get loanId
       self.loanId = action.data.loanId
+
+      // Update return loan
       axios.put(loanUrl + self.loanId + loanReturned)
         .then((response) => {
           console.log('Loan is returned!')
           router.push({ name: 'OngoingLoans' })
         })
-        .error((error) => {
+        .catch((error) => {
           console.log(error)
         })
     }

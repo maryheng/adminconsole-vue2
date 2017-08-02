@@ -10,8 +10,6 @@
     ref="vuetable"
     :api-url="apiUrl"
     :fields="fields"
-    @onBtnClick="onActions"
-    @returnedAction="onReturnActions"
     ></my-vuetable>
     
     <br>
@@ -22,8 +20,7 @@
 </template>
 
 <script>
-import MyVuetable from '../../../components/vuetable2/MyVuetable.vue'
-import router from '../../../router'
+import MyVuetable from '../../../components/vuetable4/MyVuetable.vue'
 import { loanArchiveUrl } from '../../../config.js'
 import moment from 'moment'
 
@@ -73,12 +70,6 @@ export default {
         {
           name: 'remarks',
           title: 'Remarks'
-        },
-        {
-          name: '__component:custom-actions-second',
-          title: 'Actions',
-          titleClass: 'center aligned',
-          dataClass: 'center aligned'
         }
       ]
     }
@@ -88,13 +79,6 @@ export default {
       return (value == null)
         ? ''
         : moment(value, 'YYYY-MM-DD').format(fmt)
-    },
-    // Click "Edit" Button -> routes user to update page
-    onActions (action, data) {
-      router.push({ name: 'UpdateLoan', params: { loanId: action.data.loanId } })
-    },
-    onReturnActions (action, data) {
-      // RETURN LOAN LOGIC
     }
   },
   computed: {

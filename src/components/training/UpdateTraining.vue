@@ -165,7 +165,7 @@ hr {
 
 .buttonGroup {
   margin-top: 1%;
-  margin-left: 13.5%;
+  margin-left: 16%;
 }
 
 .buttonGroup button {

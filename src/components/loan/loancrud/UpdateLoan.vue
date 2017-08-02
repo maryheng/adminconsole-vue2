@@ -10,7 +10,7 @@
       <!--Input field for End Date-->
       <div class="field is-horizontal">
         <div class="field-label is-normal">
-          <label class="label">End Date:</label>
+          <label class="label">Due Date:</label>
         </div>
         <div class="field-body">
           <div class="field is-grouped">
@@ -33,7 +33,7 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <button class="button is-primary" @click="saveLoanBtn">
+                <button class="button is-primary" @click="updateLoanBtn">
                   Update
                 </button>
               </div>
@@ -51,12 +51,11 @@
 </template>
 
 <script>
-// import router from '../../../router'
-// import axios from 'axios'
+import router from '../../../router'
+import axios from 'axios'
 import Simplert from 'vue2-simplert/src/components/simplert'
-// import Multiselect from 'vue-multiselect'
-// import { loanUrl, categoriesForOptions, subcategoriesForOptions, userOptions, catItemOptionsForLoan, subCatItemOptionsForLoan } from '../../../config'
-import moment from 'moment'
+import { loanUrl, updateDueDateTimeUrl } from '../../../config'
+// import moment from 'moment'
 
 export default {
   name: 'app',
@@ -67,41 +66,59 @@ export default {
     return {
       data: {
         dueDateTime: ''
-      }
+      },
+      getLoanId: ''
     }
   },
   methods: {
-    saveLoanBtn () {
-      // let self = this
+    updateLoanBtn () {
+      let self = this
 
-      // // Post Loan data to API
-      // axios.post(loanUrl, {
-      //   userId: self.selectedUser.userId,
-      //   loanDetails: self.loanDetails
-      // })
-      //   .then((response) => {
-      //     let closeFn = () => {
-      //       router.push({ path: '/loan/OngoingLoans' })
-      //     }
-      //     let successAlert = {
-      //       title: 'Success',
-      //       message: 'Loan record successfully created!',
-      //       type: 'success',
-      //       onClose: closeFn
-      //     }
-      //     self.$refs.simplert.openSimplert(successAlert)
-      //   })
-      //   .catch((error) => {
-      //     console.log(error)
-      //   })
+      // Update loan's duedatetime data to API
+      axios.put(loanUrl + self.getLoanId + updateDueDateTimeUrl, {
+        dueDateTime: self.data.dueDateTime
+      })
+        .then((response) => {
+          let closeFn = () => {
+            router.push({ path: '/loan/OngoingLoans' })
+          }
+          let successAlert = {
+            title: 'Success',
+            message: 'Loan record successfully updated!',
+            type: 'success',
+            onClose: closeFn
+          }
+          self.$refs.simplert.openSimplert(successAlert)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   },
   created () {
     let self = this
 
-    // Set current Date to calendar
-    self.data.dueDateTime = moment(self.currentDateTime, 'YYYY-MM-DD').format('YYYY-MM-DD')
+    // Grab path from URL
+    const path = window.location.pathname
+
+    // Break the path into segments
+    const segments = path.split('/')
+
+    // Assigned loanId
+    self.getLoanId = segments[3]
+
+    // Based on the loanId in the URL, get data for the user
+    axios.get(loanUrl + self.getLoanId)
+      .then((response) => {
+        console.log(response)
+        self.data.dueDateTime = response.data.dueDateTime.slice(0, 10)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
+    // Set current Date to calendar
+    // self.data.dueDateTime = moment(self.currentDateTime, 'YYYY-MM-DD').format('YYYY-MM-DD')
 }
 
 </script>

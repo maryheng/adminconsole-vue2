@@ -138,7 +138,6 @@
                     :multiple="true"
                     v-model="itemChildNames"
                     :hide-selected="true"
-                    :selected="selectedItemChildNames"
                     :options="optionsForItemChild"
                     :id="row"
                     @open="getIdOfMultiselect"

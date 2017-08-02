@@ -4,7 +4,10 @@ export const baseUrl = 'https://pixelmirror.me'
 // Login
 export const loginUrl = baseUrl + '/login/'
 
-// Report Generation / Graphs
+// Dashboard - Notifications
+export const notificationUrl = baseUrl + '/api/notifications/'
+
+// Dashboard - Report Generation / Graphs
 export const visitorDataUrl = baseUrl + '/api/reports/visitorData/'
 export const loanArchiveDataUrl = baseUrl + '/api/reports/loanArchiveData/'
 
@@ -27,6 +30,7 @@ export const loanReturned = '/returnloan'
 export const ongoingLoansUrl = baseUrl + '/api/loans/ongoing/'
 export const dueLoansUrl = baseUrl + '/api/loans/due/'
 export const loanArchiveUrl = baseUrl + '/api/loans/archives/'
+export const updateDueDateTimeUrl = '/updateDueDateTime'
 
 // Visitor Count
 export const visitPurpose = baseUrl + '/api/visitpurposes/'
