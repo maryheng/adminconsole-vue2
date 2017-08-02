@@ -29,6 +29,9 @@ export default Bar.extend({
             stacked: true,
             ticks: {
               beginAtZero: true
+            },
+            gridLines: {
+              display: true
             }
           }]
         }
