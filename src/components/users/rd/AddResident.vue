@@ -6,166 +6,159 @@
         <p class="title is-4">User Details</p>
       </div>
       <hr>
-  
-      <!-- Upload Image -->
-      <div class="field is-horizontal">
-        <div class="field-label is-normal">
-          <label class="label">Upload Image:</label>
-        </div>
-        <div class="field-body">
-          <div class="field is-grouped">
-            <div id="chooseFileDiv">
-              <p class="control">
-                <div id="imageShowDiv" v-show="this.checked === true" v-bind:style="{ 'backgroundImage': 'url(' + this.image + ')' }"></div>
-                <input type="file" v-validate="'required|image'" :class="{'input': true, 'is-danger': errors.has('image') }" 
-                @change="onFileChange" class="input" ref="image" name="image" id="image">      
-                <span v-show="errors.has('image')" class="help is-danger">{{ errors.first('image') }}</span>     
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!--Input field for Full Name-->
-      <div class="field is-horizontal">
-        <div class="field-label is-normal">
-          <label class="label">Full Name:</label>
-        </div>
-        <div class="field-body">
-          <div class="field is-grouped">
-            <p class="control">
-              <input class="input" name="name" v-validate="'required|alpha'" :class="{'input': true, 'is-danger': errors.has('name') }"  
-              type="text" v-model="data.name">
-              <span v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</span>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!--Input field for NRIC-->
-      <div class="field is-horizontal">
-        <div class="field-label is-normal">
-          <label class="label">NRIC/Passport Number:</label>
-        </div>
-        <div class="field-body">
-          <div class="field is-grouped">
-            <p class="control">
-              <input class="input" type="text" name="NRIC/Passport Number" v-validate="'required|alpha'" :class="{'input': true, 'is-danger': errors.has('NRIC/Passport Number') }"
-              v-model="data.nricPassportNo">
-              <span v-show="errors.has('NRIC/Passport Number')" class="help is-danger">{{ errors.first('NRIC/Passport Number') }}</span>
-            </p>
-          </div>
-        </div>
-      </div>      
-  
-      <!--Input field for Company Name-->
-      <div class="field is-horizontal">
-        <div class="field-label is-normal">
-          <label class="label">Company Name:</label>
-        </div>
-        <div class="field-body">
-          <div class="field is-grouped">
-            <p class="control">
-              <input class="input" type="text" name="company name" v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('company name') }"
-              v-model="data.company">
-              <span v-show="errors.has('company name')" class="help is-danger">{{ errors.first('company name') }}</span>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!--Input field for Email-->
-      <div class="field is-horizontal">
-        <div class="field-label is-normal">
-          <label class="label">Email:</label>
-        </div>
-        <div class="field-body">
-          <div class="field is-grouped">
-            <p class="control">
-              <input name="email" v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }" type="email" v-model="data.email">
-              <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
-            </p>
-          </div>
-        </div>
-      </div>
-  
-      <!--Input field for Mobile Number-->
-      <div class="field is-horizontal">
-        <div class="field-label is-normal">
-          <label class="label">Mobile Number:</label>
-        </div>
-        <div class="field-body">
-          <div class="field is-grouped">
-            <p class="control">
-              <input class="input" type="number" name="mobile number" v-validate="'required|numeric'" :class="{'input': true, 'is-danger': errors.has('mobile number') }"
-              oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" 
-              maxlength="8" v-model="data.mobileNo">
-              <span v-show="errors.has('mobile number')" class="help is-danger">{{ errors.first('mobile number') }}</span>
-            </p>
-          </div>
-        </div>
-      </div>
-  
-      <br>
-      <br>
-      <div class="header">
-        <p class="title is-4">Access Card</p>
-      </div>
-      <hr>
-  
-      <!--Input field for Key Card Reference Number-->
-      <div class="field is-horizontal">
-        <div class="field-label is-normal">
-          <label class="label">Key Card Reference Number:</label>
-        </div>
-        <div class="field-body">
-          <div class="field is-grouped">
-            <p class="control">
-              <input class="input" type="text" name="key card reference number" v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('key card reference number') }"
-              v-model="data.keyCardRefNo">
-              <span v-show="errors.has('key card reference number')" class="help is-danger">{{ errors.first('key card reference number') }}</span>
-            </p>
-          </div>
-        </div>
-      </div>
-  
-      <!--Input field for Issuance Date-->
-      <div class="field is-horizontal">
-        <div class="field-label is-normal">
-          <label class="label">Issurance Date:</label>
-        </div>
-        <div class="field-body">
-          <div class="field is-grouped">
-            <p class="control">
-              <input class="input" type="date" name="issuance date" v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('issuance date') }"
-              v-model="data.issuanceDate">
-              <span v-show="errors.has('issuance date')" class="help is-danger">{{ errors.first('issuance date') }}</span>
-            </p>
-          </div>
-        </div>
-      </div>
-  
-      <!-- Save Button -->
-      <div class="saveBtn">
+      <!-- Form Validation -->
+      <form @submit.prevent="validateBeforeSubmit">
+        <!-- Upload Image -->
         <div class="field is-horizontal">
-          <div class="field-label">
+          <div class="field-label is-normal">
+            <label class="label">Upload Image:</label>
           </div>
           <div class="field-body">
-            <div class="field">
-              <div class="control">
-                <button class="button is-primary" @click="saveRdBtn">
-                  Save
-                </button>
+            <div class="field is-grouped">
+              <div id="chooseFileDiv">
+                <p class="control">
+                  <div id="imageShowDiv" v-show="this.checked === true" v-bind:style="{ 'backgroundImage': 'url(' + this.image + ')' }"></div>
+                  <input type="file" v-validate="'required|mimes:image/jpeg'" :class="{'input': true, 'is-danger': errors.has('image') }" @change="onFileChange" class="input" ref="image" name="image" id="image">
+                  <span v-show="errors.has('image')" class="help is-danger">{{ errors.first('image') }}</span>
+                </p>
               </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- Simplert Notification -->
-      <simplert :useRadius="true" :useIcon="true" ref="simplert">
-      </simplert>
-
+  
+        <!--Input field for Full Name-->
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Full Name:</label>
+          </div>
+          <div class="field-body">
+            <div class="field is-grouped">
+              <p class="control">
+                <input class="input" name="name" v-validate="'required|alpha_spaces|max:100'" :class="{'input': true, 'is-danger': errors.has('name') }" type="text" v-model="data.name">
+                <span v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+  
+        <!--Input field for NRIC-->
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">NRIC/Passport Number:</label>
+          </div>
+          <div class="field-body">
+            <div class="field is-grouped">
+              <p class="control">
+                <input class="input" type="text" name="NRIC/Passport Number" v-validate="'required|alpha_num|max:50'" :class="{'input': true, 'is-danger': errors.has('NRIC/Passport Number') }" v-model="data.nricPassportNo">
+                <span v-show="errors.has('NRIC/Passport Number')" class="help is-danger">{{ errors.first('NRIC/Passport Number') }}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+  
+        <!--Input field for Company Name-->
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Company Name:</label>
+          </div>
+          <div class="field-body">
+            <div class="field is-grouped">
+              <p class="control">
+                <input class="input" type="text" name="company name" v-validate="'required|max:100'" :class="{'input': true, 'is-danger': errors.has('company name') }" v-model="data.company">
+                <span v-show="errors.has('company name')" class="help is-danger">{{ errors.first('company name') }}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+  
+        <!--Input field for Email-->
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Email:</label>
+          </div>
+          <div class="field-body">
+            <div class="field is-grouped">
+              <p class="control">
+                <input name="email" v-validate="'required|email|max:100'" :class="{'input': true, 'is-danger': errors.has('email') }" type="email" v-model="data.email">
+                <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+  
+        <!--Input field for Mobile Number-->
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Mobile Number:</label>
+          </div>
+          <div class="field-body">
+            <div class="field is-grouped">
+              <p class="control">
+                <input class="input" type="number" name="mobile number" v-validate="'required|numeric'" :class="{'input': true, 'is-danger': errors.has('mobile number') }" v-model="data.mobileNo">
+                <span v-show="errors.has('mobile number')" class="help is-danger">{{ errors.first('mobile number') }}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+  
+        <br>
+        <br>
+        <div class="header">
+          <p class="title is-4">Access Card</p>
+        </div>
+        <hr>
+  
+        <!--Input field for Key Card Reference Number-->
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Key Card Reference Number:</label>
+          </div>
+          <div class="field-body">
+            <div class="field is-grouped">
+              <p class="control">
+                <input class="input" type="text" name="key card reference number" v-validate="'max:50'" :class="{'input': true, 'is-danger': errors.has('key card reference number') }" v-model="data.keyCardRefNo">
+                <span v-show="errors.has('key card reference number')" class="help is-danger">{{ errors.first('key card reference number') }}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+  
+        <!--Input field for Issuance Date-->
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Issurance Date:</label>
+          </div>
+          <div class="field-body">
+            <div class="field is-grouped">
+              <p class="control">
+                <input class="input" type="date" name="issuance date" v-validate="'date_format:YYYY-MM-DD'" :class="{'input': true, 'is-danger': errors.has('issuance date') }" v-model="data.issuanceDate">
+                <span v-show="errors.has('issuance date')" class="help is-danger">{{ errors.first('issuance date') }}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Save Button -->
+        <div class="saveBtn">
+          <div class="field is-horizontal">
+            <div class="field-label">
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <button class="button is-primary">
+                    Save
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Simplert Notification -->
+        <simplert :useRadius="true" :useIcon="true" ref="simplert">
+        </simplert>
+      </form>
     </div>
   </div>
 </template>
@@ -197,39 +190,52 @@ export default {
     }
   },
   methods: {
-    saveRdBtn () {
+    validateBeforeSubmit () {
       let self = this
-      if (self.$refs.image.files[0]) {
-        let formData = new FormData()
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          alert('From Submitted!')
+          if (self.$refs.image.files[0]) {
+            let formData = new FormData()
 
-        formData.append('userImage', self.$refs.image.files[0])
-        formData.append('name', this.data.name)
-        formData.append('email', this.data.email)
-        formData.append('company', this.data.company)
-        formData.append('nricPassportNo', this.data.nricPassportNo)
-        formData.append('mobileNo', this.data.mobileNo)
-        formData.append('keyCardRefNo', this.data.keyCardRefNo)
-        formData.append('issuanceDate', this.data.issuanceDate)
+            formData.append('userImage', self.$refs.image.files[0])
+            formData.append('name', this.data.name)
+            formData.append('email', this.data.email)
+            formData.append('company', this.data.company)
+            formData.append('nricPassportNo', this.data.nricPassportNo)
+            formData.append('mobileNo', this.data.mobileNo)
+            formData.append('keyCardRefNo', this.data.keyCardRefNo)
+            formData.append('issuanceDate', this.data.issuanceDate)
 
-        // Post Staff FormData to server
-        axios.post(rdUrl, formData)
-          .then((response) => {
-            console.log(response)
-            let closeFn = () => {
-              router.push({ path: '/user/residentdeveloper' })
-            }
-            let successAlert = {
-              title: 'Success',
-              message: 'Resident Developer record successfully created!',
-              type: 'success',
-              onClose: closeFn
-            }
-            self.$refs.simplert.openSimplert(successAlert)
-          })
-          .catch((error) => {
-            console.log(error)
-          })
-      }
+            // Post Staff FormData to server
+            axios.post(rdUrl, formData)
+              .then((response) => {
+                console.log(response)
+                let closeFn = () => {
+                  router.push({ path: '/user/residentdeveloper' })
+                }
+                let successAlert = {
+                  title: 'Success',
+                  message: 'Resident Developer record successfully created!',
+                  type: 'success',
+                  onClose: closeFn
+                }
+                self.$refs.simplert.openSimplert(successAlert)
+              })
+              .catch((error) => {
+                console.log(error)
+              })
+          }
+          return
+        }
+        alert('Correct them errors!')
+        let errorAlert = {
+          title: 'Error',
+          message: 'Some fields are incorrect!',
+          type: 'error'
+        }
+        self.$refs.simplert.openSimplert(errorAlert)
+      })
     },
     onFileChange (e) {
       this.checked = true
@@ -277,7 +283,7 @@ input {
 }
 
 label {
-  margin-top: 3.5%;
+  margin-top: 2.5%;
 }
 
 hr {

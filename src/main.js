@@ -7,8 +7,11 @@ import axios from 'axios'
 import VueSocketio from 'vue-socket.io'
 import { baseUrl, notificationUrl, notificationLookedAt } from './config.js'
 import VueCookie from 'vue-cookie'
-import VeeValidate from 'vee-validate'
+import VeeValidate, { Validator } from 'vee-validate'
 import { Dispatcher } from './Dispatcher.js'
+import moment from 'moment'
+
+Validator.installDateTimeValidators(moment)
 
 Vue.prototype.$http = axios
 Vue.axios = axios
