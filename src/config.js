@@ -1,6 +1,6 @@
 // Base URL
-// export const baseUrl = 'https://pixelmirror.me'
-export const baseUrl = ''
+export const baseUrl = 'https://pixelmirror.me'
+// export const baseUrl = ''
 
 // Login
 export const loginUrl = baseUrl + '/login/'
