@@ -22,8 +22,8 @@
 <script>
 import Vue from 'vue'
 import Vuetable from 'vuetable-2/src/components/Vuetable'
-import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
-import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
+// import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
+// import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
 import CustomActionsSecond from './CustomActions'
 import moment from 'moment'
 
@@ -31,9 +31,9 @@ Vue.component('custom-actions-second', CustomActionsSecond)
 
 export default {
   components: {
-    Vuetable,
-    VuetablePagination,
-    VuetablePaginationInfo
+    Vuetable
+    // VuetablePagination,
+    // VuetablePaginationInfo
   },
   data () {
     return {

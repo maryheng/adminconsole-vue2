@@ -10,7 +10,7 @@
               <strong>Loan Notification</strong>
             </p>
             <div class="NotiTable">
-              <table class="table is-narrow is-striped is-bordered">
+              <table class="table is-narrow">
                 <tbody>
                   <tr v-for="row in loanNotiArray" :key="row" @click="redirectLoanUrl(row)">
                     <td>
@@ -34,7 +34,7 @@
               <strong>Training Notification</strong>
             </p>
             <div class="NotiTable">
-              <table class="table is-narrow is-striped is-bordered">
+              <table class="table is-narrow">
                 <tbody>
                   <tr v-for="row in trainingNotiArray" :key="row" @click="redirectTrainingUrl(row)">
                     <td>
@@ -66,9 +66,9 @@
             
             <!-- Save Button -->
             <div class="saveBtn">
-              <button class="button is-danger is-outlined">
-                Download as PDF
-              </button>
+              <a class="button is-danger is-outlined" href="https://pixelmirror.me/api/reports/visitors">
+              Download as PDF
+              </a>
             </div>
           </div>
         </div>
@@ -87,9 +87,9 @@
 
             <!-- Save Button -->
             <div class="saveBtn">
-              <button class="button is-danger is-outlined">
-                Download as PDF
-              </button>
+              <a class="button is-danger is-outlined" href="https://pixelmirror.me/api/reports/loanArchives">
+              Download as PDF
+              </a>
             </div>
           </div>
         </div>

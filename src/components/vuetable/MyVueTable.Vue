@@ -22,20 +22,20 @@
 <script>
 import Vue from 'vue'
 import Vuetable from 'vuetable-2/src/components/Vuetable'
-import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
-import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
+// import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
+// import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
 import CustomActions from './CustomActions'
 import moment from 'moment'
-import BulmaPagination from './BulmaPagination'
+// import BulmaPagination from './BulmaPagination'
 
 Vue.component('custom-actions', CustomActions)
 
 export default {
   components: {
-    Vuetable,
-    VuetablePagination,
-    VuetablePaginationInfo,
-    BulmaPagination
+    Vuetable
+    // VuetablePagination,
+    // VuetablePaginationInfo,
+    // BulmaPagination
   },
   data () {
     return {

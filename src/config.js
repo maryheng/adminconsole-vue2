@@ -1,5 +1,6 @@
 // Base URL
 export const baseUrl = 'https://pixelmirror.me'
+// export const baseUrl = ''
 
 // Login
 export const loginUrl = baseUrl + '/login/'
@@ -10,6 +11,8 @@ export const notificationUrl = baseUrl + '/api/notifications/'
 // Dashboard - Report Generation / Graphs
 export const visitorDataUrl = baseUrl + '/api/reports/visitors/chart'
 export const loanArchiveDataUrl = baseUrl + '/api/reports/loanArchives/chart'
+export const visitorReportDownloadUrl = baseUrl + '/api/reports/visitors'
+export const loanUsuageDownloadUrl = baseUrl + '/api/reports/loanArchives'
 
 // Users
 export const staffUrl = baseUrl + '/api/staffs/'

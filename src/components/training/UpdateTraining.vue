@@ -12,9 +12,11 @@
           <div class="imageDiv">
             <div class="field is-grouped">
               <div id="chooseFileDiv">
-                <p class="control">
-                  <img :src="image" />
-                </p>
+                <div id="imageShowDiv" v-bind:style="{ 'backgroundImage': 'url(' + this.image + ')' }">
+                  <p class="control">
+                    <!-- <img :src="image" /> -->
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -26,35 +28,74 @@
         <!-- Yes Button -->
         <div class="buttonGroup">
           <div class="field is-grouped">
-            <div class="field is-horizontal">
               <div class="saveBtn">
                 <div class="control">
                   <button class="button is-primary is-medium" @click="yesBtn">
                     Yes
                   </button>
                 </div>
+            </div>
+  
+            <!-- No Button -->
+            <div class="saveBtn">
+              <div class="control">
+                <button class="button is-medium" @click="someoneElseBtn">
+                  It's someone else
+                </button>
               </div>
             </div>
   
             <!-- No Button -->
-            <div class="field is-horizontal">
-              <div class="saveBtn">
-                <div class="control">
-                  <button class="button is-light is-medium" @click="sendToDeleteApiBtn">
-                    No
-                  </button>
-                </div>
+            <div class="saveBtn">
+              <div class="control">
+                <button class="button is-medium" @click="sendToDeleteApiBtn">
+                  No
+                </button>
               </div>
             </div>
           </div>
         </div>
-  
-        <!-- Simplert Notification -->
-        <simplert :useRadius="true" :useIcon="true" ref="simplert">
-        </simplert>
+
+    <div class="chooseMultiselect" v-show="this.checked === true">
+      <p>If it's someone else, who might this be?</p>
+      <br>
+        <!-- Input field for USERS -->
+            <div class="field is-grouped">
+              <div class="multiselectDiv">
+                <p class="control">
+                  <multiselect
+                  v-model="selectedUser"
+                  :options="allUsers"
+                  :searchable="false"
+                  :allow-empty="true"
+                  label="name"
+                  track-by="name"
+                  open-direction="bottom"
+                  >
+                  </multiselect>
+                </p>
+              </div>
+            </div>  
+
+                        <!-- No Button -->
+            <div class="saveBtn">
+              <div class="control">
+                <button class="button is-light" @click="yesBtn">
+                  Save
+                </button>
+              </div>
+            </div>   
+            </div> 
   
       </div>
     </div>
+
+    <pre> {{ $data|json }} </pre>
+  
+    <!-- Simplert Notification -->
+    <simplert :useRadius="true" :useIcon="true" ref="simplert">
+    </simplert>
+  
   </div>
 </template>
 
@@ -62,29 +103,39 @@
 import router from '../../router'
 import axios from 'axios'
 import Simplert from 'vue2-simplert/src/components/simplert'
-import { trainingUrl } from '../../config'
+import { trainingUrl, userOptions } from '../../config'
+import Multiselect from 'vue-multiselect'
 
 export default {
   name: 'app',
   components: {
-    Simplert
+    Simplert,
+    Multiselect
   },
   data () {
     return {
       data: {
         name: '',
         trainingId: '',
-        userImageUrl: ''
+        imageUrl: '',
+        userId: ''
       },
+      selectedUser: [],
+      allUsers: [],
       image: '',
-      getTrainingId: ''
+      getTrainingId: '',
+      checked: false
     }
   },
   methods: {
     yesBtn () {
       let self = this
+      if (self.checked === true) {
+        self.data.userId === self.selectedUser.userId
+      }
       axios.put(trainingUrl + self.getTrainingId, {
-        imageName: self.data.userImageUrl
+        imageUrl: self.image,
+        userId: self.data.userId
       })
         .then((response) => {
           let closeFn = () => {
@@ -120,6 +171,9 @@ export default {
         .catch((error) => {
           console.log(error)
         })
+    },
+    someoneElseBtn () {
+      this.checked = true
     }
   },
   created () {
@@ -137,16 +191,28 @@ export default {
 
     axios.get(trainingUrl + self.getTrainingId)
       .then((response) => {
+        console.log(response)
         self.data.name = response.data.name
-        self.data.userImageUrl = response.data.userImageUrl
+        self.data.imageUrl = response.data.imageUrl
+        self.data.userId = response.data.userId
         self.image = response.data.userImageUrl
         self.data.trainingId = response.data.trainingId
+      })
+
+    // Get Users from API
+    axios.get(userOptions)
+      .then((response) => {
+        self.allUsers = response.data
+      })
+      .catch((error) => {
+        console.log(error)
       })
   }
 }
 
 </script>
 
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
 .box {
   padding-bottom: 3%;
@@ -163,14 +229,14 @@ hr {
   width: 35%;
 }
 
-.buttonGroup {
+ .buttonGroup {
   margin-top: 1%;
-  margin-left: 16%;
+  margin-left: 13%;
 }
 
 .buttonGroup button {
-  margin-left: 50px;
-}
+  margin-left: 46px;
+} 
 
 .header {
   margin-left: 6%;
@@ -181,14 +247,16 @@ hr {
   margin-left: 14.5%;
 }
 
-img {
+#imageShowDiv {
   border-radius: 50%;
-  width: 300px;
-  height: 300px;
+  width: 280px;
+  height: 280px;
   margin: auto;
   display: block;
   margin-top: 10%;
   margin-left: 15%;
+  background-size: cover;
+  overflow: hidden;
 }
 
 #nameDiv {
@@ -196,4 +264,17 @@ img {
   margin-left: 16%;
 }
 
+.multiselectDiv {
+  width: 300px;
+  margin-top: 0%;
+}
+
+.chooseMultiselect {
+  margin-top: 2%;
+  margin-left: 15.7%;
+}
+
+.chooseMultiselect  button{
+  margin-left: 8.2%;
+}
 </style>
