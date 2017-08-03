@@ -12,8 +12,8 @@ import { Dispatcher } from './Dispatcher.js'
 
 Vue.prototype.$http = axios
 Vue.axios = axios
-Vue.use(VueSocketio, baseUrl, { forceNew: true })
-// Vue.use(VueSocketio, '/', { forceNew: true })
+// Vue.use(VueSocketio, baseUrl, { forceNew: true })
+Vue.use(VueSocketio, '/', { forceNew: true })
 Vue.use(VueCookie)
 Vue.use(VeeValidate)
 

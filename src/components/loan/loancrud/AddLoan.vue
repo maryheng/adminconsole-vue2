@@ -199,10 +199,10 @@
         </div> 
       </div> 
 
-              <pre>
+              <!-- <pre>
         {{ $data | json }}
       </pre>
-  
+   -->
       <!-- Save Button -->
       <div class="saveBtn">
         <div class="field is-horizontal">
