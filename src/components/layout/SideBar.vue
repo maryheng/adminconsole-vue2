@@ -45,9 +45,10 @@ export default {
 
 <style>
 .menu {
-  position: absolute;
+  position: fixed;
   top: 60px;
   left: 0px;
+  bottom: 0;
   padding: 30px 0 50px;
   width: 230px;
   height: 100%;
