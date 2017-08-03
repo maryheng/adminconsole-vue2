@@ -7,6 +7,7 @@ export const loginUrl = baseUrl + '/login/'
 
 // Dashboard - Notifications
 export const notificationUrl = baseUrl + '/api/notifications/'
+export const notificationLookedAt = '/lookedAt'
 
 // Dashboard - Report Generation / Graphs
 export const visitorDataUrl = baseUrl + '/api/reports/visitors/chart'

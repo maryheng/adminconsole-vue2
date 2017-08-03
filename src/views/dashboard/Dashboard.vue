@@ -103,7 +103,7 @@
 <script>
 import VisitorRecordGraph from '../../components/dashboard/VisitorRecordsGraph.vue'
 import LoanUsageGraph from '../../components/dashboard/LoanUsageGraph.vue'
-import { notificationUrl } from '../../config.js'
+import { notificationUrl, notificationLookedAt } from '../../config.js'
 import axios from 'axios'
 import moment from 'moment'
 import router from '../../router'
@@ -137,9 +137,11 @@ export default {
       })
     },
     redirectTrainingUrl (row) {
-      window.open(row.redirectUrl, '_self')
+      axios.put(notificationUrl + row.notificationId + notificationLookedAt)
+      window.open(row.redirectUrl, '_blank')
     },
     redirectLoanUrl (row) {
+      axios.put(notificationUrl + row.notificationId + notificationLookedAt)
       router.push({ path: '/loan/DueLoans' })
     }
   },
@@ -155,23 +157,27 @@ export default {
 
         // Format DateTime to be proper
         getLoanNotification.map((item) => {
-          const oldTag = {
-            triggerDateTime: moment(item.triggerDateTime).format('DD-MM-YYYY'),
-            notificationBody: item.notificationBody,
-            redirectUrl: item.redirectUrl,
-            lookedAt: item.lookedAt
+          if (item.lookedAt === false) {
+            const oldTag = {
+              triggerDateTime: moment(item.triggerDateTime).format('DD-MM-YYYY'),
+              notificationBody: item.notificationBody,
+              redirectUrl: item.redirectUrl,
+              notificationId: item.notificationId
+            }
+            self.loanNotiArray.push(oldTag)
           }
-          self.loanNotiArray.push(oldTag)
         })
         // Format DateTime to be proper
         getTrainingNotification.map((item) => {
-          const oldTag = {
-            triggerDateTime: moment(item.triggerDateTime).format('DD-MM-YYYY'),
-            notificationBody: item.notificationBody,
-            redirectUrl: item.redirectUrl,
-            lookedAt: item.lookedAt
+          if (item.lookedAt === false) {
+            const oldTag = {
+              triggerDateTime: moment(item.triggerDateTime).format('DD-MM-YYYY'),
+              notificationBody: item.notificationBody,
+              redirectUrl: item.redirectUrl,
+              notificationId: item.notificationId
+            }
+            self.trainingNotiArray.push(oldTag)
           }
-          self.trainingNotiArray.push(oldTag)
         })
       })
       .catch((error) => {

@@ -16,8 +16,8 @@
           <div class="field is-grouped">
             <div id="chooseFileDiv">
               <p class="control">
-                <img :src="image" />
-                <input type="file" @change="onFileChange" class="input" ref="image" name="image" id="image">           
+                <div id="imageShowDiv" v-show="this.checked === true" v-bind:style="{ 'backgroundImage': 'url(' + this.image + ')' }"></div>
+                <input type="file" @change="onFileChange" class="input" ref="image" name="image" id="image">
               </p>
             </div>
           </div>
@@ -109,7 +109,8 @@ export default {
         username: '',
         password: ''
       },
-      image: ''
+      image: '',
+      checked: false
     }
   },
   methods: {
@@ -143,8 +144,11 @@ export default {
       }
     },
     onFileChange (e) {
+      this.checked = true
       var files = e.target.files || e.dataTransfer.files
       if (!files.length) {
+        this.image = null
+        this.checked = false
         return
       }
       this.createImage(files[0])
@@ -206,13 +210,16 @@ button {
   margin-left: 8.4%;
 }
 
-img {
+#imageShowDiv {
   border-radius: 50%;
   width: 200px;
   height: 200px;
-  margin: auto;
   display: block;
-  margin-bottom: 30px;
-  margin-left: 15%;
+  margin: auto;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  margin-bottom: 10%;
 }
 </style>

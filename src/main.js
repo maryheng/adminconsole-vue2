@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import VueSocketio from 'vue-socket.io'
-import { baseUrl } from './config.js'
+import { baseUrl, notificationUrl, notificationLookedAt } from './config.js'
 import VueCookie from 'vue-cookie'
 import VeeValidate from 'vee-validate'
 import { Dispatcher } from './Dispatcher.js'
@@ -44,7 +44,7 @@ if (VueCookie.get('_xsrf') !== null) {
 
 // Global axios default (config default that will be applied to every request)
 var accessToken = window.localStorage.getItem('access_token')
-axios.defaults.baseURL = 'https://pixelmirror.me/'
+axios.defaults.baseURL = baseUrl
 axios.defaults.headers.common['authorization'] = 'Bearer ' + accessToken
 
 const app = new Vue({
@@ -60,8 +60,6 @@ const app = new Vue({
     },
     notification: (data) => {
       Dispatcher.$emit('triggerNotification', data)
-      console.log('Below is socket notification')
-      console.log(data)
     },
     disconnect: () => {
       console.log('Disconnected from socket')
@@ -90,6 +88,7 @@ const app = new Vue({
       }
     },
     loadNotifications: (val) => {
+      console.log(val)
       var title = val.notificationTitle
       var body = val.notificationBody
       var options = {}
@@ -99,9 +98,18 @@ const app = new Vue({
       } else if (Notification.permission === 'granted') {
         var notification = new Notification(title, options)
         notification.title
-        // Click on notification, leads user to Update Training page
-        notification.onclick = () => {
-          window.open(val.notificationUrl, '_self')
+
+        // If user clicks on a notification that belongs to missed notifications
+        if (notification.title === 'Missed notifications') {
+          notification.onclick = () => {
+            router.push({ path: '/' })
+          }
+        } else { // If user clicks on a loan/training notification
+          // Click on notification, leads user to Update Training page
+          notification.onclick = () => {
+            axios.put(notificationUrl + val.notificationId + notificationLookedAt)
+            window.open(val.notificationUrl, '_blank')
+          }
         }
       } else if (Notification.permission !== 'denied') {
         Notification.requestPermission((permission) => {
