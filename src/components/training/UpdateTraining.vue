@@ -242,18 +242,17 @@ hr {
 }
 
 .imageDiv {
-  margin-left: 14.5%;
+  margin-left: 13%;
 }
 
 #imageShowDiv {
-  border-radius: 50%;
-  width: 280px;
+  width: 500px;
   height: 280px;
-  margin: auto;
   display: block;
   margin-top: 10%;
-  margin-left: 15%;
-  background-size: cover;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
   overflow: hidden;
 }
 
