@@ -6,68 +6,75 @@
         <p class="title is-4">Staff Details</p>
       </div>
       <hr>
-
-      <!-- Upload Image -->
-      <div class="field is-horizontal">
-        <div class="field-label is-normal">
-          <label class="label">Upload Image:</label>
-        </div>
-        <div class="field-body">
-          <div class="field is-grouped">
-            <div id="chooseFileDiv">
-              <p class="control">
-                <img :src="image" />
-                <input type="file" @change="onFileChange" class="input" ref="image" name="image" id="image">           
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-  
-      <!--Input field for Name-->
-      <div class="field is-horizontal">
-        <div class="field-label is-normal">
-          <label class="label">Full Name:</label>
-        </div>
-        <div class="field-body">
-          <div class="field is-grouped">
-            <p class="control">
-              <input class="input" type="text" placeholder="Name" v-model="data.name">
-            </p>
-          </div>
-        </div>
-      </div>
-  
-      <!--Input field for Username-->
-      <div class="field is-horizontal">
-        <div class="field-label is-normal">
-          <label class="label">Username:</label>
-        </div>
-        <div class="field-body">
-          <div class="field is-grouped">
-            <p class="control">
-              <input class="input" type="text" placeholder="Username" v-model="data.username">
-            </p>
-          </div>
-        </div>
-      </div>
-  
-      <!-- Update Button -->
-      <div class="updateBtn">
+      <!-- Form Validation -->
+      <form @submit.prevent="validateBeforeUpdate">
+        <!-- Upload Image -->
         <div class="field is-horizontal">
-          <div class="field-label">
+          <div class="field-label is-normal">
+            <label class="label">Upload Image:</label>
           </div>
           <div class="field-body">
-            <div class="field">
-              <div class="control">
-                <button class="button is-primary" @click="updateStaffBtn">
-                  Update
-                </button>
+            <div class="field is-grouped">
+              <div id="chooseFileDiv">
+                <p class="control">
+                  <div id="imageShowDiv" v-show="this.checked === true" v-bind:style="{ 'backgroundImage': 'url(' + this.image + ')' }"></div>
+                  <input type="file" v-validate="'mimes:image/jpeg'" :class="{'input': true, 'is-danger': errors.has('image') }"
+                  @change="onFileChange" class="input" ref="image" name="image" id="image" value="value">
+                  <span v-show="errors.has('image')" class="help is-danger">{{ errors.first('image') }}</span>
+                </p>
               </div>
             </div>
           </div>
         </div>
-      </div>
+  
+        <!--Input field for Name-->
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Full Name:</label>
+          </div>
+          <div class="field-body">
+            <div class="field is-grouped">
+              <p class="control">
+                <input class="input" v-validate="'required|alpha_spaces|max:100'" :class="{'input': true, 'is-danger': errors.has('name') }" name="name" type="text" placeholder="Name" v-model="data.name">
+                <span v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+  
+        <!--Input field for Username-->
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Username:</label>
+          </div>
+          <div class="field-body">
+            <div class="field is-grouped">
+              <p class="control">
+                <input class="input" v-validate="'required|alpha_dash'" :class="{'input': true, 'is-danger': errors.has('username') }" name="username" type="text" placeholder="Username" v-model="data.username">
+                <span v-show="errors.has('username')" class="help is-danger">{{ errors.first('username') }}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Update Button -->
+        <div class="updateBtn">
+          <div class="field is-horizontal">
+            <div class="field-label">
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <button class="button is-primary">
+                    Update
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form> 
+      <!-- End of validateBeforeUpdate -->
   
       <!-- ~~~~~~~~~~CHANGE OF PASSWORD SECTION~~~~~~~~~~~~~~~~ -->
       <div class="header">
@@ -102,6 +109,9 @@
         </div>
         <br>
   
+        <!-- Form Validation -->
+        <form @submit.prevent="validateNewPasswordsBeforeUpdate">
+
         <!--Input field for Change New Password-->
         <div class="passwordField">
           <div class="field is-horizontal">
@@ -111,13 +121,15 @@
             <div class="field-body">
               <div class="field is-grouped">
                 <p class="control">
-                  <input class="input" type="password" placeholder="Password" v-model="data.newPassword">
+                  <input class="input" v-validate="'required|min:8|confirmed:new re-password'" :class="{'input': true, 'is-danger': errors.has('new password') }"
+                  name="new password" type="password" placeholder="New Password" v-model="data.newPassword">
+                 <span v-show="errors.has('new password')" class="help is-danger">{{ errors.first('new password') }}</span>                
                 </p>
               </div>
             </div>
           </div>
         </div>
-
+  
         <!--Input field for Change Re-enter New Password-->
         <div class="passwordField">
           <div class="field is-horizontal">
@@ -127,12 +139,14 @@
             <div class="field-body">
               <div class="field is-grouped">
                 <p class="control">
-                  <input class="input" type="password" placeholder="Password" v-model="data.newRePassword">
+                  <input class="input" type="password" v-validate="'required|min:8|confirmed:new password'" :class="{'input': true, 'is-danger': errors.has('new re-password') }"
+                  name="new re-password" placeholder="New Re-Password" v-model="data.newRePassword">
+                <span v-show="errors.has('new re-password')" class="help is-danger">{{ errors.first('new re-password') }}</span>                
                 </p>
               </div>
             </div>
           </div>
-        </div>        
+        </div>
   
         <!--Update button for Change Password-->
         <div class="updatePwdBtn">
@@ -142,7 +156,7 @@
             <div class="field-body">
               <div class="field">
                 <div class="control">
-                  <button class="button is-info" @click="updatePwdBtn">
+                  <button class="button is-info">
                     Update
                   </button>
                 </div>
@@ -150,8 +164,9 @@
             </div>
           </div>
         </div>
+        </form>
       </modal>
-
+  
       <div class="deleteBtn">
         <div class="field is-horizontal">
           <div class="field-label">
@@ -159,7 +174,7 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <button class="button" @click="deleteBtn" >
+                <button class="button" @click="deleteBtn">
                   Delete
                 </button>
               </div>
@@ -167,14 +182,11 @@
           </div>
         </div>
       </div>
-
+  
       <!-- Simplert Notification -->
-      <simplert 
-        :useRadius="true"
-        :useIcon="true"
-        ref="simplert">
+      <simplert :useRadius="true" :useIcon="true" ref="simplert">
       </simplert>
-
+  
     </div>
   </div>
 </template>
@@ -202,82 +214,87 @@ export default {
       },
       showChangePasswordModal: false,
       image: '',
-      staffUserId: ''
+      staffUserId: '',
+      checked: true
     }
   },
   methods: {
     // Update Staff Record; image, name, username
-    updateStaffBtn () {
+    validateBeforeUpdate () {
       let self = this
+      self.$validator.validateAll().then(result => {
+        if (result) {
+          alert('From Submitted!')
+          let formData = new FormData()
+          // Post Staff data to server
+          formData.append('userImage', self.$refs.image.files[0])
+          formData.append('name', this.data.name)
+          formData.append('username', this.data.username)
 
-      let formData = new FormData()
-      // Post Staff data to server
-      formData.append('userImage', self.$refs.image.files[0])
-      formData.append('name', this.data.name)
-      formData.append('username', this.data.username)
-
-      axios.put(staffUrl + self.staffUserId, formData)
-        .then((response) => {
-          let closeFn = () => {
-            router.push({ path: '/user/staff' })
-          }
-          let successAlert = {
-            title: 'Success',
-            message: 'Staff record successfully updated!',
-            type: 'success',
-            onClose: closeFn
-          }
-          self.$refs.simplert.openSimplert(successAlert)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    //   let self = this
-
-    //   // Update Staff's details & Picture
-    //   axios.put(staffUrl + self.staffUserId, {
-    //     name: this.data.name,
-    //     username: this.data.username
-    //   })
-    //     .then((response) => {
-    //       let closeFn = () => {
-    //         router.push({ path: '/user/staff' })
-    //       }
-    //       let successAlert = {
-    //         title: 'Success',
-    //         message: 'Staff record successfully updated!',
-    //         type: 'success',
-    //         onClose: closeFn
-    //       }
-    //       self.$refs.simplert.openSimplert(successAlert)
-    //     })
-    //     .catch((error) => {
-    //       console.log(error)
-    //     })
+          axios.put(staffUrl + self.staffUserId, formData)
+            .then((response) => {
+              let closeFn = () => {
+                router.push({ path: '/user/staff' })
+              }
+              let successAlert = {
+                title: 'Success',
+                message: 'Staff record successfully updated!',
+                type: 'success',
+                onClose: closeFn
+              }
+              self.$refs.simplert.openSimplert(successAlert)
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+          return
+        }
+        alert('Correct them errors!')
+        let errorAlert = {
+          title: 'Error',
+          message: 'Some fields are incorrect!',
+          type: 'error'
+        }
+        self.$refs.simplert.openSimplert(errorAlert)
+      })
+    },
+    validateNewPasswordsBeforeUpdate () {
+      let self = this
+      self.$validator.validateAll().then(result => {
+        if (result) {
+          // Update Staff's Password
+          axios.put(staffUrl + self.staffUserId + '/changePasswords', {
+            newPassword: this.data.newPassword,
+            newRePassword: this.data.newRePassword
+          })
+            .then((response) => {
+              let closeFn = () => {
+                // router.push({ name: 'UpdateStaff', params: { userId: self.staffUserId } })
+                window.open('/user/UpdateStaff/' + self.staffUserId, '_self')
+              }
+              let successAlert = {
+                title: 'Success',
+                message: 'Password successfully changed!',
+                type: 'success',
+                onClose: closeFn
+              }
+              self.$refs.simplert.openSimplert(successAlert)
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+          return
+        }
+        let errorAlert = {
+          title: 'Error',
+          message: 'Some fields are incorrect!',
+          type: 'error'
+        }
+        self.$refs.simplert.openSimplert(errorAlert)
+      })
     },
     // Update Password for Staff
     updatePwdBtn () {
-      let self = this
-      // Update Staff's Password
-      axios.put(staffUrl + self.staffUserId + '/changePasswords', {
-        newPassword: this.data.newPassword,
-        newRePassword: this.data.newRePassword
-      })
-        .then((response) => {
-          let closeFn = () => {
-            router.push({ name: 'UpdateStaff', params: { userId: self.staffUserId } })
-          }
-          let successAlert = {
-            title: 'Success',
-            message: 'Password successfully changed!',
-            type: 'success',
-            onClose: closeFn
-          }
-          self.$refs.simplert.openSimplert(successAlert)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
     },
     // Delete Staff Record
     deleteBtn () {
@@ -313,8 +330,11 @@ export default {
       self.$refs.simplert.openSimplert(deleteAlert)
     },
     onFileChange (e) {
+      this.checked = true
       var files = e.target.files || e.dataTransfer.files
       if (!files.length) {
+        this.image = null
+        this.checked = false
         return
       }
       this.createImage(files[0])
@@ -423,13 +443,16 @@ button {
   margin-top: 3%;
 }
 
-img {
+#imageShowDiv {
   border-radius: 50%;
   width: 200px;
   height: 200px;
-  margin: auto;
   display: block;
-  margin-bottom: 30px;
-  margin-left: 15%;
+  margin: auto;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  margin-bottom: 10%;
 }
 </style>
