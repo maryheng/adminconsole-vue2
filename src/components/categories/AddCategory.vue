@@ -8,6 +8,8 @@
         </div>
         <hr>
   
+        <!-- Form Validation -->
+        <form @submit.prevent="validateBeforeSubmit">  
         <!--Input field for Category Name-->
         <div class="field is-horizontal">
           <div class="field-label is-normal">
@@ -16,7 +18,9 @@
           <div class="field-body">
             <div class="field is-grouped">
               <p class="control">
-                <input class="input" type="text" v-model="data.categoryName">
+                <input v-validate="'required|max:50'" :class="{'input': true, 'is-danger': errors.has('category name') }"
+                name="category name" class="input" type="text" v-model="data.categoryName">
+                <span v-show="errors.has('category name')" class="help is-danger">{{ errors.first('category name') }}</span>        
               </p>
             </div>
           </div>
@@ -69,13 +73,14 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <button class="button is-primary" @click="submitBtn">
+                <button class="button is-primary">
                   Save
                 </button>
               </div>
             </div>
           </div>
         </div>
+        </form>
 
       <!-- Simplert Notification -->
       <simplert 
@@ -133,41 +138,57 @@ export default {
         }
       }, this)
     },
-    submitBtn () {
+    validateBeforeSubmit () {
       let self = this
-      self.filterCatType()
-      let confirmFn = () => {
-        axios.post(categoryUrl, {
-          categoryName: self.data.categoryName,
-          categoryTypeId: self.data.categoryTypeId,
-          subCategoryNames: self.data.subCategoryNames
-        })
-        .then((response) => {
-          console.log(response)
-          // After POST is success, show Success Alert
-          let closeFn = () => {
-            router.push({ path: 'category' })
-          }
-          let successAlert = {
-            title: 'Success',
-            message: 'Category is created!',
-            type: 'success',
-            onClose: closeFn
-          }
-          self.$refs.simplert.openSimplert(successAlert)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-      } // End of confirmFn()
-      let warningAlert = {
-        title: 'Warning',
-        message: 'Once you have saved a category type to have sub-categories or without, you cannot change the type anymore!',
-        type: 'warning',
-        useConfirmBtn: true,
-        onConfirm: confirmFn
-      } // End of warningAlert
-      self.$refs.simplert.openSimplert(warningAlert)
+      self.$validator.validateAll().then(result => {
+        if (result) {
+          self.filterCatType()
+          let confirmFn = () => {
+            axios.post(categoryUrl, {
+              categoryName: self.data.categoryName,
+              categoryTypeId: self.data.categoryTypeId,
+              subCategoryNames: self.data.subCategoryNames
+            })
+            .then((response) => {
+              console.log(response)
+              // After POST is success, show Success Alert
+              let closeFn = () => {
+                router.push({ path: 'category' })
+              }
+              let successAlert = {
+                title: 'Success',
+                message: 'Category is created!',
+                type: 'success',
+                onClose: closeFn
+              }
+              self.$refs.simplert.openSimplert(successAlert)
+            })
+            .catch((error) => {
+              let errorAlert = {
+                title: 'Error',
+                message: error.response.data.message,
+                type: 'error'
+              }
+              self.$refs.simplert.openSimplert(errorAlert)
+            })
+          } // End of confirmFn()
+          let warningAlert = {
+            title: 'Warning',
+            message: 'Once you have saved a category type to have sub-categories or without, you cannot change the type anymore!',
+            type: 'warning',
+            useConfirmBtn: true,
+            onConfirm: confirmFn
+          } // End of warningAlert
+          self.$refs.simplert.openSimplert(warningAlert)
+          return
+        }
+        let errorAlert = {
+          title: 'Error',
+          message: 'Some fields are incorrect!',
+          type: 'error'
+        }
+        self.$refs.simplert.openSimplert(errorAlert)
+      })
     }
   },
   created () {

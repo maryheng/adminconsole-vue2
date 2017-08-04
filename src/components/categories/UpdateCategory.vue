@@ -8,6 +8,8 @@
         </div>
         <hr>
   
+        <!-- Form Validation -->
+        <form @submit.prevent="validateBeforeUpdate">  
         <!--Input field for Category Name-->
         <div class="field is-horizontal">
           <div class="field-label is-normal">
@@ -16,7 +18,9 @@
           <div class="field-body">
             <div class="field is-grouped">
               <p class="control">
-                <input class="input" type="text" v-model="data.categoryName">
+                <input v-validate="'required|max:50'" :class="{'input': true, 'is-danger': errors.has('category name') }"
+                name="category name" class="input" type="text" v-model="data.categoryName">
+                <span v-show="errors.has('category name')" class="help is-danger">{{ errors.first('category name') }}</span>        
               </p>
             </div>
           </div>
@@ -76,7 +80,7 @@
             <div class="field-body">
               <div class="field">
                 <div class="control">
-                  <button class="button is-primary" @click="updateCatBtn">
+                  <button class="button is-primary">
                     Update
                   </button>
                 </div>
@@ -84,6 +88,7 @@
             </div>
           </div>
         </div>
+        </form>
   
         <!-- Delete Category Button -->
         <div class="deleteBtn">
@@ -145,29 +150,45 @@ export default {
       }
       this.data.subCategories.push(tag)
     },
-    updateCatBtn () {
+    validateBeforeUpdate () {
       let self = this
-      axios.put(categoryUrl + self.getCategoryId, {
-        categoryName: this.data.categoryName,
-        categoryTypeId: this.data.categoryTypeId,
-        subCategories: this.data.subCategories
-      })
-      .then((response) => {
-        console.log(response)
-        let closeFn = () => {
-          router.push({ path: '/category' })
+      self.$validator.validateAll().then(result => {
+        if (result) {
+          axios.put(categoryUrl + self.getCategoryId, {
+            categoryName: this.data.categoryName,
+            categoryTypeId: this.data.categoryTypeId,
+            subCategories: this.data.subCategories
+          })
+          .then((response) => {
+            console.log(response)
+            let closeFn = () => {
+              router.push({ path: '/category' })
+            }
+            // After POST is success, show Success Alert
+            let successAlert = {
+              title: 'Success',
+              message: 'Category is updated!',
+              type: 'success',
+              onClose: closeFn
+            }
+            self.$refs.simplert.openSimplert(successAlert)
+          })
+          .catch((error) => {
+            let errorAlert = {
+              title: 'Error',
+              message: error.response.data.message,
+              type: 'error'
+            }
+            self.$refs.simplert.openSimplert(errorAlert)
+          })
+          return
         }
-        // After POST is success, show Success Alert
-        let successAlert = {
-          title: 'Success',
-          message: 'Category is updated!',
-          type: 'success',
-          onClose: closeFn
+        let errorAlert = {
+          title: 'Error',
+          message: 'Some fields are incorrect!',
+          type: 'error'
         }
-        self.$refs.simplert.openSimplert(successAlert)
-      })
-      .catch((error) => {
-        console.log(error)
+        self.$refs.simplert.openSimplert(errorAlert)
       })
     },
     getCategoryData () {
