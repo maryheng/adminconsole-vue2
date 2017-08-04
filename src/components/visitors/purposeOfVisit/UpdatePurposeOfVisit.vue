@@ -7,6 +7,8 @@
       </div>
       <hr>
   
+      <!-- Form Validation -->
+      <form @submit.prevent="validateBeforeSubmit">
       <!--Input field for Organization Name-->
       <div class="field is-horizontal">
         <div class="field-label is-normal">
@@ -15,7 +17,9 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="text" placeholder="Purpose of Visit" v-model="data.visitPurpose">
+              <input v-validate="'required|max:30'" :class="{'input': true, 'is-danger': errors.has('purpose of visit') }"
+              name="purpose of visit" class="input" type="text" placeholder="Purpose of Visit" v-model="data.visitPurpose">
+              <span v-show="errors.has('purpose of visit')" class="help is-danger">{{ errors.first('purpose of visit') }}</span>                               
             </p>
           </div>
         </div>
@@ -29,7 +33,7 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <button class="button is-primary" @click="updatePurposeOfVisitBtn">
+                <button class="button is-primary">
                   Update
                 </button>
               </div>
@@ -37,6 +41,7 @@
           </div>
         </div>
       </div>
+      </form>
   
       <!-- Delete Purpose of Visit Button -->
       <div class="deleteBtn">
@@ -84,26 +89,42 @@ export default {
   },
   methods: {
     // PUT Purpose of Visit Data to server
-    updatePurposeOfVisitBtn () {
+    validateBeforeSubmit () {
       let self = this
-      axios.put(visitPurpose + self.visitPurposeOptionId, {
-        visitPurpose: self.data.visitPurpose
+      self.$validator.validateAll().then(result => {
+        if (result) {
+          axios.put(visitPurpose + self.visitPurposeOptionId, {
+            visitPurpose: self.data.visitPurpose
+          })
+            .then((response) => {
+              let closeFn = () => {
+                router.push({ path: '/visitor/PurposeOfVisit' })
+              }
+              let successAlert = {
+                title: 'Success',
+                message: 'Purpose of visit successfully updated!',
+                type: 'success',
+                onClose: closeFn
+              }
+              self.$refs.simplert.openSimplert(successAlert)
+            })
+            .catch((error) => {
+              let errorAlert = {
+                title: 'Error',
+                message: error.response.data.message,
+                type: 'error'
+              }
+              self.$refs.simplert.openSimplert(errorAlert)
+            })
+          return
+        }
+        let errorAlert = {
+          title: 'Error',
+          message: 'Some fields are incorrect!',
+          type: 'error'
+        }
+        self.$refs.simplert.openSimplert(errorAlert)
       })
-        .then((response) => {
-          let closeFn = () => {
-            router.push({ path: '/visitor/PurposeOfVisit' })
-          }
-          let successAlert = {
-            title: 'Success',
-            message: 'Purpose of visit successfully updated!',
-            type: 'success',
-            onClose: closeFn
-          }
-          self.$refs.simplert.openSimplert(successAlert)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
     },
     // Delete Purpose of Visit Data
     deleteBtn () {
@@ -125,9 +146,14 @@ export default {
           }
           self.$refs.simplert.openSimplert(successAlert)
         })
-          .catch((error) => {
-            console.log(error)
-          })
+      .catch((error) => {
+        let errorAlert = {
+          title: 'Error',
+          message: error.response.data.message,
+          type: 'error'
+        }
+        self.$refs.simplert.openSimplert(errorAlert)
+      })
       }
       let deleteAlert = {
         title: 'Warning',
