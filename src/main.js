@@ -18,7 +18,8 @@ Vue.axios = axios
 Vue.use(VueSocketio, baseUrl, { forceNew: true })
 // Vue.use(VueSocketio, '/', { forceNew: true })
 Vue.use(VueCookie)
-Vue.use(VeeValidate)
+Vue.use(VeeValidate, {fieldsBagName: 'formFields'})
+// Vue.use(VeeValidate)
 
 // Enable devtools
 Vue.config.productionTip = true
