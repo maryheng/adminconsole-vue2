@@ -122,6 +122,19 @@ const app = new Vue({
           if (permission === 'granted') {
             var notification = new Notification(title, options)
             notification.body
+
+            // If user clicks on a notification that belongs to missed notifications
+            if (notification.title === 'Missed notifications') {
+              notification.onclick = () => {
+                router.push({ path: '/' })
+              }
+            } else { // If user clicks on a loan/training notification
+              // Click on notification, leads user to Update Training page
+              notification.onclick = () => {
+                axios.put(notificationUrl + val.notificationId + notificationLookedAt)
+                window.open(val.notificationUrl, '_blank')
+              }
+            }
           }
         })
       }
