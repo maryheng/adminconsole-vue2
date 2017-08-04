@@ -6,7 +6,8 @@
           <p class="title is-4">Item Information</p>
         </div>
         <hr>
-  
+        <!-- Form Validation -->
+        <form @submit.prevent="validateBeforeSubmit">
         <!--Input field for Item Name-->
         <div class="field is-horizontal">
           <div class="field-label is-normal">
@@ -15,7 +16,9 @@
           <div class="field-body">
             <div class="field is-grouped">
               <p class="control">
-                <input class="input" type="text" placeholder="Item Name" v-model="data.itemName">
+                <input class="input" v-validate="'required|max:100'" :class="{'input': true, 'is-danger': errors.has('item name') }"
+                name="item name" type="text" placeholder="Item Name" v-model="data.itemName">
+                <span v-show="errors.has('item name')" class="help is-danger">{{ errors.first('item name') }}</span>
               </p>
             </div>
           </div>
@@ -30,8 +33,20 @@
             <div class="field is-grouped">
               <div class="multiselectDiv">
                 <p class="control">
-                  <multiselect v-model="selectedCat" @input="clearSubCat" :options="options" :searchable="false" :allow-empty="true" deselect-label="Can't remove this value" label="categoryName" track-by="categoryName">
+                  <multiselect
+                  v-model="selectedCat"
+                  v-validate data-vv-rules="required"
+                  data-vv-name="category name"
+                  @input="clearSubCat"
+                  :options="options"
+                  :searchable="false"
+                  :allow-empty="true"
+                  label="categoryName"
+                  track-by="categoryName"
+                  open-direction="bottom"
+                  >
                   </multiselect>
+                  <span v-show="errors.has('category name')" class="help is-danger">{{ errors.first('category name') }}</span>                
                 </p>
               </div>
             </div>
@@ -47,8 +62,22 @@
             <div class="field is-grouped">
               <div class="multiselectDiv">
                 <p class="control">
-                  <multiselect v-model="selectedSubCat" :options="computedsubCatOptions" :hide-selected="true" :selected="selectedSubCat" :searchable="false" :allow-empty="true" deselect-label="Can't remove this value" label="subCategoryName" track-by="subCategoryName">
+                  <multiselect
+                  v-validate data-vv-rules="required"
+                  data-vv-name="sub-category name"                  
+                  v-model="selectedSubCat"
+                  :options="computedsubCatOptions"
+                  :hide-selected="true"
+                  :selected="selectedSubCat"
+                  :searchable="false"
+                  :allow-empty="true"
+                  deselect-label="Can't remove this value"
+                  label="subCategoryName"
+                  track-by="subCategoryName"
+                  open-direction="bottom"
+                  >
                   </multiselect>
+                  <span v-show="errors.has('sub-category name')" class="help is-danger">{{ errors.first('sub-category name') }}</span>                
                 </p>
               </div>
             </div>
@@ -75,23 +104,32 @@
   
             <p class="control">
               <label class="label">Item Label</label>
-              <input class="input" type="text" placeholder="Item Label" v-model="item.itemChildLabel">
+              <input class="input" v-validate="'required|max:70'" :class="{'input': true, 'is-danger': errors.has('item label') }"
+              name="item label" type="text" placeholder="Item Label" v-model="item.itemChildLabel">
+              <span v-show="errors.has('item label')" class="help is-danger">{{ errors.first('item label') }}</span>
             </p>
             <p class="control">
               <label class="label">Serial No</label>
-              <input class="input" type="text" placeholder="Serial No" v-model="item.serialNo">
+              <input class="input" type="text" v-validate="'max:70'" :class="{'input': true, 'is-danger': errors.has('serial number') }"
+              name="serial number" placeholder="Serial No" v-model="item.serialNo">
+              <span v-show="errors.has('serial number')" class="help is-danger">{{ errors.first('serial number') }}</span>           
             </p>
             <p class="control">
               <label class="label">IDA Asset No</label>
-              <input class="input" type="text" placeholder="IDA Asset No" v-model="item.idaAssetNo">
+              <input class="input" type="text" v-validate="'max:70'" :class="{'input': true, 'is-danger': errors.has('IDA asset number') }"
+              name="IDA asset number" placeholder="IDA Asset No" v-model="item.idaAssetNo">
+              <span v-show="errors.has('IDA asset number')" class="help is-danger">{{ errors.first('IDA asset number') }}</span>                       
             </p>
             <p class="control">
               <label class="label">IMDA Asset No</label>
-              <input class="input" type="text" placeholder="IMDA Asset No" v-model="item.imdaAssetNo">
+              <input class="input" type="text" v-validate="'max:70'" :class="{'input': true, 'is-danger': errors.has('IMDA asset number') }"
+              name="IMDA asset number" placeholder="IMDA Asset No" v-model="item.imdaAssetNo">
+              <span v-show="errors.has('IMDA asset number')" class="help is-danger">{{ errors.first('IMDA asset number') }}</span>                       
             </p>
             <p class="control">
               <label class="label">Managed By</label>
-              <multiselect :id="item" 
+              <multiselect
+              :id="item" 
               :options="staffOptions"
               :searchable="false"
               :allow-empty="false"
@@ -99,7 +137,9 @@
               label="name"
               track-by="name"
               @input="updateStaffData"
-              @open="openStaffOptions">
+              @open="openStaffOptions"
+              open-direction="bottom"
+              >
               </multiselect>
             </p>
             <p class="control">
@@ -120,7 +160,7 @@
             <div class="field-body">
               <div class="field">
                 <div class="control">
-                  <button class="button is-primary" @click="saveItemBtn">
+                  <button class="button is-primary">
                     Save
                   </button>
                 </div>
@@ -132,6 +172,8 @@
         <!-- Simplert Notification -->
         <simplert :useRadius="true" :useIcon="true" ref="simplert">
         </simplert>
+
+        </form>
       </div>
     </div>
   </div>
@@ -208,42 +250,53 @@ export default {
       const index = this.itemArray.indexOf(item)
       this.itemArray.splice(index, 1)
     },
-    saveItemBtn () {
+    validateBeforeSubmit () {
       let self = this
-      self.data.categoryId = self.selectedCat.categoryId
-      self.data.subCategoryId = self.selectedSubCat.subCategoryId
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          self.data.categoryId = self.selectedCat.categoryId
+          self.data.subCategoryId = self.selectedSubCat.subCategoryId
 
-      // Assign loanOptionId value to checkbox value
-      self.itemArray.map((item) => {
-        if (item.loanOptionId === true) {
-          item.loanOptionId = self.loanableId
-        }
-        if (item.loanOptionId === false) {
-          item.loanOptionId = self.unloanableId
-        }
-      })
+          // Assign loanOptionId value to checkbox value
+          self.itemArray.map((item) => {
+            if (item.loanOptionId === true) {
+              item.loanOptionId = self.loanableId
+            }
+            if (item.loanOptionId === false) {
+              item.loanOptionId = self.unloanableId
+            }
+          })
 
-      axios.post(itemUrl, {
-        itemName: self.data.itemName,
-        categoryId: self.data.categoryId,
-        subCategoryId: self.data.subCategoryId,
-        itemArray: self.itemArray
+          axios.post(itemUrl, {
+            itemName: self.data.itemName,
+            categoryId: self.data.categoryId,
+            subCategoryId: self.data.subCategoryId,
+            itemArray: self.itemArray
+          })
+            .then((response) => {
+              let closeFn = () => {
+                router.push({ path: '/item' })
+              }
+              let successAlert = {
+                title: 'Success',
+                message: 'Item record successfully created!',
+                type: 'success',
+                onClose: closeFn
+              }
+              self.$refs.simplert.openSimplert(successAlert)
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+          return
+        }
+        let errorAlert = {
+          title: 'Error',
+          message: 'Some fields are incorrect!',
+          type: 'error'
+        }
+        self.$refs.simplert.openSimplert(errorAlert)
       })
-        .then((response) => {
-          let closeFn = () => {
-            router.push({ path: '/item' })
-          }
-          let successAlert = {
-            title: 'Success',
-            message: 'Item record successfully created!',
-            type: 'success',
-            onClose: closeFn
-          }
-          self.$refs.simplert.openSimplert(successAlert)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
     },
     clearSubCat () {
       let self = this

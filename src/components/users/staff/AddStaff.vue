@@ -35,7 +35,8 @@
           <div class="field-body">
             <div class="field is-grouped">
               <p class="control">
-                <input class="input" v-validate="'required|alpha_spaces|max:100'" :class="{'input': true, 'is-danger': errors.has('name') }" name="name" type="text" placeholder="Name" v-model="data.name">
+                <input class="input" v-validate="'required|alpha_spaces|max:100'" :class="{'input': true, 'is-danger': errors.has('name') }"
+                name="name" type="text" placeholder="Name" v-model="data.name">
                 <span v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</span>
               </p>
             </div>

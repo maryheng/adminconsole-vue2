@@ -95,7 +95,7 @@
           <div class="field-body">
             <div class="field is-grouped">
               <p class="control">
-                <input class="input" type="number" name="mobile number" v-validate="'required|numeric'" :class="{'input': true, 'is-danger': errors.has('mobile number') }" v-model="data.mobileNo">
+                <input class="input" type="number" name="mobile number" v-validate="'required|numeric|max:30'" :class="{'input': true, 'is-danger': errors.has('mobile number') }" v-model="data.mobileNo">
                 <span v-show="errors.has('mobile number')" class="help is-danger">{{ errors.first('mobile number') }}</span>
               </p>
             </div>
