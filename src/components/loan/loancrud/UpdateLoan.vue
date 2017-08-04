@@ -7,6 +7,8 @@
       </div>
       <hr>
 
+      <!-- Form Validation -->
+      <form @submit.prevent="validateBeforeUpdate">
       <!--Input field for End Date-->
       <div class="field is-horizontal">
         <div class="field-label is-normal">
@@ -15,7 +17,9 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="datetime-local" v-model="data.dueDateTime">
+              <input v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('due date') }"
+              name="due date" class="input" type="datetime-local" v-model="data.dueDateTime">
+              <span v-show="errors.has('due date')" class="help is-danger">{{ errors.first('due date') }}</span>        
             </p>
           </div>
         </div>
@@ -29,7 +33,7 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <button class="button is-primary" @click="updateLoanBtn">
+                <button class="button is-primary">
                   Update
                 </button>
               </div>
@@ -37,6 +41,7 @@
           </div>
         </div>
       </div>
+    </form>
   
       <!-- Simplert Notification -->
       <simplert :useRadius="true" :useIcon="true" ref="simplert">
@@ -67,30 +72,45 @@ export default {
     }
   },
   methods: {
-    updateLoanBtn () {
+    validateBeforeUpdate () {
       let self = this
-
-      // Convert datetime to UTC
-      self.data.dueDateTime = moment(self.data.dueDateTime).utc().format()
-      // Update loan's duedatetime data to API
-      axios.put(loanUrl + self.getLoanId + updateDueDateTimeUrl, {
-        dueDateTime: self.data.dueDateTime
+      self.$validator.validateAll().then(result => {
+        if (result) {
+          // Convert datetime to UTC
+          self.data.dueDateTime = moment(self.data.dueDateTime).utc().format()
+          // Update loan's duedatetime data to API
+          axios.put(loanUrl + self.getLoanId + updateDueDateTimeUrl, {
+            dueDateTime: self.data.dueDateTime
+          })
+            .then((response) => {
+              let closeFn = () => {
+                router.push({ path: '/loan/OngoingLoans' })
+              }
+              let successAlert = {
+                title: 'Success',
+                message: 'Loan record successfully updated!',
+                type: 'success',
+                onClose: closeFn
+              }
+              self.$refs.simplert.openSimplert(successAlert)
+            })
+            .catch((error) => {
+              let errorAlert = {
+                title: 'Error',
+                message: error.response.data.message,
+                type: 'error'
+              }
+              self.$refs.simplert.openSimplert(errorAlert)
+            })
+          return
+        }
+        let errorAlert = {
+          title: 'Error',
+          message: 'Some fields are incorrect!',
+          type: 'error'
+        }
+        self.$refs.simplert.openSimplert(errorAlert)
       })
-        .then((response) => {
-          let closeFn = () => {
-            router.push({ path: '/loan/OngoingLoans' })
-          }
-          let successAlert = {
-            title: 'Success',
-            message: 'Loan record successfully updated!',
-            type: 'success',
-            onClose: closeFn
-          }
-          self.$refs.simplert.openSimplert(successAlert)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
     }
   },
   created () {
@@ -109,7 +129,9 @@ export default {
     axios.get(loanUrl + self.getLoanId)
       .then((response) => {
         console.log(response)
-        self.data.dueDateTime = response.data.dueDateTime.slice(0, 16)
+        // self.data.dueDateTime = response.data.dueDateTime.slice(0, 16)
+        self.data.dueDateTime = moment.utc(response.data.dueDateTime).toDate()
+        self.data.dueDateTime = moment(self.data.dueDateTime).format('YYYY-MM-DDTHH:mm')
       })
       .catch((error) => {
         console.log(error)

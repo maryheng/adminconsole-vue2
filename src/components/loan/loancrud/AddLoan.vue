@@ -7,6 +7,8 @@
       </div>
       <hr>
   
+      <!-- Form Validation -->
+      <form @submit.prevent="validateBeforeSubmit">
       <!--Input field for Start Date-->
       <div class="field is-horizontal">
         <div class="field-label is-normal">
@@ -24,12 +26,14 @@
       <!--Input field for End Date-->
       <div class="field is-horizontal">
         <div class="field-label is-normal">
-          <label class="label">End Date:</label>
+          <label class="label">Due Date:</label>
         </div>
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="datetime-local" v-model="data.dueDateTime">
+              <input v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('due date') }"
+              name="due date" class="input" type="datetime-local" v-model="data.dueDateTime">
+              <span v-show="errors.has('due date')" class="help is-danger">{{ errors.first('due date') }}</span>        
             </p>
           </div>
         </div>
@@ -46,14 +50,18 @@
                 <p class="control">
                   <multiselect
                   v-model="selectedCat"
+                  v-validate data-vv-rules="required"
+                  data-vv-name="category name"                  
                   @input="checkSubCat"
                   :options="options"
                   :searchable="false"
                   :allow-empty="true"
                   label="categoryName"
                   track-by="categoryName"
+                  open-direction="bottom"
                   >
                   </multiselect>
+                  <span v-show="errors.has('category name')" class="help is-danger">{{ errors.first('category name') }}</span>                
                 </p>
               </div>
             </div>
@@ -71,6 +79,7 @@
                 <p class="control">
                   <multiselect
                   v-model="selectedSubCat" 
+                  data-vv-name="sub-category name"
                   :options="computedsubCatOptions"
                   :hide-selected="true"
                   :selected="selectedSubCat"
@@ -79,8 +88,10 @@
                   label="subCategoryName"
                   track-by="subCategoryName"
                   @input="subCatGetItems"
+                  open-direction="bottom"
                   >
                   </multiselect>
+                  <span v-show="errors.has('sub-category name')" class="help is-danger">{{ errors.first('sub-category name') }}</span>                
                 </p>
               </div>
             </div>
@@ -98,12 +109,15 @@
                 <p class="control">
                   <multiselect
                   v-model="selectedUser"
+                  v-validate data-vv-rules="required"
+                  data-vv-name="user"
                   :options="allUsers"
                   :searchable="false"
                   :allow-empty="true"
                   label="name"
                   track-by="name">
                   </multiselect>
+                  <span v-show="errors.has('user')" class="help is-danger">{{ errors.first('user') }}</span>                
                 </p>
               </div>
             </div>
@@ -198,10 +212,6 @@
         </table>   
         </div> 
       </div> 
-
-               <pre>
-        {{ $data | json }}
-      </pre>
    
       <!-- Save Button -->
       <div class="saveBtn">
@@ -211,7 +221,7 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <button class="button is-primary" @click="saveLoanBtn">
+                <button class="button is-primary">
                   Save
                 </button>
               </div>
@@ -219,6 +229,9 @@
           </div>
         </div>
       </div>
+    </form>
+
+    <pre>{{ $data|json }}</pre>
   
       <!-- Simplert Notification -->
       <simplert :useRadius="true" :useIcon="true" ref="simplert">
@@ -266,44 +279,68 @@ export default {
     }
   },
   methods: {
-    saveLoanBtn () {
+    validateBeforeSubmit () {
       let self = this
+      self.$validator.validateAll().then(result => {
+        if (result) {
+          // Convert datetime to UTC
+          self.data.startDateTime = moment(self.data.startDateTime).utc().format()
+          self.data.dueDateTime = moment(self.data.dueDateTime).utc().format()
 
-      // Convert datetime to UTC
-      self.data.startDateTime = moment(self.data.startDateTime).utc().format()
-      self.data.dueDateTime = moment(self.data.dueDateTime).utc().format()
+          // Rearrange arrays to put into desired arrays to send to API
+          self.selectedItemChildNames.map((item) => {
+            const oldTag = {
+              startDateTime: self.data.startDateTime,
+              dueDateTime: self.data.dueDateTime,
+              itemChildId: item.itemChildId,
+              remarks: item.remarks
+            }
+            self.loanDetails.push(oldTag)
+          })
 
-      // Rearrange arrays to put into desired arrays to send to API
-      self.selectedItemChildNames.map((item) => {
-        const oldTag = {
-          startDateTime: self.data.startDateTime,
-          dueDateTime: self.data.dueDateTime,
-          itemChildId: item.itemChildId,
-          remarks: item.remarks
+          if (self.loanDetails.length === 0) {
+            let errorAlert = {
+              title: 'Error',
+              message: 'You did not select any items to loan!',
+              type: 'error'
+            }
+            self.$refs.simplert.openSimplert(errorAlert)
+          } else {
+            // Post Loan data to API
+            axios.post(loanUrl, {
+              userId: self.selectedUser.userId,
+              loanDetails: self.loanDetails
+            })
+              .then((response) => {
+                let closeFn = () => {
+                  router.push({ path: '/loan/OngoingLoans' })
+                }
+                let successAlert = {
+                  title: 'Success',
+                  message: 'Loan record successfully created!',
+                  type: 'success',
+                  onClose: closeFn
+                }
+                self.$refs.simplert.openSimplert(successAlert)
+              })
+              .catch((error) => {
+                let errorAlert = {
+                  title: 'Error',
+                  message: error.response.data.message,
+                  type: 'error'
+                }
+                self.$refs.simplert.openSimplert(errorAlert)
+              })
+          }
+          return
         }
-        self.loanDetails.push(oldTag)
+        let errorAlert = {
+          title: 'Error',
+          message: 'Some fields are incorrect!',
+          type: 'error'
+        }
+        self.$refs.simplert.openSimplert(errorAlert)
       })
-
-      // Post Loan data to API
-      axios.post(loanUrl, {
-        userId: self.selectedUser.userId,
-        loanDetails: self.loanDetails
-      })
-        .then((response) => {
-          let closeFn = () => {
-            router.push({ path: '/loan/OngoingLoans' })
-          }
-          let successAlert = {
-            title: 'Success',
-            message: 'Loan record successfully created!',
-            type: 'success',
-            onClose: closeFn
-          }
-          self.$refs.simplert.openSimplert(successAlert)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
     },
     // Check if Category has sub-categories
     // If category does not have sub-categories, retrieve all items
