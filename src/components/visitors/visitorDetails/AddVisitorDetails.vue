@@ -7,6 +7,8 @@
       </div>
       <hr>
   
+      <!-- Form Validation -->
+      <form @submit.prevent="validateBeforeSubmit">
       <!--Input field for Organization Name-->
       <div class="field is-horizontal">
         <div class="field-label is-normal">
@@ -15,7 +17,9 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="text" placeholder="Organization Name" v-model="data.organizationName">
+              <input v-validate="'required|max:100'" :class="{'input': true, 'is-danger': errors.has('organization name') }"
+              name="organization name" class="input" type="text" placeholder="Organization Name" v-model="data.organizationName">
+              <span v-show="errors.has('organization name')" class="help is-danger">{{ errors.first('organization name') }}</span>                   
             </p>
           </div>
         </div>
@@ -31,13 +35,17 @@
             <p class="control">
                 <multiselect
                 v-model="selectedVisitPurpose"
+                v-validate data-vv-rules="required"
+                data-vv-name="visit purpose"  
                 :options="options"
                 :searchable="false"
                 :allow-empty="true"
                 label="visitPurposeText"
                 track-by="visitPurposeText"
+                open-direction="bottom"
                 >
                 </multiselect>
+                <span v-show="errors.has('visit purpose')" class="help is-danger">{{ errors.first('visit purpose') }}</span>                
             </p>
           </div>
         </div>
@@ -51,7 +59,9 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="number" placeholder="Visitor Count" v-model="data.visitorCount">
+              <input v-validate="'required|numeric'" :class="{'input': true, 'is-danger': errors.has('visitor count') }"
+              name="visitor count" class="input" type="number" placeholder="Visitor Count" v-model="data.visitorCount">
+              <span v-show="errors.has('visitor count')" class="help is-danger">{{ errors.first('visitor count') }}</span>                      
             </p>
           </div>
         </div>
@@ -65,7 +75,9 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="datetime-local" placeholder="Date Time" v-model="data.visitDateTime">
+              <input v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('visit date') }"
+              name="visit date" class="input" type="datetime-local" placeholder="Date Time" v-model="data.visitDateTime">
+              <span v-show="errors.has('visit date')" class="help is-danger">{{ errors.first('visit date') }}</span>        
             </p>
           </div>
         </div>
@@ -79,7 +91,7 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <button class="button is-primary" @click="saveVisitorDetailsBtn">
+                <button class="button is-primary">
                   Save
                 </button>
               </div>
@@ -87,6 +99,7 @@
           </div>
         </div>
       </div>
+      </form>
   
       <!-- Simplert Notification -->
        <simplert :useRadius="true" :useIcon="true" ref="simplert">
@@ -102,6 +115,7 @@ import axios from 'axios'
 import Simplert from 'vue2-simplert/src/components/simplert'
 import { visitors, visitPurposesForOptions } from '../../../config'
 import Multiselect from 'vue-multiselect'
+import moment from 'moment'
 
 export default {
   name: 'app',
@@ -118,45 +132,58 @@ export default {
         visitPurposeText: ''
       },
       purposeText: '',
-      addedDT: '',
-      editedDateTime: '',
       selectedVisitPurpose: [],
       options: [],
       allVisitPurpose: []
     }
   },
   methods: {
-    saveVisitorDetailsBtn () {
+    validateBeforeSubmit () {
       let self = this
-      // Assign multiselect's selected value to purposeText
-      self.purposeText = self.selectedVisitPurpose.visitPurposeText
+      self.$validator.validateAll().then(result => {
+        if (result) {
+          // Assign multiselect's selected value to purposeText
+          self.purposeText = self.selectedVisitPurpose.visitPurposeText
 
-      // Make visitDateTime a ISOstring format
-      self.addedDT = ':00.000Z'
-      self.editedDateTime = self.data.visitDateTime.concat(self.addedDT)
+          // Convert datetime to UTC
+          self.data.visitDateTime = moment(self.data.visitDateTime).utc().format()
 
-      // POST visitorDetails data to server
-      axios.post(visitors, {
-        organizationName: self.data.organizationName,
-        visitorCount: self.data.visitorCount,
-        visitDateTime: self.editedDateTime,
-        visitPurposeText: self.purposeText
+          // POST visitorDetails data to server
+          axios.post(visitors, {
+            organizationName: self.data.organizationName,
+            visitorCount: self.data.visitorCount,
+            visitDateTime: self.data.visitDateTime,
+            visitPurposeText: self.purposeText
+          })
+            .then((response) => {
+              let closeFn = () => {
+                router.push({ path: '/visitor/VisitorDetails' })
+              }
+              let successAlert = {
+                title: 'Success',
+                message: 'Visitor Details successfully created!',
+                type: 'success',
+                onClose: closeFn
+              }
+              self.$refs.simplert.openSimplert(successAlert)
+            })
+            .catch((error) => {
+              let errorAlert = {
+                title: 'Error',
+                message: error.response.data.message,
+                type: 'error'
+              }
+              self.$refs.simplert.openSimplert(errorAlert)
+            })
+          return
+        }
+        let errorAlert = {
+          title: 'Error',
+          message: 'Some fields are incorrect!',
+          type: 'error'
+        }
+        self.$refs.simplert.openSimplert(errorAlert)
       })
-        .then((response) => {
-          let closeFn = () => {
-            router.push({ path: '/visitor/VisitorDetails' })
-          }
-          let successAlert = {
-            title: 'Success',
-            message: 'Visitor Details successfully created!',
-            type: 'success',
-            onClose: closeFn
-          }
-          self.$refs.simplert.openSimplert(successAlert)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
     }
   },
   created () {
