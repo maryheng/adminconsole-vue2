@@ -267,16 +267,19 @@ export default {
         self.data.categoryName = acct.data.categoryName
         self.allSubCategoryNames = acct.data.SubCategories
 
-        // Assign variable to categoryTypeId
-        const noSubCat = perms.data[0].categoryTypeId
-
-        // check against categoryTypeId in getCategoryDat() response
-        self.data.categoryTypeId = acct.data.fk_categoryTypeId
-        if (self.data.categoryTypeId === noSubCat) {
-          this.checked = false
-        } else {
-          this.checked = true
-        }
+        // Check if categoryTypeBool is true/false
+        // Depending on true/false, checkbox will be ticked.
+        const catTypeId = acct.data.fk_categoryTypeId
+        perms.data.forEach((item) => {
+          // Without sub-category
+          if (item.categoryTypeId === catTypeId) {
+            if (item.categoryTypeBool === true) { // Got sub-cat
+              this.checked = true
+            } else { // No sub-cat
+              this.checked = false
+            }
+          }
+        }, this)
 
         // Checks json objects in nested json, and take it out and call it "item"
         self.allSubCategoryNames.map((item) => {
