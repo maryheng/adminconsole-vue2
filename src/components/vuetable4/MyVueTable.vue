@@ -21,15 +21,15 @@
 
 <script>
 import Vuetable from 'vuetable-2/src/components/Vuetable'
-// import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
-// import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
+import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
+import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
 import moment from 'moment'
 
 export default {
   components: {
-    Vuetable
-    // VuetablePagination,
-    // VuetablePaginationInfo
+    Vuetable,
+    VuetablePagination,
+    VuetablePaginationInfo
   },
   data () {
     return {
