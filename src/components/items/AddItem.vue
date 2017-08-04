@@ -252,7 +252,7 @@ export default {
     },
     validateBeforeSubmit () {
       let self = this
-      this.$validator.validateAll().then(result => {
+      self.$validator.validateAll().then(result => {
         if (result) {
           self.data.categoryId = self.selectedCat.categoryId
           self.data.subCategoryId = self.selectedSubCat.subCategoryId

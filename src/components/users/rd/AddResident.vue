@@ -35,7 +35,7 @@
           <div class="field-body">
             <div class="field is-grouped">
               <p class="control">
-                <input class="input" name="name" v-validate="'required|alpha_spaces|max:100'" :class="{'input': true, 'is-danger': errors.has('name') }" type="text" v-model="data.name">
+                <input class="input" name="name" v-validate="'required|max:100'" :class="{'input': true, 'is-danger': errors.has('name') }" type="text" v-model="data.name">
                 <span v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</span>
               </p>
             </div>
@@ -95,7 +95,7 @@
           <div class="field-body">
             <div class="field is-grouped">
               <p class="control">
-                <input class="input" type="number" name="mobile number" v-validate="'required|numeric|max:30'" :class="{'input': true, 'is-danger': errors.has('mobile number') }" v-model="data.mobileNo">
+                <input class="input" type="text" name="mobile number" v-validate="'required|alpha_num|max:30'" :class="{'input': true, 'is-danger': errors.has('mobile number') }" v-model="data.mobileNo">
                 <span v-show="errors.has('mobile number')" class="help is-danger">{{ errors.first('mobile number') }}</span>
               </p>
             </div>
@@ -132,8 +132,7 @@
           <div class="field-body">
             <div class="field is-grouped">
               <p class="control">
-                <input class="input" type="date" name="issuance date" v-validate="'date_format:YYYY-MM-DD'" :class="{'input': true, 'is-danger': errors.has('issuance date') }" v-model="data.issuanceDate">
-                <span v-show="errors.has('issuance date')" class="help is-danger">{{ errors.first('issuance date') }}</span>
+                <input class="input" type="date" name="issuance date" v-model="data.issuanceDate">
               </p>
             </div>
           </div>
@@ -193,20 +192,19 @@ export default {
   methods: {
     validateBeforeSubmit () {
       let self = this
-      this.$validator.validateAll().then(result => {
+      self.$validator.validateAll().then(result => {
         if (result) {
-          alert('From Submitted!')
           if (self.$refs.image.files[0]) {
             let formData = new FormData()
 
             formData.append('userImage', self.$refs.image.files[0])
-            formData.append('name', this.data.name)
-            formData.append('email', this.data.email)
-            formData.append('company', this.data.company)
-            formData.append('nricPassportNo', this.data.nricPassportNo)
-            formData.append('mobileNo', this.data.mobileNo)
-            formData.append('keyCardRefNo', this.data.keyCardRefNo)
-            formData.append('issuanceDate', this.data.issuanceDate)
+            formData.append('name', self.data.name)
+            formData.append('email', self.data.email)
+            formData.append('company', self.data.company)
+            formData.append('nricPassportNo', self.data.nricPassportNo)
+            formData.append('mobileNo', self.data.mobileNo)
+            formData.append('keyCardRefNo', self.data.keyCardRefNo)
+            formData.append('issuanceDate', self.data.issuanceDate)
 
             // Post Staff FormData to server
             axios.post(rdUrl, formData)
