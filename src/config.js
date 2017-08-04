@@ -3,7 +3,7 @@ export const baseUrl = 'https://pixelmirror.me'
 // export const baseUrl = ''
 
 // Login
-export const loginUrl = baseUrl + '/login/'
+export const loginUrl = baseUrl + '/api/login/'
 
 // Dashboard - Notifications
 export const notificationUrl = baseUrl + '/api/notifications/'
@@ -52,5 +52,6 @@ export const visitPurposesForOptions = baseUrl + '/api/visitPurposes/visitPurpos
 export const trainingUrl = baseUrl + '/api/trainings/'
 
 // Logout
-export const logoutUrl = baseUrl + '/logout/'
+export const logoutUrl = baseUrl + '/api/logout/'
+
 //  For actual production, don't need base url, vue will be part of nodejs program, so '/' will suffice
