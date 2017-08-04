@@ -269,8 +269,8 @@ export default {
     saveLoanBtn () {
       let self = this
 
-      // Convert due datetime to UTC
-      self.data.startDateTime = self.data.startDateTime.concat(':00Z')
+      // Convert datetime to UTC
+      self.data.startDateTime = moment(self.data.startDateTime).utc().format()
       self.data.dueDateTime = moment(self.data.dueDateTime).utc().format()
 
       // Rearrange arrays to put into desired arrays to send to API
@@ -426,10 +426,8 @@ export default {
 
     // Set current Date to calendar
     // Convert current datetime to UTC format
-    self.currentDateTime = moment(new Date()).utc().format()
-    // Cut the current datetime to display in html date input
-    var cutTime = self.currentDateTime.slice(0, 16)
-    self.data.startDateTime = cutTime
+    self.currentDateTime = new Date()
+    self.data.startDateTime = moment(self.currentDateTime).format('YYYY-MM-DDTHH:mm')
 
     // Get Sub-Categories from API
     axios.get(subcategoriesForOptions)
