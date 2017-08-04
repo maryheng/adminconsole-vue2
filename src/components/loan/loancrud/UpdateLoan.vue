@@ -15,7 +15,7 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="date" v-model="data.dueDateTime">
+              <input class="input" type="datetime-local" v-model="data.dueDateTime">
             </p>
           </div>
         </div>
@@ -51,7 +51,7 @@ import router from '../../../router'
 import axios from 'axios'
 import Simplert from 'vue2-simplert/src/components/simplert'
 import { loanUrl, updateDueDateTimeUrl } from '../../../config'
-// import moment from 'moment'
+import moment from 'moment'
 
 export default {
   name: 'app',
@@ -70,6 +70,8 @@ export default {
     updateLoanBtn () {
       let self = this
 
+      // Convert datetime to UTC
+      self.data.dueDateTime = moment(self.data.dueDateTime).utc().format()
       // Update loan's duedatetime data to API
       axios.put(loanUrl + self.getLoanId + updateDueDateTimeUrl, {
         dueDateTime: self.data.dueDateTime
@@ -107,7 +109,7 @@ export default {
     axios.get(loanUrl + self.getLoanId)
       .then((response) => {
         console.log(response)
-        self.data.dueDateTime = response.data.dueDateTime.slice(0, 10)
+        self.data.dueDateTime = response.data.dueDateTime.slice(0, 16)
       })
       .catch((error) => {
         console.log(error)

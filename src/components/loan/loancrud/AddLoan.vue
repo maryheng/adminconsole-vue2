@@ -15,7 +15,7 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="date" v-model="data.startDateTime" disabled>
+              <input class="input" type="datetime-local" v-model="data.startDateTime" disabled>
             </p>
           </div>
         </div>
@@ -29,7 +29,7 @@
         <div class="field-body">
           <div class="field is-grouped">
             <p class="control">
-              <input class="input" type="date" v-model="data.dueDateTime">
+              <input class="input" type="datetime-local" v-model="data.dueDateTime">
             </p>
           </div>
         </div>
@@ -199,10 +199,10 @@
         </div> 
       </div> 
 
-              <!-- <pre>
+               <pre>
         {{ $data | json }}
       </pre>
-   -->
+   
       <!-- Save Button -->
       <div class="saveBtn">
         <div class="field is-horizontal">
@@ -268,6 +268,10 @@ export default {
   methods: {
     saveLoanBtn () {
       let self = this
+
+      // Convert due datetime to UTC
+      self.data.startDateTime = self.data.startDateTime.concat(':00Z')
+      self.data.dueDateTime = moment(self.data.dueDateTime).utc().format()
 
       // Rearrange arrays to put into desired arrays to send to API
       self.selectedItemChildNames.map((item) => {
@@ -421,9 +425,11 @@ export default {
     let self = this
 
     // Set current Date to calendar
-    self.currentDateTime = new Date()
-    self.data.startDateTime = moment(self.currentDateTime, 'YYYY-MM-DD').format('YYYY-MM-DD')
-    self.data.dueDateTime = moment(self.currentDateTime, 'YYYY-MM-DD').format('YYYY-MM-DD')
+    // Convert current datetime to UTC format
+    self.currentDateTime = moment(new Date()).utc().format()
+    // Cut the current datetime to display in html date input
+    var cutTime = self.currentDateTime.slice(0, 16)
+    self.data.startDateTime = cutTime
 
     // Get Sub-Categories from API
     axios.get(subcategoriesForOptions)
