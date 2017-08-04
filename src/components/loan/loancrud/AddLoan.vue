@@ -317,7 +317,7 @@ export default {
                 }
                 let successAlert = {
                   title: 'Success',
-                  message: 'Loan record successfully created!',
+                  message: response.data.message,
                   type: 'success',
                   onClose: closeFn
                 }

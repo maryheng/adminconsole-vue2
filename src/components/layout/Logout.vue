@@ -20,7 +20,6 @@ export default {
       console.log('Logout button clicked')
       axios.get(logoutUrl)
     .then((response) => {
-      // console.log(response)
       console.log('Logged out, token disposed')
       window.localStorage.removeItem('access_token')
       // window.location.href = '/login'

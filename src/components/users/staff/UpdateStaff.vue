@@ -225,7 +225,6 @@ export default {
       let self = this
       self.$validator.validateAll().then(result => {
         if (result) {
-          alert('From Submitted!')
           let formData = new FormData()
           // Post Staff data to server
           formData.append('userImage', self.$refs.image.files[0])
@@ -239,14 +238,19 @@ export default {
               }
               let successAlert = {
                 title: 'Success',
-                message: 'Staff record successfully updated!',
+                message: response.data.message,
                 type: 'success',
                 onClose: closeFn
               }
               self.$refs.simplert.openSimplert(successAlert)
             })
             .catch((error) => {
-              console.log(error)
+              let errorAlert = {
+                title: 'Error',
+                message: error.response.data.message,
+                type: 'error'
+              }
+              self.$refs.simplert.openSimplert(errorAlert)
             })
           return
         }
@@ -275,14 +279,19 @@ export default {
               }
               let successAlert = {
                 title: 'Success',
-                message: 'Password successfully changed!',
+                message: response.data.message,
                 type: 'success',
                 onClose: closeFn
               }
               self.$refs.simplert.openSimplert(successAlert)
             })
             .catch((error) => {
-              console.log(error)
+              let errorAlert = {
+                title: 'Error',
+                message: error.response.data.message,
+                type: 'error'
+              }
+              self.$refs.simplert.openSimplert(errorAlert)
             })
           return
         }
@@ -294,16 +303,12 @@ export default {
         self.$refs.simplert.openSimplert(errorAlert)
       })
     },
-    // Update Password for Staff
-    updatePwdBtn () {
-    },
     // Delete Staff Record
     deleteBtn () {
       let self = this
       let confirmFn = () => {
         axios.delete(staffUrl + self.staffUserId)
         .then((response) => {
-          console.log(response)
           // Success Alert
           let closeFn = () => {
             // After deletion, go to Staff Page
@@ -311,14 +316,19 @@ export default {
           }
           let successAlert = {
             title: 'Success',
-            message: 'Staff record has been deleted!',
+            message: response.data.message,
             type: 'success',
             onClose: closeFn
           }
           self.$refs.simplert.openSimplert(successAlert)
         })
           .catch((error) => {
-            console.log(error)
+            let errorAlert = {
+              title: 'Error',
+              message: error.response.data.message,
+              type: 'error'
+            }
+            self.$refs.simplert.openSimplert(errorAlert)
           })
       }
       let deleteAlert = {

@@ -150,14 +150,13 @@ export default {
               subCategoryNames: self.data.subCategoryNames
             })
             .then((response) => {
-              console.log(response)
               // After POST is success, show Success Alert
               let closeFn = () => {
                 router.push({ path: 'category' })
               }
               let successAlert = {
                 title: 'Success',
-                message: 'Category is created!',
+                message: response.data.message,
                 type: 'success',
                 onClose: closeFn
               }

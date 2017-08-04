@@ -144,7 +144,7 @@ export default {
                 }
                 let successAlert = {
                   title: 'Success',
-                  message: 'Staff record successfully created!',
+                  message: response.data.message,
                   type: 'success',
                   onClose: closeFn
                 }
@@ -154,7 +154,7 @@ export default {
                 console.log(error)
                 let errorAlert = {
                   title: 'Error',
-                  message: 'Something went wrong!',
+                  message: error.response.data.message,
                   type: 'error'
                 }
                 self.$refs.simplert.openSimplert(errorAlert)

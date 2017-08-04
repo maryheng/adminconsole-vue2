@@ -303,14 +303,19 @@ export default {
               }
               let successAlert = {
                 title: 'Success',
-                message: 'Item record successfully updated!',
+                message: response.data.message,
                 type: 'success',
                 onClose: closeFn
               }
               self.$refs.simplert.openSimplert(successAlert)
             })
             .catch((error) => {
-              console.log(error)
+              let errorAlert = {
+                title: 'Error',
+                message: error.response.data.message,
+                type: 'error'
+              }
+              self.$refs.simplert.openSimplert(errorAlert)
             })
           return
         }
@@ -378,14 +383,19 @@ export default {
           }
           let successAlert = {
             title: 'Success',
-            message: 'Item record has been deleted!',
+            message: response.data.message,
             type: 'success',
             onClose: closeFn
           }
           self.$refs.simplert.openSimplert(successAlert)
         })
           .catch((error) => {
-            console.log(error)
+            let errorAlert = {
+              title: 'Error',
+              message: error.response.data.message,
+              type: 'error'
+            }
+            self.$refs.simplert.openSimplert(errorAlert)
           })
       }
       let deleteAlert = {

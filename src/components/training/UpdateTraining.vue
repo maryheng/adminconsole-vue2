@@ -141,14 +141,19 @@ export default {
           }
           let successAlert = {
             title: 'Success',
-            message: 'Training record successfully updated!',
+            message: response.data.message,
             type: 'success',
             onClose: closeFn
           }
           self.$refs.simplert.openSimplert(successAlert)
         })
         .catch((error) => {
-          console.log(error)
+          let errorAlert = {
+            title: 'Error',
+            message: error.response.data.message,
+            type: 'error'
+          }
+          self.$refs.simplert.openSimplert(errorAlert)
         })
     },
     sendToDeleteApiBtn () {
@@ -160,14 +165,19 @@ export default {
           }
           let successAlert = {
             title: 'Success',
-            message: 'Training record successfully updated!',
+            message: response.data.message,
             type: 'success',
             onClose: closeFn
           }
           self.$refs.simplert.openSimplert(successAlert)
         })
         .catch((error) => {
-          console.log(error)
+          let errorAlert = {
+            title: 'Error',
+            message: error.response.data.message,
+            type: 'error'
+          }
+          self.$refs.simplert.openSimplert(errorAlert)
         })
     },
     someoneElseBtn () {

@@ -84,7 +84,7 @@ export default {
               }
               let successAlert = {
                 title: 'Success',
-                message: 'Purpose of visit successfully created!',
+                message: response.data.message,
                 type: 'success',
                 onClose: closeFn
               }

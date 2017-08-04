@@ -88,7 +88,7 @@ export default {
               }
               let successAlert = {
                 title: 'Success',
-                message: 'Loan record successfully updated!',
+                message: response.data.message,
                 type: 'success',
                 onClose: closeFn
               }
@@ -128,8 +128,6 @@ export default {
     // Based on the loanId in the URL, get data for the user
     axios.get(loanUrl + self.getLoanId)
       .then((response) => {
-        console.log(response)
-        // self.data.dueDateTime = response.data.dueDateTime.slice(0, 16)
         self.data.dueDateTime = moment.utc(response.data.dueDateTime).toDate()
         self.data.dueDateTime = moment(self.data.dueDateTime).format('YYYY-MM-DDTHH:mm')
       })

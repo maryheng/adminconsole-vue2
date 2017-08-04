@@ -102,7 +102,7 @@ export default {
               }
               let successAlert = {
                 title: 'Success',
-                message: 'Purpose of visit successfully updated!',
+                message: response.data.message,
                 type: 'success',
                 onClose: closeFn
               }
@@ -140,7 +140,7 @@ export default {
           }
           let successAlert = {
             title: 'Success',
-            message: 'Purpose of Visit record has been deleted!',
+            message: response.data.message,
             type: 'success',
             onClose: closeFn
           }

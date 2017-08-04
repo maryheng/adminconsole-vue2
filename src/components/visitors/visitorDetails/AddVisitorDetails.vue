@@ -161,7 +161,7 @@ export default {
               }
               let successAlert = {
                 title: 'Success',
-                message: 'Visitor Details successfully created!',
+                message: response.data.message,
                 type: 'success',
                 onClose: closeFn
               }
