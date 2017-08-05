@@ -1,4 +1,5 @@
 <template>
+<div id="sidebar">
 <aside class="menu">
   <p class="menu-label">
     General
@@ -33,6 +34,7 @@
     <router-link :to=" { path: '/training'} "><li><a>Manage Training</a></li></router-link>
   </ul>  
 </aside>
+</div>
 </template>
 
 <script>
@@ -44,7 +46,7 @@ export default {
 </script>
 
 <style>
-.menu {
+#sidebar .menu {
   position: absolute;
   top: 60px;
   left: 0px;
@@ -56,11 +58,11 @@ export default {
   background: #FFF;
   box-shadow: 0 2px 3px rgba(17, 17, 17, 0.1), 0 0 0 1px rgba(17, 17, 17, 0.1);
 }
-  .menu-label {
+#sidebar .menu-label {
     padding-left: 15px;
    
   }
-.menu-list li a {
+#sidebar .menu-list li a {
   font-size: 15px;
   padding-left: 30px;
 }

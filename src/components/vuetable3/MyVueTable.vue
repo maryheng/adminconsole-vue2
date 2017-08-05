@@ -29,6 +29,8 @@ import CustomActionsThird from './CustomActions'
 import moment from 'moment'
 
 Vue.component('custom-actions-third', CustomActionsThird)
+Vue.component('vuetable-pagination', VuetablePagination)
+Vue.component('vuetable-pagination-info', VuetablePaginationInfo)
 
 export default {
   components: {

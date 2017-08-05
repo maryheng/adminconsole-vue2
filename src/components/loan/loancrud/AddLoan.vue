@@ -552,7 +552,7 @@ button {
   margin-top: 5%;
 }
 
-.table {
+.scrollingtable .table {
   width: 30%;
   margin-left: 4.8%;
 }
