@@ -42,9 +42,9 @@ p {
   margin-top: 12px;
 }
 
- #app {
+  #app {
   position: absolute;
   width: 100%
-} 
+}  
 
 </style>
