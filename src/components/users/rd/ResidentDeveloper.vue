@@ -39,6 +39,12 @@ export default {
       fields:
       [
         {
+          name: '__sequence', // index number for rows in vuetable
+          title: '#',
+          titleClass: 'center aligned',
+          dataClass: 'right aligned'
+        },
+        {
           name: 'name',
           title: 'Name'
         },

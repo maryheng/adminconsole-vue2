@@ -64,6 +64,7 @@
                   :options="options" 
                   label="subCategoryName"    
                   track-by="subCategoryName"
+                  @remove="removedOptions"
                   >
                   </multiselect>                   
                 </p>
@@ -136,6 +137,9 @@ export default {
         categoryTypeId: '',
         subCategories: []
       },
+      newSubCategories: [],
+      subCategoriesToDeleteIds: [],
+      subCategoriesToUpdate: [],
       options: [],
       checked: '',
       getCategoryId: '',
@@ -143,21 +147,40 @@ export default {
     }
   },
   methods: {
+    filterForUpdatedSubCategories () {
+      return this.data.subCategories.filter((item) => {
+        return item.subCategoryId
+      })
+    },
+    filterForNewSubCategories () {
+      return this.data.subCategories.filter((item) => {
+        return (!item.subCategoryId)
+      })
+    },
     addTag (newTag) {
       const tag = {
-        subCategoryId: 0,
         subCategoryName: newTag
       }
       this.data.subCategories.push(tag)
     },
+    removedOptions (removedOption, id) {
+      // Remove option and push to subCategoriesToDeleteIds []
+      this.subCategoriesToDeleteIds.push(removedOption.subCategoryId)
+    },
     validateBeforeUpdate () {
       let self = this
       self.$validator.validateAll().then(result => {
+        // Filter according to subCategoriesToUpdate & newSubCategories arrays
+        self.subCategoriesToUpdate = self.filterForUpdatedSubCategories()
+        self.newSubCategories = self.filterForNewSubCategories()
+
+        // If validation goes smoothly,
         if (result) {
           axios.put(categoryUrl + self.getCategoryId, {
-            categoryName: this.data.categoryName,
-            categoryTypeId: this.data.categoryTypeId,
-            subCategories: this.data.subCategories
+            categoryName: self.data.categoryName,
+            subCategoriesToUpdate: self.subCategoriesToUpdate,
+            newSubCategories: self.newSubCategories,
+            subCategoriesToDeleteIds: self.subCategoriesToDeleteIds
           })
           .then((response) => {
             let closeFn = () => {

@@ -37,20 +37,12 @@ export default {
       apiUrl: staffUrl,
       fields:
       [
-        // {
-        //   name: '__sequence', // index number for rows in vuetable
-        //   title: '#',
-        //   titleClass: 'center aligned',
-        //   dataClass: 'right aligned'
-        // },
-        // {
-        //   name: 'userId',
-        //   title: 'User ID'
-        // },
-        // {
-        //   name: 'staffId',
-        //   title: 'Staff ID'
-        // },
+        {
+          name: '__sequence', // index number for rows in vuetable
+          title: '#',
+          titleClass: 'center aligned',
+          dataClass: 'right aligned'
+        },
         {
           name: 'name',
           title: 'Name'

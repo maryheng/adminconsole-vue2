@@ -12,7 +12,7 @@
           <div class="imageDiv">
             <div class="field is-grouped">
               <div id="chooseFileDiv">
-                <div id="imageShowDiv" v-bind:style="{ 'backgroundImage': 'url(' + this.image + ')' }">
+                <div id="imageShowDivForTraining" v-bind:style="{ 'backgroundImage': 'url(' + this.image + ')' }">
                   <p class="control">
                     <!-- <img :src="image" /> -->
                   </p>
@@ -249,7 +249,7 @@ hr {
   margin-left: 13%;
 }
 
-#imageShowDiv {
+#imageShowDivForTraining {
   width: 500px;
   height: 280px;
   margin-top: 10%;

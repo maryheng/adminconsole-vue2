@@ -32,6 +32,7 @@
         </div>
         <div class="field-body">
           <div class="field is-grouped">
+            <div id="multiselectForVisitors">
             <p class="control">
                 <multiselect
                 v-model="selectedVisitPurpose"
@@ -47,6 +48,7 @@
                 </multiselect>
                 <span v-show="errors.has('visit purpose')" class="help is-danger">{{ errors.first('visit purpose') }}</span>                
             </p>
+            </div>
           </div>
         </div>
       </div>
@@ -251,8 +253,9 @@ button {
   margin-left: 8.4%;
 }
 
-.multiselect {
+#multiselectForVisitors .multiselect {
   width: 300px;
   margin-top: 4%;
+  margin-left: 2%;
 }
 </style>

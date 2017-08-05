@@ -142,14 +142,14 @@
               <label class="label">Loanable (Tick if yes)</label>
               <input type="checkbox" value="true" v-model="item.loanOptionId">
             </p>
-            <div id="delBtn">
+            <div id="delItemBtn">
               <button type="button" class="button is-danger" @click="delRow(item)">-</button>
             </div>
           </div>
         </div>
 
         <!-- Save Button -->
-        <div class="saveBtn">
+        <div class="saveItemBtn">
           <div class="field is-horizontal">
             <div class="field-label">
             </div>
@@ -412,7 +412,7 @@ button {
   margin-top: 1%;
 }
 
-.saveBtn {
+.saveItemBtn {
   margin-left: 21.5%;
 }
 
@@ -438,8 +438,9 @@ button {
   padding-bottom: 0.35%;
 }
 
-#delBtn {
-  margin-top: 1.3%;
+#delItemBtn {
+  margin-top: 1.4%;
+  margin-left: -1.3%;
 }
 
 #addRowBtn {
