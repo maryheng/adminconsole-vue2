@@ -231,8 +231,6 @@
       </div>
     </form>
 
-    <pre>{{ $data|json }}</pre>
-  
       <!-- Simplert Notification -->
       <simplert :useRadius="true" :useIcon="true" ref="simplert">
       </simplert>

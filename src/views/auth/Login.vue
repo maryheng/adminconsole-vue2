@@ -133,6 +133,6 @@ export default {
 
 #boxForLogin .box {
   padding: 50px;
-  margin-top: 20%;
+  margin-top: 9%;
 }
 </style>

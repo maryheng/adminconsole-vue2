@@ -91,7 +91,7 @@ export default {
   },
   computed: {
     href () {
-      return '' + this.name.toLowerCase().replace(/\s+/g, '')
+      return '/user/residentdeveloper/' + this.name.toLowerCase().replace(/\s+/g, '')
     }
   }
 }

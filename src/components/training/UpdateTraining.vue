@@ -28,31 +28,25 @@
         <!-- Yes Button -->
         <div class="buttonGroup">
           <div class="field is-grouped">
-              <div class="saveBtn">
                 <div class="control">
                   <button class="button is-primary is-medium" @click="yesBtn">
                     Yes
                   </button>
                 </div>
-            </div>
   
             <!-- No Button -->
-            <div class="saveBtn">
               <div class="control">
                 <button class="button is-medium" @click="someoneElseBtn">
                   It's someone else
                 </button>
               </div>
-            </div>
   
             <!-- No Button -->
-            <div class="saveBtn">
               <div class="control">
                 <button class="button is-medium" @click="sendToDeleteApiBtn">
                   No
                 </button>
               </div>
-            </div>
           </div>
         </div>
 
@@ -258,9 +252,8 @@ hr {
 #imageShowDiv {
   width: 500px;
   height: 280px;
-  display: block;
   margin-top: 10%;
-  background-size: contain;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   overflow: hidden;

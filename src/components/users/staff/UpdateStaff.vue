@@ -254,7 +254,6 @@ export default {
             })
           return
         }
-        alert('Correct them errors!')
         let errorAlert = {
           title: 'Error',
           message: 'Some fields are incorrect!',
@@ -455,7 +454,6 @@ button {
 }
 
 #imageShowDiv {
-  border-radius: 50%;
   width: 200px;
   height: 200px;
   display: block;
