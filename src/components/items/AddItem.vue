@@ -62,22 +62,18 @@
             <div class="field is-grouped">
               <div class="multiselectDiv">
                 <p class="control">
-                  <multiselect
-                  v-validate data-vv-rules="required"
-                  data-vv-name="sub-category name"                  
+                  <multiselect                
                   v-model="selectedSubCat"
                   :options="computedsubCatOptions"
                   :hide-selected="true"
                   :selected="selectedSubCat"
                   :searchable="false"
                   :allow-empty="true"
-                  deselect-label="Can't remove this value"
                   label="subCategoryName"
                   track-by="subCategoryName"
                   open-direction="bottom"
                   >
                   </multiselect>
-                  <span v-show="errors.has('sub-category name')" class="help is-danger">{{ errors.first('sub-category name') }}</span>                
                 </p>
               </div>
             </div>
@@ -94,7 +90,7 @@
         </div>
         <hr>
         <div id="addRowBtn">
-          <button class="button is-info is-focused" @click="addRow">Add</button>
+          <button type="button" class="button is-info is-focused" @click="addRow">Add</button>
         </div>
         <div id="space"></div>
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Adding new rows ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
@@ -147,7 +143,7 @@
               <input type="checkbox" value="true" v-model="item.loanOptionId">
             </p>
             <div id="delBtn">
-              <button class="button is-danger" @click="delRow(item)">-</button>
+              <button type="button" class="button is-danger" @click="delRow(item)">-</button>
             </div>
           </div>
         </div>
@@ -422,7 +418,7 @@ button {
 
 .multiselect {
   width: 300px;
-  margin-top: 3%;
+  margin-top: 4%;
 }
 
 .itemDetailsDiv {

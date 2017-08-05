@@ -92,7 +92,7 @@
         </div>
         <hr>
         <div id="addRowBtn">
-          <button class="button is-info is-focused" @click="addRow">Add</button>
+          <button type="button" class="button is-info is-focused" @click="addRow">Add</button>
         </div>
         <div id="space"></div>
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Adding new rows ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
@@ -144,7 +144,7 @@
               <input type="checkbox" value="true" v-model="item.loanOptionId">
             </p>
             <div id="delBtn">
-              <button class="button is-danger" @click="delRow(item)">-</button>
+              <button type="button" class="button is-danger" @click="delRow(item)">-</button>
             </div>
           </div>
         </div>
@@ -174,7 +174,7 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <button class="button" @click="deleteBtn" >
+                <button type="button" class="button" @click="deleteBtn" >
                   Delete
                 </button>
               </div>
