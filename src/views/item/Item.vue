@@ -42,10 +42,6 @@ export default {
       fields:
       [
         {
-          name: 'itemParentId',
-          title: 'Item Parent ID'
-        },
-        {
           name: 'itemName',
           title: 'Item Name'
         },

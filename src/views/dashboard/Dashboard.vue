@@ -65,7 +65,7 @@
             <visitor-record-graph></visitor-record-graph>
             
             <!-- Save Button -->
-            <div class="saveBtn">
+            <div class="savePDFBtn">
               <a class="button is-danger is-outlined" href="https://pixelmirror.me/api/reports/visitors">
               Download as PDF
               </a>
@@ -86,7 +86,7 @@
             <loan-usage-graph></loan-usage-graph>
 
             <!-- Save Button -->
-            <div class="saveBtn">
+            <div class="savePDFBtn">
               <a class="button is-danger is-outlined" href="https://pixelmirror.me/api/reports/loanArchives">
               Download as PDF
               </a>
@@ -190,7 +190,7 @@ export default {
 
 
 <style>
-.saveBtn {
+.savePDFBtn {
   margin-left: 88%;
   margin-top: 2%;
 }

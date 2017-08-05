@@ -3,6 +3,7 @@
   <div class="content has-text-centered">
     <div class="columns is-vcentered">
       <div class="column is-4 is-offset-3">
+        <div id="boxForLogin">
         <div class="box">
           <p class="title is-3">Login</p>
           <p class="subtitle is-6">Only admins can login!</p><br><br>
@@ -22,6 +23,7 @@
               <button type="submit" class="button is-primary">Login</button>
             </p>
           </form>
+        </div>
         </div>
       </div>
     </div>
@@ -96,9 +98,8 @@ export default {
 </script>
 
 <style>
-/*@import '../../../node_modules/bulma/sass/utilities/initial-variables.sass';*/
-
-.box {
+#boxForLogin .box {
   padding: 50px;
+  margin-top: 20%;
 }
 </style>

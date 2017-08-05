@@ -42,11 +42,6 @@ export default {
       fields:
       [
         {
-          name: 'categoryId',
-          title: 'category ID',
-          sortField: 'nricPassportNo'
-        },
-        {
           name: 'categoryName',
           title: 'Category Name'
         },

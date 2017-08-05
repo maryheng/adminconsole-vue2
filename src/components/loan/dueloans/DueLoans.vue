@@ -69,6 +69,10 @@ export default {
           title: 'Loaned By'
         },
         {
+          name: 'remarks',
+          title: 'Remarks'
+        },
+        {
           name: '__component:custom-actions-second',
           title: 'Actions',
           titleClass: 'center aligned',

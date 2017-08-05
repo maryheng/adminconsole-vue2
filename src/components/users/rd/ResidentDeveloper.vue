@@ -38,13 +38,23 @@ export default {
       apiUrl: rdUrl,
       fields:
       [
-        'residentDeveloperId', 'name',
+        {
+          name: 'name',
+          title: 'Name'
+        },
         {
           name: 'nricPassportNo',
           title: 'NRIC/Passport No',
           sortField: 'nricPassportNo'
         },
-        'company', 'email',
+        {
+          name: 'company',
+          title: 'Company'
+        },
+        {
+          name: 'email',
+          title: 'Email'
+        },
         {
           name: 'mobileNo',
           title: 'Mobile No'
