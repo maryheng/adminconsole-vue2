@@ -49,7 +49,7 @@ export default {
 #sidebar {
   float: left;
   position: absolute;
-  top: 6%;
+  top: 7%;
   left: 0px;
   bottom: 0;
 }

@@ -302,6 +302,7 @@ button {
 }
 
 #imageShowDiv {
+  border-radius: 100%;
   width: 200px;
   height: 200px;
   display: block;
