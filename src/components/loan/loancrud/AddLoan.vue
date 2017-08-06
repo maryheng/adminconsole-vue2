@@ -133,6 +133,7 @@
           <p>All items shown below will be based on chosen Category and/or Sub-category</p>    
         </div>
         <br>
+        
         <div class="scrollingtable">
         <table class="table is-narrow is-bordered">
           <thead>
@@ -141,6 +142,11 @@
               <td><strong>Item Id</strong></td>
             </tr>
           </thead>
+
+          <div class="noItemsToShow" v-show="this.checked === true">
+            <span class="tag is-warning is-medium">There are no items to show in this view.</span>
+          </div>
+
           <tbody>
             <tr v-for="row in rows" :key="row">
               <td>{{ row.itemParent }}</td>
@@ -170,7 +176,6 @@
         </table>   
         </div> 
       </div>
-      
       
        <div class="secondTable">
         <div class="pclass">
@@ -273,7 +278,8 @@ export default {
       options: [],
       allUsers: [],
       allCategories: [],
-      allSubCategories: []
+      allSubCategories: [],
+      checked: false
     }
   },
   methods: {
@@ -377,8 +383,8 @@ export default {
       if (self.selectedCat.categoryType === true) {
         axios.get(subCatItemOptionsForLoan + self.selectedSubCat.subCategoryId)
           .then((response) => {
+            self.checked = false
             self.itemParentArray = response.data
-
             // Get all itemParent names in an array
             self.itemParentArray.map((item) => {
               const oldTag = {
@@ -388,6 +394,10 @@ export default {
               self.rows.push(oldTag)
             })
             self.getSelectedItems()
+          })
+          .catch((error) => {
+            console.log(error)
+            self.checked = true
           })
       }
     },
@@ -594,5 +604,10 @@ button {
 
 #removeBtn button {
   margin-top: 7%;
+}
+
+.noItemsToShow  {
+  margin-left: 40%;
+  margin-top: 5%;
 }
 </style>
