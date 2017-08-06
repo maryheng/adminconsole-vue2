@@ -137,6 +137,6 @@ export default {
 }
 
 .simplert {
-  height: 139%;
+  height: 120%;
 }
 </style>
