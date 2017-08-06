@@ -44,10 +44,6 @@ export default {
           dataClass: 'right aligned'
         },
         {
-          name: 'visitPurposeOptionId',
-          title: 'Visit Purpose'
-        },
-        {
           name: 'visitPurposeText',
           title: 'Visit Purpose'
         },

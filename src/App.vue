@@ -3,6 +3,7 @@
     <navbar :show="true">
       <logout v-if="check()"></logout>
     </navbar>
+    <vue-progress-bar></vue-progress-bar>
     <sidebar v-if="noAuthNeeded.indexOf($route.name) <= -1"></sidebar>
     <app-main></app-main>
   </div>
@@ -13,13 +14,15 @@ import Navbar from './components/layout/Navbar.vue'
 import Sidebar from './components/layout/Sidebar.vue'
 import AppMain from './components/layout/AppMain.vue'
 import Logout from './components/layout/Logout.vue'
+import VueProgressBar from 'vue-progressbar'
 
 export default {
   components: {
     Navbar,
     Sidebar,
     AppMain,
-    Logout
+    Logout,
+    VueProgressBar
   },
 
   data () {
@@ -45,6 +48,31 @@ export default {
         return false
       }
     }
+  },
+  mounted () {
+    this.$Progress.finish()
+  },
+  created () {
+    //  [App.vue specific] When App.vue is first loaded start the progress bar
+    this.$Progress.start()
+    //  hook the progress bar to start before we move router-view
+    this.$router.beforeEach((to, from, next) => {
+      //  does the page we want to go to have a meta.progress object
+      if (to.meta.progress !== undefined) {
+        let meta = to.meta.progress
+        // parse meta tags
+        this.$Progress.parseMeta(meta)
+      }
+      //  start the progress bar
+      this.$Progress.start()
+      //  continue to next page
+      next()
+    })
+    //  hook the progress bar to finish after we've finished moving router-view
+    this.$router.afterEach((to, from) => {
+      //  finish the progress bar
+      this.$Progress.finish()
+    })
   }
 }
 </script>

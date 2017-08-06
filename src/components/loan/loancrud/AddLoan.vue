@@ -230,6 +230,7 @@
         </div>
       </div>
     </form>
+    <pre>{{ $data|json }}</pre>
 
       <!-- Simplert Notification -->
       <simplert :useRadius="true" :useIcon="true" ref="simplert">
@@ -414,12 +415,12 @@ export default {
         element.itemChild.forEach((item) => {
           self.selectedItemChildNames.forEach((instance) => {
             if (item.itemChildLabel === instance.itemChildLabel) {
-              alert('IDENTICAL!')
               self.itemChildNames.push(instance)
             }
           }, this)
         }, this)
       }, this)
+      self.selectedItemChildNames = []
     },
     selectedItemChildNamesMethod (selectedOption, id) {
       let self = this

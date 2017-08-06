@@ -31,6 +31,7 @@ section .app-main {
   padding-left: 20px;
   margin-left: 220px;
   transform: translate3d(0, 0, 0);
+   z-index: -2; 
 }
 
  html, body {

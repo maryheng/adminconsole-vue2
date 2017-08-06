@@ -30,7 +30,6 @@ export default {
 <style scoped>
 .nav {
   height: 60px;
-
 }
 
 p {
@@ -42,9 +41,11 @@ p {
   margin-top: 12px;
 }
 
-  #app {
+#app {
   position: absolute;
-  width: 100%
+  width: 100%;
+  /* z-index: 0; cover the whole thing w simplert */
+  z-index: 50; 
 }  
 
 </style>

@@ -52,14 +52,14 @@ export default {
   top: 5.5%;
   left: 0px;
   bottom: 0;
+  /* z-index: 0;  */
 }
 
 #sidebar .menu {
-    height: 100%;
+  height: 100%;
   float: left;
   padding: 30px 0 50px;
   width: 230px;
-  z-index: 1;
   background: #FFF;
   box-shadow: 0 2px 3px rgba(17, 17, 17, 0.1), 0 0 0 1px rgba(17, 17, 17, 0.1);
 }

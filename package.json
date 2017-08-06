@@ -23,6 +23,7 @@
     "vue-chartjs": "^2.7.2",
     "vue-cookie": "^1.1.4",
     "vue-multiselect": "^2.0.2",
+    "vue-progressbar": "^0.7.2",
     "vue-router": "^2.5.3",
     "vue-socket.io": "^2.1.1-a",
     "vue2-simplert": "^0.2.10",

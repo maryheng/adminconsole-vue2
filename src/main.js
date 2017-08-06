@@ -10,6 +10,7 @@ import VueCookie from 'vue-cookie'
 import VeeValidate, { Validator } from 'vee-validate'
 import { Dispatcher } from './Dispatcher.js'
 import moment from 'moment'
+import VueProgressBar from 'vue-progressbar'
 
 Validator.installDateTimeValidators(moment)
 
@@ -20,6 +21,19 @@ Vue.use(VueSocketio, baseUrl, { forceNew: true })
 Vue.use(VueCookie)
 Vue.use(VeeValidate, {fieldsBagName: 'formFields'})
 // Vue.use(VeeValidate)
+// Vue.use(VueProgressBar, {
+//   color: '#bffaf3',
+//   failedColor: '#874b4b',
+//   thickness: '5px',
+//   transition: {
+//     speed: '0.2s',
+//     opacity: '0.6s'
+//   },
+//   autoRevert: true,
+//   location: 'left',
+//   inverse: false
+// })
+Vue.use(VueProgressBar)
 
 // Enable devtools
 Vue.config.productionTip = true

@@ -287,7 +287,7 @@ export default {
           self.options.push(oldTag)
         })
         // If methods returns a filled array, add it to options and selectedPurpose
-        if (self.getVisitPurpose()) {
+        if (self.getVisitPurpose().length > 0) {
           const newTag = {
             visitPurposeText: self.uneditedPurposeText
           }

@@ -102,7 +102,7 @@ export default {
       axios.put(loanUrl + self.loanId + loanReturned)
         .then((response) => {
           console.log('Loan is returned!')
-          router.push({ name: 'OngoingLoans' })
+          router.push({ name: '/loan/OngoingLoans' })
         })
         .catch((error) => {
           console.log(error)
