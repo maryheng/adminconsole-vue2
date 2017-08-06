@@ -18,8 +18,8 @@
               <div id="chooseFileDiv">
                 <p class="control">
                   <div id="imageShowDiv" v-show="this.checked === true" v-bind:style="{ 'backgroundImage': 'url(' + this.image + ')' }"></div>
-                  <input type="file" accept="image/jpeg"
-                  v-validate="'mimes:image/jpeg'" :class="{'input': true, 'is-danger': errors.has('image') }"
+                  <input type="file" accept="image/jpeg, image/png"
+                  v-validate="'required|mimes:image/jpeg, image/png'" :class="{'input': true, 'is-danger': errors.has('image') }"
                   @change="onFileChange" class="input" ref="image" name="image" id="image" value="value">
                   <span v-show="errors.has('image')" class="help is-danger">{{ errors.first('image') }}</span>
                 </p>
@@ -356,6 +356,8 @@ export default {
       reader.onload = (e) => {
         vm.image = e.target.result
       }
+      console.log('file is below')
+      console.log(file)
       reader.readAsDataURL(file)
     }
   },
@@ -374,6 +376,7 @@ export default {
     // Based on the userId in the URL, get data for the user
     axios.get(staffUrl + self.staffUserId)
       .then((response) => {
+        console.log(response)
         self.data.username = response.data.username
         self.data.name = response.data.name
         self.image = response.data.userImageUrl
