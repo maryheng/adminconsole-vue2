@@ -127,7 +127,7 @@
         <!--Input field for Issuance Date-->
         <div class="field is-horizontal">
           <div class="field-label is-normal">
-            <label class="label">Issurance Date:</label>
+            <label class="label">Issuance Date:</label>
           </div>
           <div class="field-body">
             <div class="field is-grouped">
@@ -155,6 +155,8 @@
           </div>
         </div>
   
+  <pre>{{ $data|json }}</pre>
+
         <!-- Simplert Notification -->
         <simplert :useRadius="true" :useIcon="true" ref="simplert">
         </simplert>
@@ -203,8 +205,16 @@ export default {
             formData.append('company', self.data.company)
             formData.append('nricPassportNo', self.data.nricPassportNo)
             formData.append('mobileNo', self.data.mobileNo)
-            formData.append('keyCardRefNo', self.data.keyCardRefNo)
-            formData.append('issuanceDate', self.data.issuanceDate)
+
+            // If issuance date is filled up, send formdata
+            if (!(self.data.issuanceDate === '')) {
+              formData.append('issuanceDate', self.data.issuanceDate)
+            }
+
+            // If key card reference number is filled up, send formdata
+            if (!(self.data.keyCardRefNo === '')) {
+              formData.append('keyCardRefNo', self.data.keyCardRefNo)
+            }
 
             // Post Staff FormData to server
             axios.post(rdUrl, formData)
