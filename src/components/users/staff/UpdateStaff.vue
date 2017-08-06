@@ -18,8 +18,8 @@
               <div id="chooseFileDiv">
                 <p class="control">
                   <div id="imageShowDiv" v-show="this.checked === true" v-bind:style="{ 'backgroundImage': 'url(' + this.image + ')' }"></div>
-                  <input type="file" accept="image/jpeg, image/png"
-                  v-validate="'required|mimes:image/jpeg, image/png'" :class="{'input': true, 'is-danger': errors.has('image') }"
+                  <input type="file" accept="image/*"
+                  v-validate="'required|mimes:image/*|size:4000'" :class="{'input': true, 'is-danger': errors.has('image') }"
                   @change="onFileChange" class="input" ref="image" name="image" id="image" value="value">
                   <span v-show="errors.has('image')" class="help is-danger">{{ errors.first('image') }}</span>
                 </p>

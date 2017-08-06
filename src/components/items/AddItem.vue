@@ -164,7 +164,6 @@
             </div>
           </div>
         </div>
-        <pre>{{ $data|json }}</pre>
   
         <!-- Simplert Notification -->
         <simplert :useRadius="true" :useIcon="true" ref="simplert">

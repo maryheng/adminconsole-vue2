@@ -182,7 +182,7 @@
           </div>
         </div>
       </div>        
-  
+      <pre>{{ $data|json }}</pre>
         <!-- Simplert Notification -->
         <simplert :useRadius="true" :useIcon="true" ref="simplert">
         </simplert>
@@ -329,7 +329,7 @@ export default {
     },
     // Multiselect @open - when you open the dropdown
     openStaffOptions (id) {
-      // Get ID of staffOption e2Multiselect Dropdown
+      // Get ID of staffOption Multiselect Dropdown
       const itemArray = this.itemArray
       // Get the index of the array the multiselect is positioned in
       this.indexOfItemArray = itemArray.indexOf(id)
@@ -474,6 +474,9 @@ export default {
 
         // Remove redundent first row
         self.itemArray.splice(0, 1)
+
+        console.log(self.itemArray)
+        console.log(self.itemArray.length)
 
         // Get Staff ID from nested json of itemChildren
         self.itemArray.map((item) => {
