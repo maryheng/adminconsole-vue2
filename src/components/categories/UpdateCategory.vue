@@ -92,7 +92,7 @@
         </form>
   
         <!-- Delete Category Button -->
-        <div class="deleteBtn">
+        <div class="deleteCatBtn">
           <div class="field is-horizontal">
             <div class="field-label">
             </div>
@@ -367,9 +367,9 @@ p {
   font-size: 13px;
 }
 
-.deleteBtn {
+.deleteCatBtn {
   float: left;
-  margin-top:7.5%;
+  margin-top: 1%;
 }
 
 .updateCatBtn {

@@ -19,7 +19,7 @@
                 <p class="control">
                   <div id="imageShowDiv" v-show="this.checked === true" v-bind:style="{ 'backgroundImage': 'url(' + this.image + ')' }"></div>
                   <input type="file" accept="image/*"
-                  v-validate="'required|mimes:image/*|size:4000'" :class="{'input': true, 'is-danger': errors.has('image') }"
+                  v-validate="'mimes:image/*|size:4000'" :class="{'input': true, 'is-danger': errors.has('image') }"
                   @change="onFileChange" class="input" ref="image" name="image" id="image" value="value">
                   <span v-show="errors.has('image')" class="help is-danger">{{ errors.first('image') }}</span>
                 </p>
@@ -96,7 +96,7 @@
           <div class="field-body">
             <div class="field is-grouped">
               <p class="control">
-                <input class="input" type="number" name="mobile number" v-validate="'required|alpha_num|max:30'" :class="{'input': true, 'is-danger': errors.has('mobile number') }" v-model="data.mobileNo">
+                <input class="input" type="number" name="mobile number" v-validate="'required|max:30'" :class="{'input': true, 'is-danger': errors.has('mobile number') }" v-model="data.mobileNo">
                 <span v-show="errors.has('mobile number')" class="help is-danger">{{ errors.first('mobile number') }}</span>
               </p>
             </div>
@@ -222,8 +222,16 @@ export default {
           formData.append('company', this.data.company)
           formData.append('email', this.data.email)
           formData.append('mobileNo', this.data.mobileNo)
-          formData.append('keyCardRefNo', this.data.keyCardRefNo)
-          formData.append('issuanceDate', this.data.issuanceDate)
+
+          // If issuance date is filled up, send formdata
+          if (!(self.data.issuanceDate === '')) {
+            formData.append('issuanceDate', self.data.issuanceDate)
+          }
+
+          // If key card reference number is filled up, send formdata
+          if (!(self.data.keyCardRefNo === '')) {
+            formData.append('keyCardRefNo', self.data.keyCardRefNo)
+          }
 
           // Post Staff FormData to server
           axios.put(rdUrl + self.rdUserId, formData)

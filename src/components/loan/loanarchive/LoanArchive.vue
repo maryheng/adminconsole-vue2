@@ -1,9 +1,5 @@
 <template>
   <div id="container">
-    <router-link to="/loan/AddLoan">
-      <button type="submit" class="button is-primary">Add Loan</button>
-    </router-link>
-    <br>
     <br>
     <!--Vue Table-->
     <my-vuetable

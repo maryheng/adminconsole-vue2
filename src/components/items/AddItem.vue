@@ -422,7 +422,7 @@ button {
 }
 
 .itemDetailsDiv {
-  margin-left: 1.5%;
+  margin-left: 1%;
 }
 
 .itemDetailsDiv input {

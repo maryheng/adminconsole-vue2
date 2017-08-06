@@ -52,7 +52,7 @@ export default Bar.extend({
       .then((response) => {
         for (var i = 0; i < response.data.length; i++) {
           var obj = {}
-          obj.label = response.data[i].itemType
+          obj.label = response.data[i].itemName
           obj.data = response.data[i].usage
           obj.backgroundColor = this.dynamicColors()
           obj.borderWidth = 1

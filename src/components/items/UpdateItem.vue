@@ -143,14 +143,14 @@
               <label class="label">Loanable (Tick if yes)</label>
               <input type="checkbox" value="true" v-model="item.loanOptionId">
             </p>
-            <div id="delBtn">
+            <div id="delItemBtn">
               <button type="button" class="button is-danger" @click="delRow(item)">-</button>
             </div>
           </div>
         </div>
   
         <!-- Update Button -->
-        <div class="updateBtn">
+        <div class="updateItmBtn">
           <div class="field is-horizontal">
             <div class="field-label">
             </div>
@@ -167,7 +167,7 @@
         </div>
       </form>
 
-      <div class="deleteBtn">
+      <div class="deleteItemBtn">
         <div class="field is-horizontal">
           <div class="field-label">
           </div>
@@ -182,7 +182,6 @@
           </div>
         </div>
       </div>        
-      <pre>{{ $data|json }}</pre>
         <!-- Simplert Notification -->
         <simplert :useRadius="true" :useIcon="true" ref="simplert">
         </simplert>
@@ -579,7 +578,7 @@ button {
   margin-top: 1%;
 }
 
-.updateBtn {
+.updateItmBtn {
   margin-left: 21.5%;
 }
 
@@ -605,8 +604,9 @@ button {
   padding-bottom: 0.35%;
 }
 
-#delBtn {
+#delItemBtn {
   margin-top: 1.3%;
+  margin-left: -1.5%;
 }
 
 #addRowBtn {
@@ -614,7 +614,7 @@ button {
   margin-top: -1%;
 }
 
-.deleteBtn {
+.deleteItemBtn {
   float: left;
   margin-top: -1%;
 }

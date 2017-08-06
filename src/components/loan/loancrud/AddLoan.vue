@@ -51,7 +51,7 @@
                   <multiselect
                   v-model="selectedCat"
                   v-validate data-vv-rules="required"
-                  data-vv-name="category name"                  
+                  data-vv-name="category name"                        
                   @input="checkSubCat"
                   :options="options"
                   :searchable="false"
@@ -59,9 +59,11 @@
                   label="categoryName"
                   track-by="categoryName"
                   open-direction="bottom"
+                  :block-keys="['Tab', 'Enter']"
+                  deselect-label="Can't remove this value"
                   >
                   </multiselect>
-                  <span v-show="errors.has('category name')" class="help is-danger">{{ errors.first('category name') }}</span>                
+                  <span v-show="errors.has('category name')" class="help is-danger">{{ errors.first('category name') }}</span>                                  
                 </p>
               </div>
             </div>
@@ -79,7 +81,6 @@
                 <p class="control">
                   <multiselect
                   v-model="selectedSubCat" 
-                  data-vv-name="sub-category name"
                   :options="computedsubCatOptions"
                   :hide-selected="true"
                   :selected="selectedSubCat"
@@ -91,7 +92,6 @@
                   open-direction="bottom"
                   >
                   </multiselect>
-                  <span v-show="errors.has('sub-category name')" class="help is-danger">{{ errors.first('sub-category name') }}</span>                
                 </p>
               </div>
             </div>
@@ -230,7 +230,6 @@
         </div>
       </div>
     </form>
-    <pre>{{ $data|json }}</pre>
 
       <!-- Simplert Notification -->
       <simplert :useRadius="true" :useIcon="true" ref="simplert">
@@ -420,7 +419,6 @@ export default {
           }, this)
         }, this)
       }, this)
-      self.selectedItemChildNames = []
     },
     selectedItemChildNamesMethod (selectedOption, id) {
       let self = this

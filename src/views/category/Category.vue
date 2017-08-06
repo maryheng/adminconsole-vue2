@@ -51,11 +51,11 @@ export default {
           name: 'categoryName',
           title: 'Category Name'
         },
-        {
-          name: 'SubCategories',
-          title: 'SubCategories',
-          callback: 'combineSubCat'
-        },
+        // {
+        //   name: 'SubCategories',
+        //   title: 'SubCategories',
+        //   callback: 'combineSubCat'
+        // },
         {
           name: '__component:custom-actions',
           title: 'Actions',
