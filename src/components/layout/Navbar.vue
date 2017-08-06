@@ -30,12 +30,14 @@ export default {
 <style scoped>
 .nav {
   height: 60px;
+ /* background: linear-gradient(to right, #DA3E61 1%, #E76570 70%, #F58773); */
 }
 
 p {
   font-size: 21px;
   margin: 15px 0px 0 50px;
   font-weight: bold;
+  /* color: white; */
 }
 .button {
   margin-top: 12px;

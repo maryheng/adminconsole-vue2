@@ -135,4 +135,8 @@ export default {
   padding: 50px;
   margin-top: 9%;
 }
+
+.simplert {
+  height: 139%;
+}
 </style>
