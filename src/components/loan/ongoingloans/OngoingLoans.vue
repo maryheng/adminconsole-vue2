@@ -18,6 +18,9 @@
     <br>
 
     <router-view></router-view>
+    <!-- Simplert Notification -->
+    <simplert :useRadius="true" :useIcon="true" ref="simplert">
+    </simplert> 
   </div>
 </template>
 
@@ -28,12 +31,14 @@ import router from '../../../router'
 import { loanUrl, loanReturned, ongoingLoansUrl } from '../../../config.js'
 import moment from 'moment'
 import axios from 'axios'
+import Simplert from 'vue2-simplert/src/components/simplert'
 
 export default {
   name: 'app',
   components: {
     MyVuetable,
-    CustomActionsSecond
+    CustomActionsSecond,
+    Simplert
   },
   data () {
     return {
@@ -101,8 +106,16 @@ export default {
       // Update return loan
       axios.put(loanUrl + self.loanId + loanReturned)
         .then((response) => {
-          console.log('Loan is returned!')
-          router.push({ name: '/loan/OngoingLoans' })
+          let closeFn = () => {
+            window.location.reload()
+          }
+          let successAlert = {
+            title: 'Success',
+            message: response.data.message,
+            type: 'success',
+            onClose: closeFn
+          }
+          self.$refs.simplert.openSimplert(successAlert)
         })
         .catch((error) => {
           console.log(error)

@@ -13,16 +13,35 @@
           <div class="field-label is-normal">
             <label class="label">Upload Image:</label>
           </div>
+          <!-- <div class="field-body">
+              <div class="field is-grouped">
+                <div id="chooseFileDiv">
+                  <p class="control">
+                    <div id="imageShowDiv" v-show="this.checked === true" v-bind:style="{ 'backgroundImage': 'url(' + this.image + ')' }"></div>
+                    <input type="file" accept="image/*"
+                    v-validate="'mimes:image/*|size:4000'" :class="{'input': true, 'is-danger': errors.has('image') }"
+                    @change="onFileChange" class="input" ref="image" name="image" id="image" value="value">
+                    <span v-show="errors.has('image')" class="help is-danger">{{ errors.first('image') }}</span>
+                  </p>
+                </div>
+              </div>
+            </div> -->
           <div class="field-body">
             <div class="field is-grouped">
-              <div id="chooseFileDiv">
-                <p class="control">
-                  <div id="imageShowDiv" v-show="this.checked === true" v-bind:style="{ 'backgroundImage': 'url(' + this.image + ')' }"></div>
-                  <input type="file" accept="image/*"
-                  v-validate="'mimes:image/*|size:4000'" :class="{'input': true, 'is-danger': errors.has('image') }"
-                  @change="onFileChange" class="input" ref="image" name="image" id="image" value="value">
+              <div id="fileInputDiv">
+                <div id="imageShowDiv" v-show="this.checked === true" v-bind:style="{ 'backgroundImage': 'url(' + this.image + ')' }"></div>
+                <div class="fake-file">
+                  <button class="button is-light">
+                    <p>Choose a file...</p>
+                    <input type="file" class="fake-file__input" @change="onFileChange" accept="image/*"
+                    v-validate="'mimes:image/*|size:4000'" :class="{'input': true, 'is-danger': errors.has('image') }" 
+                    name="image" id="image" value="value" />
+                  </button>
+                  <div class="fake-file__label-col">
+                    {{ fileName }}
+                  </div>
                   <span v-show="errors.has('image')" class="help is-danger">{{ errors.first('image') }}</span>
-                </p>
+                </div>
               </div>
             </div>
           </div>
@@ -74,7 +93,7 @@
             </div>
           </div>
         </div>
-      </form> 
+      </form>
       <!-- End of validateBeforeUpdate -->
   
       <!-- ~~~~~~~~~~CHANGE OF PASSWORD SECTION~~~~~~~~~~~~~~~~ -->
@@ -112,59 +131,57 @@
   
         <!-- Form Validation -->
         <form @submit.prevent="validateNewPasswordsBeforeUpdate">
-
-        <!--Input field for Change New Password-->
-        <div class="passwordField">
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">New Password:</label>
-            </div>
-            <div class="field-body">
-              <div class="field is-grouped">
-                <p class="control">
-                  <input class="input" v-validate="'required|min:8|confirmed:new re-password'" :class="{'input': true, 'is-danger': errors.has('new password') }"
-                  name="new password" type="password" placeholder="New Password" v-model="data.newPassword">
-                 <span v-show="errors.has('new password')" class="help is-danger">{{ errors.first('new password') }}</span>                
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
   
-        <!--Input field for Change Re-enter New Password-->
-        <div class="passwordField">
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">Re-enter New Password:</label>
-            </div>
-            <div class="field-body">
-              <div class="field is-grouped">
-                <p class="control">
-                  <input class="input" type="password" v-validate="'required|min:8|confirmed:new password'" :class="{'input': true, 'is-danger': errors.has('new re-password') }"
-                  name="new re-password" placeholder="New Re-Password" v-model="data.newRePassword">
-                <span v-show="errors.has('new re-password')" class="help is-danger">{{ errors.first('new re-password') }}</span>                
-                </p>
+          <!--Input field for Change New Password-->
+          <div class="passwordField">
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label">New Password:</label>
               </div>
-            </div>
-          </div>
-        </div>
-  
-        <!--Update button for Change Password-->
-        <div class="updatePwdBtn">
-          <div class="field is-horizontal">
-            <div class="field-label">
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
-                  <button class="button is-info">
-                    Update
-                  </button>
+              <div class="field-body">
+                <div class="field is-grouped">
+                  <p class="control">
+                    <input class="input" v-validate="'required|min:8|confirmed:new re-password'" :class="{'input': true, 'is-danger': errors.has('new password') }" name="new password" type="password" placeholder="New Password" v-model="data.newPassword">
+                    <span v-show="errors.has('new password')" class="help is-danger">{{ errors.first('new password') }}</span>
+                  </p>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+  
+          <!--Input field for Change Re-enter New Password-->
+          <div class="passwordField">
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label">Re-enter New Password:</label>
+              </div>
+              <div class="field-body">
+                <div class="field is-grouped">
+                  <p class="control">
+                    <input class="input" type="password" v-validate="'required|min:8|confirmed:new password'" :class="{'input': true, 'is-danger': errors.has('new re-password') }" name="new re-password" placeholder="New Re-Password" v-model="data.newRePassword">
+                    <span v-show="errors.has('new re-password')" class="help is-danger">{{ errors.first('new re-password') }}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!--Update button for Change Password-->
+          <div class="updatePwdBtn">
+            <div class="field is-horizontal">
+              <div class="field-label">
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <button class="button is-info">
+                      Update
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </form>
       </modal>
   
@@ -216,7 +233,8 @@ export default {
       showChangePasswordModal: false,
       image: '',
       staffUserId: '',
-      checked: true
+      checked: true,
+      fileName: 'No file chosen'
     }
   },
   methods: {
@@ -341,6 +359,7 @@ export default {
     },
     onFileChange (e) {
       this.checked = true
+      console.log(e)
       var files = e.target.files || e.dataTransfer.files
       if (!files.length) {
         this.image = null
@@ -352,12 +371,10 @@ export default {
     createImage (file) {
       var reader = new FileReader()
       var vm = this
-
+      this.fileName = file.name
       reader.onload = (e) => {
         vm.image = e.target.result
       }
-      console.log('file is below')
-      console.log(file)
       reader.readAsDataURL(file)
     }
   },
@@ -380,6 +397,7 @@ export default {
         self.data.username = response.data.username
         self.data.name = response.data.name
         self.image = response.data.userImageUrl
+        self.fileName = response.data.userImageUrl
       })
       .catch((error) => {
         console.log(error)
@@ -467,5 +485,53 @@ button {
   background-repeat: no-repeat;
   overflow: hidden;
   margin-bottom: 10%;
+}
+
+.fake-file {
+  width: 200px;
+  display: flex;
+}
+.fake-file__label-col {
+  flex: 1 0 70%;
+  padding: 5% 5%;
+  border: 1px solid #d9d9d9;
+}
+#fileInputDiv button {
+  padding: 10% 10%;
+  position: relative;
+  cursor: pointer;
+}
+
+#fileInputDiv button .fake-file__input {
+  width: 500px
+}
+
+#fileInputDiv button p {
+  margin-top: -7%;
+}
+.fake-file__input-col::before {
+  content: 'Open';
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  line-height: 53px;
+  cursor: pointer;
+  width: 300px;
+}
+.fake-file__input {
+  font-size:5px;
+  color: white;
+  width: 100%;
+  opacity: 0;
+  z-index: 10;
+  border: 1px solid #d3d3d3;
+   position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  cursor: pointer;
 }
 </style>
