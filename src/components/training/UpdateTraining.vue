@@ -70,17 +70,16 @@
                 </p>
               </div>
             </div>  
-
                         <!-- No Button -->
             <div class="saveBtn">
               <div class="control">
-                <button class="button is-light" @click="yesBtn">
+                <button class="button is-light" @click="saveBtn">
                   Save
                 </button>
               </div>
             </div>   
             </div> 
-  
+  <pre>{{ $data|json }}</pre>
       </div>
     </div>
   
@@ -120,11 +119,35 @@ export default {
     }
   },
   methods: {
+    saveBtn () {
+      let self = this
+      axios.put(trainingUrl + self.getTrainingId, {
+        imageUrl: self.image,
+        userId: self.selectedUser.userId
+      })
+        .then((response) => {
+          let closeFn = () => {
+            router.push({ path: '/training' })
+          }
+          let successAlert = {
+            title: 'Success',
+            message: response.data.message,
+            type: 'success',
+            onClose: closeFn
+          }
+          self.$refs.simplert.openSimplert(successAlert)
+        })
+        .catch((error) => {
+          let errorAlert = {
+            title: 'Error',
+            message: error.response.data.message,
+            type: 'error'
+          }
+          self.$refs.simplert.openSimplert(errorAlert)
+        })
+    },
     yesBtn () {
       let self = this
-      if (self.checked === true) {
-        self.data.userId === self.selectedUser.userId
-      }
       axios.put(trainingUrl + self.getTrainingId, {
         imageUrl: self.image,
         userId: self.data.userId
