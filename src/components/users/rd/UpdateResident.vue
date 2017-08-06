@@ -133,8 +133,7 @@
           <div class="field-body">
             <div class="field is-grouped">
               <p class="control">
-                <input class="input" type="date" name="issuance date" v-validate="'date_format:YYYY-MM-DD'" :class="{'input': true, 'is-danger': errors.has('issuance date') }" v-model="data.issuanceDate">
-                <span v-show="errors.has('issuance date')" class="help is-danger">{{ errors.first('issuance date') }}</span>
+                <input class="input" type="date" name="issuance date" v-model="data.issuanceDate">
               </p>
             </div>
           </div>
