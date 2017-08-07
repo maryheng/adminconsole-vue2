@@ -152,7 +152,7 @@
             <div class="field-body">
               <div class="field">
                 <div class="control">
-                  <button class="button is-primary" @click="updateRdBtn">
+                  <button class="button is-primary" @click="updateRdBtn" :disabled="isDisabled">
                     Update
                   </button>
                 </div>
@@ -169,7 +169,7 @@
             <div class="field-body">
               <div class="field">
                 <div class="control">
-                  <button class="button" @click="deleteBtn">
+                  <button class="button" @click="deleteBtn" :disabled="isDisabled">
                     Delete
                   </button>
                 </div>
@@ -211,7 +211,8 @@ export default {
       },
       image: '',
       rdUserId: '',
-      checked: true
+      checked: true,
+      isDisabled: false
     }
   },
   methods: {
@@ -219,6 +220,7 @@ export default {
       let self = this
       this.$validator.validateAll().then(result => {
         if (result) {
+          self.isDisabled = true
           let formData = new FormData()
 
           formData.append('userImage', self.$refs.image.files[0])
@@ -253,6 +255,7 @@ export default {
               self.$refs.simplert.openSimplert(successAlert)
             })
             .catch((error) => {
+              self.isDisabled = false
               let errorAlert = {
                 title: 'Error',
                 message: error.response.data.message,
@@ -274,6 +277,7 @@ export default {
     deleteBtn () {
       let self = this
       let confirmFn = () => {
+        self.isDisabled = true
         axios.delete(rdUrl + self.rdUserId)
         .then((response) => {
           console.log(response)
@@ -290,6 +294,7 @@ export default {
           self.$refs.simplert.openSimplert(successAlert)
         })
           .catch((error) => {
+            self.isDisabled = false
             let errorAlert = {
               title: 'Error',
               message: error.response.data.message,

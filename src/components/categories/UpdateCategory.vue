@@ -81,7 +81,7 @@
             <div class="field-body">
               <div class="field">
                 <div class="control">
-                  <button class="button is-primary">
+                  <button class="button is-primary" :disabled="isDisabled">
                     Update
                   </button>
                 </div>
@@ -99,7 +99,7 @@
             <div class="field-body">
               <div class="field">
                 <div class="control">
-                  <button class="button" @click="deleteBtn">
+                  <button class="button" @click="deleteBtn" :disabled="isDisabled">
                     Delete
                   </button>
                 </div>
@@ -143,7 +143,8 @@ export default {
       options: [],
       checked: '',
       getCategoryId: '',
-      allSubCategoryNames: []
+      allSubCategoryNames: [],
+      isDisabled: false
     }
   },
   methods: {
@@ -176,6 +177,7 @@ export default {
 
         // If validation goes smoothly,
         if (result) {
+          self.isDisabled = true
           axios.put(categoryUrl + self.getCategoryId, {
             categoryName: self.data.categoryName,
             subCategoriesToUpdate: self.subCategoriesToUpdate,
@@ -196,6 +198,7 @@ export default {
             self.$refs.simplert.openSimplert(successAlert)
           })
           .catch((error) => {
+            self.isDisabled = false
             let errorAlert = {
               title: 'Error',
               message: error.response.data.message,
@@ -223,6 +226,7 @@ export default {
     deleteBtn () {
       let self = this
       let confirmFn = () => {
+        self.isDisabled = true
         axios.delete(categoryUrl + self.getCategoryId)
         .then((response) => {
           // Success Alert
@@ -239,6 +243,7 @@ export default {
           self.$refs.simplert.openSimplert(successAlert)
         })
           .catch((error) => {
+            self.isDisabled = false
             let errorAlert = {
               title: 'Error',
               message: error.response.data.message,
@@ -350,10 +355,6 @@ hr {
   width: 35%;
 }
 
-button {
-  margin-top: 1%;
-}
-
 .input {
   width: 300px;
 }
@@ -369,7 +370,6 @@ p {
 
 .deleteCatBtn {
   float: left;
-  margin-top: 1%;
 }
 
 .updateCatBtn {

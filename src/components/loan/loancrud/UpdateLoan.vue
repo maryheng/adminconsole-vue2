@@ -1,5 +1,5 @@
 <template>
-  <div id="container">
+  <div id="updateLoanDiv">
     <div class="innerContainer">
       <div class="box">
 
@@ -33,14 +33,14 @@
       </div>      
   
       <!-- Save Button -->
-      <div class="saveBtn">
+      <div class="updateLoanBtn">
         <div class="field is-horizontal">
           <div class="field-label">
           </div>
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <button class="button is-primary">
+                <button class="button is-primary" :disabled="isDisabled">
                   Update
                 </button>
               </div>
@@ -76,7 +76,8 @@ export default {
       data: {
         dueDateTime: ''
       },
-      getLoanId: ''
+      getLoanId: '',
+      isDisabled: false
     }
   },
   methods: {
@@ -84,6 +85,7 @@ export default {
       let self = this
       self.$validator.validateAll().then(result => {
         if (result) {
+          self.isDisabled = true
           // Convert datetime to UTC
           self.data.dueDateTime = moment(self.data.dueDateTime).utc().format()
           // Update loan's duedatetime data to API
@@ -103,6 +105,7 @@ export default {
               self.$refs.simplert.openSimplert(successAlert)
             })
             .catch((error) => {
+              self.isDisabled = false
               let errorAlert = {
                 title: 'Error',
                 message: error.response.data.message,
@@ -112,6 +115,7 @@ export default {
             })
           return
         }
+        self.isDisabled = false
         let errorAlert = {
           title: 'Error',
           message: 'Some fields are incorrect!',
@@ -187,8 +191,9 @@ button {
   margin-top: 1.5%;
 }
 
-.saveBtn {
-  margin-left: 18.8%;
+.updateLoanBtn {
+  margin-left: 7.6%;
+  margin-top: 1%;
 }
 
 .multiselect {
@@ -210,4 +215,7 @@ button {
   float: left;
 }
 
+#updateLoanDiv .box {
+  padding-bottom: 10%;
+}
 </style>

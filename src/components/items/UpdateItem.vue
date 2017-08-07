@@ -157,7 +157,7 @@
             <div class="field-body">
               <div class="field">
                 <div class="control">
-                  <button class="button is-primary">
+                  <button class="button is-primary" :disabled="isDisabled">
                     Update
                   </button>
                 </div>
@@ -174,7 +174,7 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <button type="button" class="button" @click="deleteBtn" >
+                <button type="button" class="button" @click="deleteBtn" :disabled="isDisabled">
                   Delete
                 </button>
               </div>
@@ -236,7 +236,8 @@ export default {
       getStaffArray: [],
       deletedItemIdArray: [],
       updatedItemArray: [],
-      newItemArray: []
+      newItemArray: [],
+      isDisabled: false
     }
   },
   methods: {
@@ -244,6 +245,7 @@ export default {
       let self = this
       self.$validator.validateAll(updateForm).then(result => {
         if (result) {
+          self.isDisabled = true
           self.data.categoryId = self.selectedCat.categoryId
           self.data.subCategoryId = self.selectedSubCat.subCategoryId
 
@@ -309,6 +311,7 @@ export default {
               self.$refs.simplert.openSimplert(successAlert)
             })
             .catch((error) => {
+              self.isDisabled = false
               let errorAlert = {
                 title: 'Error',
                 message: error.response.data.message,
@@ -373,6 +376,7 @@ export default {
     deleteBtn () {
       let self = this
       let confirmFn = () => {
+        self.isDisabled = true
         axios.delete(itemUrl + self.itemParentId)
         .then((response) => {
           // Success Alert
@@ -389,6 +393,7 @@ export default {
           self.$refs.simplert.openSimplert(successAlert)
         })
           .catch((error) => {
+            self.isDisabled = false
             let errorAlert = {
               title: 'Error',
               message: error.response.data.message,

@@ -2,8 +2,6 @@
   <div id="container">
     <p class="title is-4">Manage Training</p>
     <div class="box">
-      <br>
-      <br>
       <!--Vue Table-->
       <my-vuetable
         :api-url="apiUrl"

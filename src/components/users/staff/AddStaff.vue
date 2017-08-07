@@ -88,7 +88,7 @@
             <div class="field-body">
               <div class="field">
                 <div class="control">
-                  <button class="button is-primary">
+                  <button class="button is-primary" :disabled="isDisabled">
                     Save
                   </button>
                 </div>
@@ -126,7 +126,8 @@ export default {
         password: ''
       },
       image: '',
-      checked: false
+      checked: false,
+      isDisabled: false
     }
   },
   methods: {
@@ -134,8 +135,8 @@ export default {
     validateBeforeSubmit () {
       let self = this
       self.$validator.validateAll().then(result => {
-        console.log(result)
         if (result) { // no errors from fields
+          self.isDisabled = true
           if (self.$refs.image.files[0]) {
             let formData = new FormData()
 
@@ -159,7 +160,7 @@ export default {
                 self.$refs.simplert.openSimplert(successAlert)
               })
               .catch((error) => {
-                console.log(error)
+                self.isDisabled = false
                 let errorAlert = {
                   title: 'Error',
                   message: error.response.data.message,

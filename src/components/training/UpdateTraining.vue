@@ -29,21 +29,21 @@
         <div class="buttonGroup">
           <div class="field is-grouped">
                 <div class="control">
-                  <button class="button is-primary is-medium" @click="yesBtn">
+                  <button class="button is-primary is-medium" @click="yesBtn" :disabled="isDisabled">
                     Yes
                   </button>
                 </div>
   
             <!-- No Button -->
               <div class="control">
-                <button class="button is-medium" @click="someoneElseBtn">
+                <button class="button is-medium" @click="someoneElseBtn" :disabled="isDisabled">
                   It's someone else
                 </button>
               </div>
   
             <!-- No Button -->
               <div class="control">
-                <button class="button is-medium" @click="sendToDeleteApiBtn">
+                <button class="button is-medium" @click="sendToDeleteApiBtn" :disabled="isDisabled">
                   No
                 </button>
               </div>
@@ -114,12 +114,14 @@ export default {
       allUsers: [],
       image: '',
       getTrainingId: '',
-      checked: false
+      checked: false,
+      isDisabled: false
     }
   },
   methods: {
     saveBtn () {
       let self = this
+      self.isDisabled = true
       axios.put(trainingUrl + self.getTrainingId, {
         imageUrl: self.image,
         userId: self.selectedUser.userId
@@ -137,6 +139,7 @@ export default {
           self.$refs.simplert.openSimplert(successAlert)
         })
         .catch((error) => {
+          self.isDisabled = false
           let errorAlert = {
             title: 'Error',
             message: error.response.data.message,
@@ -147,6 +150,7 @@ export default {
     },
     yesBtn () {
       let self = this
+      self.isDisabled = true
       axios.put(trainingUrl + self.getTrainingId, {
         imageUrl: self.image,
         userId: self.data.userId
@@ -164,6 +168,7 @@ export default {
           self.$refs.simplert.openSimplert(successAlert)
         })
         .catch((error) => {
+          self.isDisabled = false
           let errorAlert = {
             title: 'Error',
             message: error.response.data.message,
@@ -174,6 +179,7 @@ export default {
     },
     sendToDeleteApiBtn () {
       let self = this
+      self.isDisabled = true
       axios.delete(trainingUrl + self.getTrainingId)
         .then((response) => {
           let closeFn = () => {
@@ -188,6 +194,7 @@ export default {
           self.$refs.simplert.openSimplert(successAlert)
         })
         .catch((error) => {
+          self.isDisabled = false
           let errorAlert = {
             title: 'Error',
             message: error.response.data.message,

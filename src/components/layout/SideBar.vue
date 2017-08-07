@@ -12,8 +12,8 @@
     Inventory
   </p>
   <ul class="menu-list">
-    <router-link :to=" { path: '/item'} "><li><a>Manage Items</a></li></router-link>
     <router-link :to=" { path: '/category'} "><li><a>Manage Categories</a></li></router-link>
+    <router-link :to=" { path: '/item'} "><li><a>Manage Items</a></li></router-link>
   </ul>
   <p class="menu-label">
     Loans

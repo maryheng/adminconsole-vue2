@@ -20,7 +20,7 @@
           <div class="field-label is-normal">
             <label class="label">Upload Image:</label>
           </div>
-          <!-- <div class="field-body">
+           <div class="field-body">
               <div class="field is-grouped">
                 <div id="chooseFileDiv">
                   <p class="control">
@@ -32,8 +32,8 @@
                   </p>
                 </div>
               </div>
-            </div> -->
-          <div class="field-body">
+            </div> 
+          <!-- <div class="field-body">
             <div class="field is-grouped">
               <div id="fileInputDiv">
                 <div id="imageShowDiv" v-show="this.checked === true" v-bind:style="{ 'backgroundImage': 'url(' + this.image + ')' }"></div>
@@ -50,7 +50,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
   
         <!--Input field for Name-->
@@ -91,7 +91,7 @@
             <div class="field-body">
               <div class="field">
                 <div class="control">
-                  <button class="button is-primary">
+                  <button class="button is-primary" :disabled="isDisabled">
                     Update
                   </button>
                 </div>
@@ -180,7 +180,7 @@
               <div class="field-body">
                 <div class="field">
                   <div class="control">
-                    <button class="button is-info">
+                    <button class="button is-info" :disabled="isDisabled">
                       Update
                     </button>
                   </div>
@@ -198,7 +198,7 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <button class="button" @click="deleteBtn">
+                <button class="button" @click="deleteBtn" :disabled="isDisabled">
                   Delete
                 </button>
               </div>
@@ -240,7 +240,8 @@ export default {
       image: '',
       staffUserId: '',
       checked: true,
-      fileName: 'No file chosen'
+      fileName: 'No file chosen',
+      isDisabled: false
     }
   },
   methods: {
@@ -249,6 +250,7 @@ export default {
       let self = this
       self.$validator.validateAll().then(result => {
         if (result) {
+          self.isDisabled = true
           let formData = new FormData()
           // Post Staff data to server
           formData.append('userImage', self.$refs.image.files[0])
@@ -258,7 +260,8 @@ export default {
           axios.put(staffUrl + self.staffUserId, formData)
             .then((response) => {
               let closeFn = () => {
-                router.push({ path: '/user/staff' })
+                router.push({ name: 'UpdateStaff', params: { staffId: self.staffUserId } })
+                self.isDisabled = false
               }
               let successAlert = {
                 title: 'Success',
@@ -269,6 +272,7 @@ export default {
               self.$refs.simplert.openSimplert(successAlert)
             })
             .catch((error) => {
+              self.isDisabled = false
               let errorAlert = {
                 title: 'Error',
                 message: error.response.data.message,
@@ -290,6 +294,7 @@ export default {
       let self = this
       self.$validator.validateAll().then(result => {
         if (result) {
+          self.isDisabled = true
           // Update Staff's Password
           axios.put(staffUrl + self.staffUserId + '/changePasswords', {
             newPassword: this.data.newPassword,
@@ -298,7 +303,7 @@ export default {
             .then((response) => {
               let closeFn = () => {
                 // router.push({ name: 'UpdateStaff', params: { userId: self.staffUserId } })
-                window.open('/user/UpdateStaff/' + self.staffUserId, '_self')
+                window.open('/UpdateStaff/' + self.staffUserId, '_self')
               }
               let successAlert = {
                 title: 'Success',
@@ -309,6 +314,7 @@ export default {
               self.$refs.simplert.openSimplert(successAlert)
             })
             .catch((error) => {
+              self.isDisabled = false
               let errorAlert = {
                 title: 'Error',
                 message: error.response.data.message,
@@ -330,6 +336,7 @@ export default {
     deleteBtn () {
       let self = this
       let confirmFn = () => {
+        self.isDisabled = true
         axios.delete(staffUrl + self.staffUserId)
         .then((response) => {
           // Success Alert
@@ -346,6 +353,7 @@ export default {
           self.$refs.simplert.openSimplert(successAlert)
         })
           .catch((error) => {
+            self.isDisabled = false
             let errorAlert = {
               title: 'Error',
               message: error.response.data.message,

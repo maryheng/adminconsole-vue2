@@ -33,7 +33,7 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <button class="button is-primary">
+                <button class="button is-primary" :disabled="isDisabled">
                   Save
                 </button>
               </div>
@@ -65,7 +65,8 @@ export default {
   data () {
     return {
       data: {
-        visitPurpose: ''
+        visitPurpose: '',
+        isDisabled: false
       }
     }
   },
@@ -75,6 +76,7 @@ export default {
       let self = this
       self.$validator.validateAll().then(result => {
         if (result) {
+          self.isDisabled = true
           axios.post(visitPurpose, {
             visitPurpose: self.data.visitPurpose
           })
@@ -91,6 +93,7 @@ export default {
               self.$refs.simplert.openSimplert(successAlert)
             })
             .catch((error) => {
+              self.isDisabled = false
               let errorAlert = {
                 title: 'Error',
                 message: error.response.data.message,
@@ -100,6 +103,7 @@ export default {
             })
           return
         }
+        self.isDisabled = false
         let errorAlert = {
           title: 'Error',
           message: 'Some fields are incorrect!',
@@ -126,7 +130,7 @@ export default {
   margin: 0 auto;
   position: relative;
   margin-right: -150%;
-  padding-bottom: 10%;
+  padding-bottom: 26%;
 }
 
 hr {

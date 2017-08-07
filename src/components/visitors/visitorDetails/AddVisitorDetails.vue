@@ -93,7 +93,7 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <button class="button is-primary">
+                <button class="button is-primary" :disabled="isDisabled">
                   Save
                 </button>
               </div>
@@ -136,7 +136,8 @@ export default {
       purposeText: '',
       selectedVisitPurpose: [],
       options: [],
-      allVisitPurpose: []
+      allVisitPurpose: [],
+      isDisabled: false
     }
   },
   methods: {
@@ -144,6 +145,7 @@ export default {
       let self = this
       self.$validator.validateAll().then(result => {
         if (result) {
+          self.isDisabled = true
           // Assign multiselect's selected value to purposeText
           self.purposeText = self.selectedVisitPurpose.visitPurposeText
 
@@ -170,6 +172,7 @@ export default {
               self.$refs.simplert.openSimplert(successAlert)
             })
             .catch((error) => {
+              self.isDisabled = false
               let errorAlert = {
                 title: 'Error',
                 message: error.response.data.message,
@@ -179,6 +182,7 @@ export default {
             })
           return
         }
+        self.isDisabled = false
         let errorAlert = {
           title: 'Error',
           message: 'Some fields are incorrect!',

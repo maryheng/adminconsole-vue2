@@ -33,7 +33,7 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <button class="button is-primary">
+                <button class="button is-primary" :disabled="isDisabled">
                   Update
                 </button>
               </div>
@@ -44,14 +44,14 @@
       </form>
   
       <!-- Delete Purpose of Visit Button -->
-      <div class="deleteBtn">
+      <div class="deletePurposeBtn">
         <div class="field is-horizontal">
           <div class="field-label">
           </div>
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <button class="button" @click="deleteBtn">
+                <button class="button" @click="deleteBtn" :disabled="isDisabled">
                   Delete
                 </button>
               </div>
@@ -84,7 +84,8 @@ export default {
       data: {
         visitPurpose: ''
       },
-      visitPurposeOptionId: ''
+      visitPurposeOptionId: '',
+      isDisabled: false
     }
   },
   methods: {
@@ -93,6 +94,7 @@ export default {
       let self = this
       self.$validator.validateAll().then(result => {
         if (result) {
+          self.isDisabled = true
           axios.put(visitPurpose + self.visitPurposeOptionId, {
             visitPurpose: self.data.visitPurpose
           })
@@ -109,6 +111,7 @@ export default {
               self.$refs.simplert.openSimplert(successAlert)
             })
             .catch((error) => {
+              self.isDisabled = false
               let errorAlert = {
                 title: 'Error',
                 message: error.response.data.message,
@@ -118,6 +121,7 @@ export default {
             })
           return
         }
+        self.isDisabled = false
         let errorAlert = {
           title: 'Error',
           message: 'Some fields are incorrect!',
@@ -131,6 +135,7 @@ export default {
       let self = this
 
       let confirmFn = () => {
+        self.isDisabled = true
         axios.delete(visitPurpose + self.visitPurposeOptionId)
         .then((response) => {
           // Success Alert
@@ -147,6 +152,7 @@ export default {
           self.$refs.simplert.openSimplert(successAlert)
         })
       .catch((error) => {
+        self.isDisabled = false
         let errorAlert = {
           title: 'Error',
           message: error.response.data.message,
@@ -200,7 +206,7 @@ export default {
   margin: 0 auto;
   position: relative;
   margin-right: -150%;
-  padding-bottom: 10%;
+  padding-bottom: 27%;
 }
 
 hr {
@@ -234,8 +240,8 @@ button {
   margin-top: 4%;
 }
 
-.deleteBtn {
+.deletePurposeBtn {
   float: left;
-  margin-top: 2.4%;
+  margin-top: 8%;
 }
 </style>
