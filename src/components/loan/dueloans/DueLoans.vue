@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <router-link to="/loan/AddLoan">
+    <router-link to="/AddLoan">
       <button type="submit" class="button is-primary">Add Loan</button>
     </router-link>
     <br>

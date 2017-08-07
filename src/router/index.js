@@ -138,18 +138,18 @@ export default new Router({
         path: 'LoanArchive',
         name: 'LoanArchive',
         component: LoanArchive
-      },
-      {
-        path: 'AddLoan',
-        name: 'AddLoan',
-        component: AddLoan
-      },
-      {
-        path: 'UpdateLoan/:loanId',
-        name: 'UpdateLoan',
-        component: UpdateLoan
       }
       ]
+    },
+    {
+      path: '/AddLoan',
+      name: 'AddLoan',
+      component: AddLoan
+    },
+    {
+      path: '/UpdateLoan/:loanId',
+      name: 'UpdateLoan',
+      component: UpdateLoan
     },
     {
       path: '/visitor',

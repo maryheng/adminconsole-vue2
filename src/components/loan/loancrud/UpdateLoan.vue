@@ -1,7 +1,14 @@
 <template>
   <div id="container">
     <div class="innerContainer">
-  
+      <div class="box">
+
+      <div class="backForLoan">
+        <router-link to="/loan/DueLoans">
+          <button type="button" class="button is-light">Back</button>
+        </router-link>
+      </div>
+
       <div class="header">
         <p class="title is-4">Loan Details</p>
       </div>
@@ -47,6 +54,7 @@
       <simplert :useRadius="true" :useIcon="true" ref="simplert">
       </simplert>
   
+      </div>
     </div>
   </div>
 </template>
@@ -123,7 +131,7 @@ export default {
     const segments = path.split('/')
 
     // Assigned loanId
-    self.getLoanId = segments[3]
+    self.getLoanId = segments[2]
 
     // Based on the loanId in the URL, get data for the user
     axios.get(loanUrl + self.getLoanId)
@@ -196,6 +204,10 @@ button {
 .pclass {
   margin-left: 5%;
   font-size: 1.1em;
+}
+
+.backForLoan {
+  float: left;
 }
 
 </style>

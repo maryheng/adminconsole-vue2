@@ -1,7 +1,14 @@
 <template>
   <div id="container">
     <div class="innerContainer">
-  
+      <div class="box">
+
+      <div class="backForLoan">
+
+          <button type="button" class="button is-light" @click="backLoanBtn">Back</button>
+
+      </div>
+
       <div class="header">
         <p class="title is-4">Loan Details</p>
       </div>
@@ -240,6 +247,7 @@
       <simplert :useRadius="true" :useIcon="true" ref="simplert">
       </simplert>
   
+      </div>
     </div>
   </div>
 </template>
@@ -453,6 +461,9 @@ export default {
           this.selectedItemChildNames.splice(index, 1)
         }
       }, this)
+    },
+    backLoanBtn () {
+      router.go(-1)
     }
   },
   computed: {
@@ -609,5 +620,9 @@ button {
 .noItemsToShow  {
   margin-left: 40%;
   margin-top: 5%;
+}
+
+.backForLoan {
+  float: left;
 }
 </style>
