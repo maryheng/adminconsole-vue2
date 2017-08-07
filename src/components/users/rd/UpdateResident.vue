@@ -1,7 +1,12 @@
 <template>
   <div id="test2">
     <div class="innerContainer">
-  
+      <div class="box">
+      <div class="backForResident">
+      <router-link to="/user/ResidentDeveloper">
+        <button type="button" class="button is-light">Back</button>
+      </router-link>
+    </div>
       <div class="header">
         <p class="title is-4">User Details</p>
       </div>
@@ -176,7 +181,7 @@
         <!-- Simplert Notification -->
         <simplert :useRadius="true" :useIcon="true" ref="simplert">
         </simplert>
-  
+      </div>
     </div>
   </div>
 </template>
@@ -328,11 +333,11 @@ export default {
     const path = window.location.pathname
 
     // Break the path into segments
-    // ""/"user"/"UpdateResident"/"{userId}"
+    // ""/"UpdateResident"/"{userId}"
     const segments = path.split('/')
 
     // Assigned userId
-    self.rdUserId = segments[3]
+    self.rdUserId = segments[2]
 
     // Based on the userId in the URL, get data for the user
     axios.get(rdUrl + self.rdUserId)
@@ -413,5 +418,9 @@ button {
   background-repeat: no-repeat;
   overflow: hidden;
   margin-bottom: 10%;
+}
+
+.backForResident {
+  float: left;
 }
 </style>

@@ -1,7 +1,13 @@
 <template>
   <div id="test2">
     <div class="innerContainer">
-  
+      <div class="box">
+      <div class="backForResident">
+        <router-link to="/user/ResidentDeveloper">
+          <button type="button" class="button is-light">Back</button>
+        </router-link>
+      </div>
+
       <div class="header">
         <p class="title is-4">User Details</p>
       </div>
@@ -159,6 +165,7 @@
         <simplert :useRadius="true" :useIcon="true" ref="simplert">
         </simplert>
       </form>
+      </div>
     </div>
   </div>
 </template>
@@ -275,7 +282,7 @@ export default {
 
 <style>
 .box {
-  padding-bottom: 10%;
+  padding-bottom: 5%;
 }
 
 .header {
@@ -325,5 +332,9 @@ button {
   background-repeat: no-repeat;
   overflow: hidden;
   margin-bottom: 10%;
+}
+
+.backForResident {
+  float: left;
 }
 </style>

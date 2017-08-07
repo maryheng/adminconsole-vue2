@@ -1,7 +1,14 @@
 <template>
   <div id="container">
     <div class="innerContainer">
-  
+      <div class="box">
+
+      <div class="backForStaff">
+        <router-link to="/user/staff">
+          <button type="button" class="button is-light">Back</button>
+        </router-link>
+      </div>
+
       <div class="header">
         <p class="title is-4">Staff Details</p>
       </div>
@@ -34,8 +41,7 @@
                   <button class="button is-light">
                     <p>Choose a file...</p>
                     <input type="file" class="fake-file__input" @change="onFileChange" accept="image/*"
-                    v-validate="'mimes:image/*|size:4000'" :class="{'input': true, 'is-danger': errors.has('image') }" 
-                    name="image" id="image" value="value" />
+                     v-validate="'mimes:image/*|size:4000'" name="image" value="image" id="image"/>
                   </button>
                   <div class="fake-file__label-col">
                     {{ fileName }}
@@ -204,7 +210,7 @@
       <!-- Simplert Notification -->
       <simplert :useRadius="true" :useIcon="true" ref="simplert">
       </simplert>
-  
+    </div>
     </div>
   </div>
 </template>
@@ -384,11 +390,11 @@ export default {
     const path = window.location.pathname
 
     // Break the path into segments
-    // ""/"user"/"UpdateStaff"/"{userId}"
+    // ""/"UpdateStaff"/"{userId}"
     const segments = path.split('/')
 
     // Assigned userId
-    self.staffUserId = segments[3]
+    self.staffUserId = segments[2]
 
     // Based on the userId in the URL, get data for the user
     axios.get(staffUrl + self.staffUserId)
@@ -408,6 +414,9 @@ export default {
 
 
 <style>
+.box {
+  padding-bottom: 5%;
+}
 .field {
   margin-right: -700px;
   margin: 0 auto;
@@ -495,6 +504,7 @@ button {
   flex: 1 0 70%;
   padding: 5% 5%;
   border: 1px solid #d9d9d9;
+  border-radius: 3%;
 }
 #fileInputDiv button {
   padding: 10% 10%;
@@ -509,17 +519,7 @@ button {
 #fileInputDiv button p {
   margin-top: -7%;
 }
-.fake-file__input-col::before {
-  content: 'Open';
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  line-height: 53px;
-  cursor: pointer;
-  width: 300px;
-}
+
 .fake-file__input {
   font-size:5px;
   color: white;
@@ -533,5 +533,9 @@ button {
   right: 0;
   bottom: 0;
   cursor: pointer;
+}
+
+.backForStaff {
+  float: left;
 }
 </style>

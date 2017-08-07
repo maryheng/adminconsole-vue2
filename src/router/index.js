@@ -67,28 +67,28 @@ export default new Router({
         path: 'ResidentDeveloper',
         name: 'ResidentDeveloper',
         component: ResidentDeveloper
-      },
-      {
-        path: 'AddStaff',
-        name: 'AddStaff',
-        component: AddStaff
-      },
-      {
-        path: 'UpdateStaff/:staffId',
-        name: 'UpdateStaff',
-        component: UpdateStaff
-      },
-      {
-        path: 'AddResident',
-        name: 'AddResident',
-        component: AddResident
-      },
-      {
-        path: 'UpdateResident/:residentDeveloperId',
-        name: 'UpdateResident',
-        component: UpdateResident
       }
       ]
+    },
+    {
+      path: '/AddStaff',
+      name: 'AddStaff',
+      component: AddStaff
+    },
+    {
+      path: '/UpdateStaff/:staffId',
+      name: 'UpdateStaff',
+      component: UpdateStaff
+    },
+    {
+      path: '/AddResident',
+      name: 'AddResident',
+      component: AddResident
+    },
+    {
+      path: '/UpdateResident/:residentDeveloperId',
+      name: 'UpdateResident',
+      component: UpdateResident
     },
     {
       path: '/item',

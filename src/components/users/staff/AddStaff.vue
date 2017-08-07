@@ -1,7 +1,14 @@
 <template>
   <div id="container">
     <div class="innerContainer">
-  
+      <div class="box">
+
+      <div class="backForStaff">
+        <router-link to="/user/staff">
+          <button type="button" class="button is-light">Back</button>
+        </router-link>
+      </div>
+
       <div class="header">
         <p class="title is-4">Staff Details</p>
       </div>
@@ -95,6 +102,7 @@
         </simplert>
 
       </form>
+      </div>
     </div>
   </div>
 </template>
@@ -196,6 +204,9 @@ export default {
 
 
 <style>
+.box {
+  padding-bottom: 5%;
+}
 .field {
   margin: 0 auto;
 }
@@ -248,5 +259,9 @@ button {
   background-repeat: no-repeat;
   overflow: hidden;
   margin-bottom: 10%;
+}
+
+.backForStaff {
+  float: left;
 }
 </style>

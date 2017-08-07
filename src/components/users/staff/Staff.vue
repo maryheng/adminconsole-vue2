@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <router-link to="/user/AddStaff">
+    <router-link to="/AddStaff">
       <button type="submit" class="button is-primary">Add Staff</button>
     </router-link>
     <br>
@@ -63,7 +63,6 @@ export default {
   methods: {
     // Click "Edit" Button -> routes user to update page
     onActions (action, data) {
-      // ~/user/UpdateStaff/{userId}
       router.push({ name: 'UpdateStaff', params: { staffId: action.data.staffId } })
     }
   },
