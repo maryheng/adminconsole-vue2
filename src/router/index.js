@@ -164,28 +164,28 @@ export default new Router({
         path: 'PurposeOfVisit',
         name: 'PurposeOfVisit',
         component: PurposeOfVisit
-      },
-      {
-        path: 'AddVisitorDetails',
-        name: 'AddVisitorDetails',
-        component: AddVisitorDetails
-      },
-      {
-        path: 'UpdateVisitorDetails/:visitRecordId',
-        name: 'UpdateVisitorDetails',
-        component: UpdateVisitorDetails
-      },
-      {
-        path: 'AddPurposeOfVisit',
-        name: 'AddPurposeOfVisit',
-        component: AddPurposeOfVisit
-      },
-      {
-        path: 'UpdatePurposeOfVisit/:visitPurposeOptionId',
-        name: 'UpdatePurposeOfVisit',
-        component: UpdatePurposeOfVisit
       }
       ]
+    },
+    {
+      path: '/AddVisitorDetails',
+      name: 'AddVisitorDetails',
+      component: AddVisitorDetails
+    },
+    {
+      path: '/UpdateVisitorDetails/:visitRecordId',
+      name: 'UpdateVisitorDetails',
+      component: UpdateVisitorDetails
+    },
+    {
+      path: '/AddPurposeOfVisit',
+      name: 'AddPurposeOfVisit',
+      component: AddPurposeOfVisit
+    },
+    {
+      path: '/UpdatePurposeOfVisit/:visitPurposeOptionId',
+      name: 'UpdatePurposeOfVisit',
+      component: UpdatePurposeOfVisit
     },
     {
       path: '/training',

@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <router-link to="/visitor/AddPurposeOfVisit">
+    <router-link to="/AddPurposeOfVisit">
       <button type="submit" class="button is-primary">Add Purpose of Visit</button>
     </router-link>
     <br>

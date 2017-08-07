@@ -4,9 +4,7 @@
       <div class="box">
 
       <div class="backForLoan">
-
           <button type="button" class="button is-light" @click="backLoanBtn">Back</button>
-
       </div>
 
       <div class="header">

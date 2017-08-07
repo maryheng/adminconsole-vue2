@@ -1,7 +1,14 @@
 <template>
-  <div id="container">
+  <div id="visitorDetailsContainer">
     <div class="innerContainer">
-  
+      <div class="box">
+
+      <div class="backForVisitor">
+        <router-link to="/visitor/VisitorDetails">
+          <button type="button" class="button is-light">Back</button>
+        </router-link>
+      </div>
+
       <div class="header">
         <p class="title is-4">Visitor Details</p>
       </div>
@@ -102,7 +109,7 @@
     </form>
 
       <!-- Delete Visitor Details Button -->
-      <div class="deleteBtn">
+      <div class="deleteVisitorBtn">
         <div class="field is-horizontal">
           <div class="field-label">
           </div>
@@ -121,7 +128,7 @@
       <!-- Simplert Notification -->
        <simplert :useRadius="true" :useIcon="true" ref="simplert">
       </simplert> 
-  
+      </div>
     </div>
   </div>
 </template>
@@ -267,7 +274,7 @@ export default {
     const segments = path.split('/')
 
     // Asign visitPurposeOptionId
-    self.visitorDetailsId = segments[3]
+    self.visitorDetailsId = segments[2]
 
     axios.get(visitors + self.visitorDetailsId)
       .then((response) => {
@@ -316,6 +323,10 @@ export default {
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
+#visitorDetailsContainer .box {
+  padding-bottom: 8%;
+}
+
 .field {
   margin: 0 auto;
 }
@@ -362,8 +373,12 @@ button {
   margin-top: 4%;
 }
 
-.deleteBtn {
+.deleteVisitorBtn {
   float: left;
-  margin-top: 2.4%;
+  margin-top: 5%;
+}
+
+.backForVisitor {
+  float: left;
 }
 </style>

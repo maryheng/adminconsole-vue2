@@ -1,7 +1,14 @@
 <template>
-  <div id="container">
+  <div id="containerForPurpose">
     <div class="innerContainer">
-  
+      <div class="box">
+
+      <div class="backForVisitor">
+        <router-link to="/visitor/PurposeOfVisit">
+          <button type="button" class="button is-light">Back</button>
+        </router-link>
+      </div>
+
       <div class="header">
         <p class="title is-4">Purpose of Visit</p>
       </div>
@@ -46,7 +53,7 @@
       <!-- Simplert Notification -->
       <simplert :useRadius="true" :useIcon="true" ref="simplert">
       </simplert>
-  
+      </div>
     </div>
   </div>
 </template>
@@ -118,6 +125,10 @@ export default {
 </script>
 
 <style>
+#containerForPurpose .box {
+  padding-bottom: 13%;
+}
+
 .field {
   margin: 0 auto;
 }
@@ -130,7 +141,6 @@ export default {
   margin: 0 auto;
   position: relative;
   margin-right: -150%;
-  padding-bottom: 26%;
 }
 
 hr {
@@ -162,5 +172,9 @@ button {
 .multiselect {
   width: 300px;
   margin-top: 4%;
+}
+
+.backForVisitor {
+  float: left;
 }
 </style>

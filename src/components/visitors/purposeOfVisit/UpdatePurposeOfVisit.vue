@@ -1,7 +1,14 @@
 <template>
-  <div id="container">
+  <div id="containerForPurpose">
     <div class="innerContainer">
-  
+      <div class="box">
+
+      <div class="backForVisitor">
+        <router-link to="/visitor/PurposeOfVisit">
+          <button type="button" class="button is-light">Back</button>
+        </router-link>
+      </div>
+
       <div class="header">
         <p class="title is-4">Purpose of Visit</p>
       </div>
@@ -63,7 +70,7 @@
       <!-- Simplert Notification -->
       <simplert :useRadius="true" :useIcon="true" ref="simplert">
       </simplert>
-  
+      </div>
     </div>
   </div>
 </template>
@@ -194,6 +201,10 @@ export default {
 </script>
 
 <style>
+#containerForPurpose .box {
+  padding-bottom: 13%;
+}
+
 .field {
   margin: 0 auto;
 }
@@ -206,7 +217,6 @@ export default {
   margin: 0 auto;
   position: relative;
   margin-right: -150%;
-  padding-bottom: 27%;
 }
 
 hr {
@@ -242,6 +252,10 @@ button {
 
 .deletePurposeBtn {
   float: left;
-  margin-top: 8%;
+  margin-top: 10%;
+}
+
+.backForVisitor {
+  float: left;
 }
 </style>

@@ -1,7 +1,14 @@
 <template>
-  <div id="container">
+  <div id="visitorDetailsContainer">
     <div class="innerContainer">
-  
+      <div class="box">
+
+      <div class="backForVisitor">
+        <router-link to="/visitor/VisitorDetails">
+          <button type="button" class="button is-light">Back</button>
+        </router-link>
+      </div>
+    
       <div class="header">
         <p class="title is-4">Visitor Details</p>
       </div>
@@ -106,7 +113,7 @@
       <!-- Simplert Notification -->
        <simplert :useRadius="true" :useIcon="true" ref="simplert">
       </simplert> 
-  
+      </div>
     </div>
   </div>
 </template>
@@ -216,6 +223,10 @@ export default {
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
+#visitorDetailsContainer .box {
+  padding-bottom: 9%;
+}
+
 .field {
   margin: 0 auto;
 }
@@ -228,7 +239,6 @@ export default {
   margin: 0 auto;
   position: relative;
   margin-right: -150%;
-  padding-bottom: 10%;
 }
 
 hr {
@@ -261,5 +271,9 @@ button {
   width: 300px;
   margin-top: 4%;
   margin-left: 2%;
+}
+
+.backForVisitor {
+  float: left;
 }
 </style>

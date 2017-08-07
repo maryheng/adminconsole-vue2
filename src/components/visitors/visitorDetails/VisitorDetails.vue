@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <router-link to="/visitor/AddVisitorDetails">
+    <router-link to="/AddVisitorDetails">
       <button type="submit" class="button is-primary">Add Visitor Details</button>
     </router-link>
     <br>
@@ -60,10 +60,6 @@ export default {
           name: 'visitDateTime',
           title: 'Date of Visit',
           callback: 'formatDate|DD-MM-YYYY'
-        },
-        {
-          name: 'visitRecordId',
-          title: 'visitRecordId'
         },
         {
           name: '__component:custom-actions',
