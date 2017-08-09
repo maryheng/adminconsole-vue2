@@ -102,7 +102,7 @@
       </form>
       <!-- End of validateBeforeUpdate -->
   
-      <!-- ~~~~~~~~~~CHANGE OF PASSWORD SECTION~~~~~~~~~~~~~~~~ -->
+      <!-- ~~~~~~~~~~CHANGE OF PASSWORD SECTION~~~~~~~~~~~~~~~~ -->    
       <div class="header">
         <p class="title is-4">Manage Password</p>
       </div>
@@ -126,20 +126,15 @@
         </div>
       </div>
   
-      <!--Modal for Change Password-->
+      <!-- MODAL STARTS HERE -->
+      <div id="modalForPwd">
       <modal v-if="showChangePasswordModal" @close="showChangePasswordModal = false">
-        <div class="passwordHeader">
-          <div class="header">
-            <p class="title is-4">Change Password</p>
-          </div>
-        </div>
-        <br>
   
         <!-- Form Validation -->
         <form @submit.prevent="validateNewPasswordsBeforeUpdate">
   
           <!--Input field for Change New Password-->
-          <div class="passwordField">
+           <div class="passwordField">
             <div class="field is-horizontal">
               <div class="field-label is-normal">
                 <label class="label">New Password:</label>
@@ -153,10 +148,10 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> 
   
           <!--Input field for Change Re-enter New Password-->
-          <div class="passwordField">
+           <div class="passwordField">
             <div class="field is-horizontal">
               <div class="field-label is-normal">
                 <label class="label">Re-enter New Password:</label>
@@ -170,10 +165,10 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> 
   
           <!--Update button for Change Password-->
-          <div class="updatePwdBtn">
+           <div class="updatePwdBtn">
             <div class="field is-horizontal">
               <div class="field-label">
               </div>
@@ -188,8 +183,11 @@
               </div>
             </div>
           </div>
-        </form>
+        </form> 
       </modal>
+      </div>
+
+      <!-- END OF MODAL -->
   
       <div class="deleteBtn">
         <div class="field is-horizontal">
@@ -430,10 +428,6 @@ export default {
   margin: 0 auto;
 }
 
-.input {
-  margin: 8px;
-}
-
 .innerContainer {
   margin: 0 auto;
   position: relative;
@@ -447,7 +441,6 @@ hr {
 }
 
 .input {
-  margin-top: 10px;
   width: 300px;
 }
 
@@ -546,4 +539,5 @@ button {
 .backForStaff {
   float: left;
 }
+
 </style>

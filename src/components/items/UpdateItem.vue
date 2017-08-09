@@ -134,7 +134,8 @@
                 :show-labels="false"
                 label="name"
                 track-by="name"
-                @input="updateStaffData"
+                :value="findOptionForItem(item)"
+                @input="updateStaffData(item, $event)"
                 @open="openStaffOptions"
                 >
               </multiselect>         
@@ -148,6 +149,8 @@
             </div>
           </div>
         </div>
+
+        <pre>{{ $data|json }}</pre>
   
         <!-- Update Button -->
         <div class="updateItmBtn">
@@ -337,9 +340,13 @@ export default {
       this.indexOfItemArray = itemArray.indexOf(id)
     },
     // Multiselect @input - when the value changes
-    updateStaffData (value) {
-      this.subStaffId = value.staffId
+    updateStaffData (item, value) {
+      this.subStaffId = item.staffId
       this.itemArray[this.indexOfItemArray].staffId = this.subStaffId
+      item.staffId = value.staffId
+    },
+    findOptionForItem (item) {
+      return this.allStaffs.find(opt => opt.staffId === item.staffId)
     },
     // Add itemChild row
     addRow () {

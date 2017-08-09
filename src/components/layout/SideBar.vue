@@ -52,7 +52,7 @@ export default {
   top: 5.5%;
   left: 0px;
   bottom: 0;
-  /* z-index: 0;  */
+   /* z-index: 0;   */
 }
 
 #sidebar .menu {
