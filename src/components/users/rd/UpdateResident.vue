@@ -280,7 +280,6 @@ export default {
         self.isDisabled = true
         axios.delete(rdUrl + self.rdUserId)
         .then((response) => {
-          console.log(response)
           let closeFn = () => {
             // After deletion, route to Resident Developer Page
             router.push({ path: '/user/residentdeveloper' })
@@ -347,7 +346,6 @@ export default {
     // Based on the userId in the URL, get data for the user
     axios.get(rdUrl + self.rdUserId)
       .then((response) => {
-        console.log(response)
         self.data.name = response.data.name
         self.data.nricPassportNo = response.data.nricPassportNo
         self.data.company = response.data.company

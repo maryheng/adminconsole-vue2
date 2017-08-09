@@ -98,7 +98,7 @@
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Adding new rows ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
         <div class="itemDetailsDiv">
   
-          <div class="field is-grouped" v-for="item in itemArray" :key="item">
+          <div class="field is-grouped" v-for="item in itemArray" :key="item.id">
   
             <p class="control">
               <label class="label">Item Label</label>
@@ -485,9 +485,6 @@ export default {
 
         // Remove redundent first row
         self.itemArray.splice(0, 1)
-
-        console.log(self.itemArray)
-        console.log(self.itemArray.length)
 
         // Get Staff ID from nested json of itemChildren
         self.itemArray.map((item) => {

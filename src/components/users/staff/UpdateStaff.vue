@@ -371,7 +371,6 @@ export default {
     },
     onFileChange (e) {
       this.checked = true
-      console.log(e)
       var files = e.target.files || e.dataTransfer.files
       if (!files.length) {
         this.image = null
@@ -405,7 +404,6 @@ export default {
     // Based on the userId in the URL, get data for the user
     axios.get(staffUrl + self.staffUserId)
       .then((response) => {
-        console.log(response)
         self.data.username = response.data.username
         self.data.name = response.data.name
         self.image = response.data.userImageUrl

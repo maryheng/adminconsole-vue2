@@ -123,11 +123,23 @@ const app = new Vue({
             router.push({ path: '/' })
           }
         } else { // If user clicks on a loan/training notification
-          // Click on notification, leads user to Update Training page
-          notification.onclick = () => {
-            axios.put(notificationUrl + val.notificationId + notificationLookedAt)
-            window.open(val.notificationUrl, '_blank')
-            // window.location.replace(val.notificationUrl)
+          // DUE LOAN NOTIFICATION
+          if (val.notificationTitle === 'Due Loan') {
+            notification.onclick = () => {
+              axios.put(notificationUrl + val.notificationId + notificationLookedAt)
+              .then((response) => {
+                router.push({ path: '/loan/DueLoans' })
+              })
+            }
+          } else { // TRAINING NOTIFICATION
+            // Click on notification, leads user to Update Training page
+            notification.onclick = () => {
+              axios.put(notificationUrl + val.notificationId + notificationLookedAt)
+                .then((response) => {
+                  // window.open(val.notificationUrl, '_self')
+                  window.location.replace(val.notificationUrl)
+                })
+            }
           }
         }
       } else if (Notification.permission !== 'denied') {

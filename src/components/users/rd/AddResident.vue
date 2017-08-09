@@ -226,7 +226,6 @@ export default {
             // Post Staff FormData to server
             axios.post(rdUrl, formData)
               .then((response) => {
-                console.log(response)
                 let closeFn = () => {
                   router.push({ path: '/user/residentdeveloper' })
                 }

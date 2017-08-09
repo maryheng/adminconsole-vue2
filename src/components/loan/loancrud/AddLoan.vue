@@ -29,7 +29,7 @@
       </div>
 
       <!--Input field for End Date-->
-      <div class="field is-horizontal">
+      <!-- <div class="field is-horizontal">
         <div class="field-label is-normal">
           <label class="label">Due Date:</label>
         </div>
@@ -42,7 +42,7 @@
             </p>
           </div>
         </div>
-      </div>      
+      </div>       -->
 
         <!-- Input field for Type of Category -->
         <div class="field is-horizontal">
@@ -120,7 +120,9 @@
                   :searchable="false"
                   :allow-empty="true"
                   label="name"
-                  track-by="name">
+                  track-by="name"
+                  open-direction="bottom"
+                  >
                   </multiselect>
                   <span v-show="errors.has('user')" class="help is-danger">{{ errors.first('user') }}</span>                
                 </p>
@@ -193,6 +195,7 @@
             <tr>
               <td><strong>Item label</strong></td>
               <td><strong>Remarks</strong></td>
+              <td><strong>Due Date</strong></td>
               <td><strong>Action</strong></td>
             </tr>
           </thead>
@@ -211,6 +214,13 @@
                 </div>          
               </td>
               <td>
+                <div id="dueDateTime">
+                    <input v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('due date') }"
+                    name="due date" class="input" type="datetime-local" v-model="row.dueDateTime">
+                    <span v-show="errors.has('due date')" class="help is-danger">{{ errors.first('due date') }}</span>        
+                </div>          
+              </td>              
+              <td>
                 <div id="removeBtn">
                 <button class="button is-danger" @click="delRow(row)">
                   X
@@ -222,6 +232,8 @@
         </table>   
         </div> 
       </div> 
+
+      <pre>{{ $data|json }}</pre>
    
       <!-- Save Button -->
       <div class="saveLoanBtn">
@@ -297,15 +309,16 @@ export default {
           self.isDisabled = true
           // Convert datetime to UTC
           self.data.startDateTime = moment(self.data.startDateTime).utc().format()
-          self.data.dueDateTime = moment(self.data.dueDateTime).utc().format()
+          // self.data.dueDateTime = moment(self.data.dueDateTime).utc().format()
 
           // Rearrange arrays to put into desired arrays to send to API
           self.selectedItemChildNames.map((item) => {
             const oldTag = {
               startDateTime: self.data.startDateTime,
-              dueDateTime: self.data.dueDateTime,
+              // dueDateTime: self.data.dueDateTime,
               itemChildId: item.itemChildId,
-              remarks: item.remarks
+              remarks: item.remarks,
+              dueDateTime: moment(item.dueDateTime).utc().format()
             }
             self.loanDetails.push(oldTag)
           })
@@ -423,7 +436,8 @@ export default {
         const oldTag = {
           itemChildLabel: item.itemChildLabel,
           itemChildId: item.itemChildId,
-          remarks: ''
+          remarks: '',
+          dueDateTime: moment(item.dueDateTime).utc().format()
         }
         self.optionsForItemChild.push(oldTag)
       })
