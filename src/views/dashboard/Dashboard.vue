@@ -66,7 +66,7 @@
             
             <!-- Save Button -->
             <div class="savePDFBtn">
-              <a class="button is-danger is-outlined" href="https://pixelmirror.me/api/reports/visitors">
+              <a class="button is-danger is-outlined" @click="downloadVisitorpdf">
               Download as PDF
               </a>
             </div>
@@ -87,7 +87,7 @@
 
             <!-- Save Button -->
             <div class="savePDFBtn">
-              <a class="button is-danger is-outlined" href="https://pixelmirror.me/api/reports/loanArchives">
+              <a class="button is-danger is-outlined" @click="downloadLoanpdf">
               Download as PDF
               </a>
             </div>
@@ -103,7 +103,7 @@
 <script>
 import VisitorRecordGraph from '../../components/dashboard/VisitorRecordsGraph.vue'
 import LoanUsageGraph from '../../components/dashboard/LoanUsageGraph.vue'
-import { notificationUrl, notificationLookedAt } from '../../config.js'
+import { notificationUrl, notificationLookedAt, downloadVisitorReport, downloadLoanReport } from '../../config.js'
 import axios from 'axios'
 import moment from 'moment'
 import router from '../../router'
@@ -122,6 +122,18 @@ export default {
     }
   },
   methods: {
+    downloadVisitorpdf () {
+      axios.get(downloadVisitorReport)
+        .then((response) => {
+          window.open(downloadVisitorReport, '_blank')
+        })
+    },
+    downloadLoanpdf () {
+      axios.get(downloadLoanReport)
+        .then((response) => {
+          window.open(downloadLoanReport, '_blank')
+        })
+    },
     filterNotificationsForLoan () {
       let self = this
       const allNotifications = self.allNotifications
@@ -138,7 +150,8 @@ export default {
     },
     redirectTrainingUrl (row) {
       axios.put(notificationUrl + row.notificationId + notificationLookedAt)
-      window.open(row.redirectUrl, '_blank')
+      // window.open(row.redirectUrl, '_blank')
+      window.location.replace(row.redirectUrl)
     },
     redirectLoanUrl (row) {
       axios.put(notificationUrl + row.notificationId + notificationLookedAt)

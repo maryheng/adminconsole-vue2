@@ -14,6 +14,8 @@ export const visitorDataUrl = baseUrl + '/api/reports/visitors/chart'
 export const loanArchiveDataUrl = baseUrl + '/api/reports/loanArchives/chart'
 export const visitorReportDownloadUrl = baseUrl + '/api/reports/visitors'
 export const loanUsuageDownloadUrl = baseUrl + '/api/reports/loanArchives'
+export const downloadVisitorReport = baseUrl + '/api/reports/visitors'
+export const downloadLoanReport = baseUrl + '/api/reports/loanArchives'
 
 // Users
 export const staffUrl = baseUrl + '/api/staffs/'

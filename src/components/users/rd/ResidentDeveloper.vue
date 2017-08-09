@@ -93,11 +93,6 @@ export default {
     onActions (action, data) {
       router.push({ name: 'UpdateResident', params: { residentDeveloperId: action.data.residentDeveloperId } })
     }
-  },
-  computed: {
-    href () {
-      return '/user/residentdeveloper/' + this.name.toLowerCase().replace(/\s+/g, '')
-    }
   }
 }
 </script>

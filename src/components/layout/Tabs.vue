@@ -28,12 +28,8 @@ export default {
   },
   methods: {
     selectTab (selectedTab) {
-      console.log(selectedTab)
       this.tabs.forEach(tab => {
         tab.isActive = (tab.name === selectedTab.name)
-        console.log('this is tab name: ' + tab.name)
-        console.log('this is selected tab: ' + selectedTab.name)
-        console.log('this is active tab: ' + tab.isActive)
       })
     }
   }

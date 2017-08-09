@@ -33,7 +33,7 @@ export default {
   },
   computed: {
     href () {
-      return '/user/staff' + this.name.toLowerCase().replace(/\s+/g, '')
+      return '' + this.name.toLowerCase().replace(/\s+/g, '')
     }
   }
 }

@@ -127,6 +127,7 @@ const app = new Vue({
           notification.onclick = () => {
             axios.put(notificationUrl + val.notificationId + notificationLookedAt)
             window.open(val.notificationUrl, '_blank')
+            // window.location.replace(val.notificationUrl)
           }
         }
       } else if (Notification.permission !== 'denied') {
@@ -147,7 +148,8 @@ const app = new Vue({
               // Click on notification, leads user to Update Training page
               notification.onclick = () => {
                 axios.put(notificationUrl + val.notificationId + notificationLookedAt)
-                window.open(val.notificationUrl, '_blank')
+                // window.open(val.notificationUrl, '_self')
+                window.location.replace(val.notificationUrl)
               }
             }
           }

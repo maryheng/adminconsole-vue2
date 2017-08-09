@@ -215,7 +215,7 @@ export default {
       subStaffId: '',
       indexOfItemArray: '',
       allLoanOptions: [],
-      isDisabled: true
+      isDisabled: false
     }
   },
   methods: {

@@ -65,11 +65,6 @@ export default {
     onActions (action, data) {
       router.push({ name: 'UpdateStaff', params: { staffId: action.data.staffId } })
     }
-  },
-  computed: {
-    href () {
-      return '/user/staff/' + this.name.toLowerCase().replace(/\s+/g, '')
-    }
   }
 }
 
