@@ -93,7 +93,7 @@
       </div>      
   
       <!-- Save Button -->
-      <div class="saveBtn">
+      <div class="saveVisitorBtn">
         <div class="field is-horizontal">
           <div class="field-label">
           </div>
@@ -263,7 +263,7 @@ button {
   margin-top: 1.5%;
 }
 
-.saveBtn {
+.saveVisitorBtn {
   margin-left: 8.4%;
 }
 

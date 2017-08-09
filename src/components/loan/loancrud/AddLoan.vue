@@ -224,7 +224,7 @@
       </div> 
    
       <!-- Save Button -->
-      <div class="saveBtn">
+      <div class="saveLoanBtn">
         <div class="field is-horizontal">
           <div class="field-label">
           </div>
@@ -564,8 +564,8 @@ button {
   margin-top: 1.5%;
 }
 
-.saveBtn {
-  margin-left: 18.8%;
+.saveLoanBtn {
+  margin-left: 19%;
 }
 
 .multiselect {
