@@ -36,11 +36,13 @@
           </div>
           <div class="field-body">
             <div class="field is-grouped">
+              <div id="checkboxForCat">
               <p class="control">
                 <label class="checkbox">
                   <input type="checkbox" value="Yes" v-model="checked"> Yes
                 </label>
               </p>
+              </div>
             </div>
           </div>
         </div>
@@ -254,5 +256,9 @@ button {
 
 p {
   font-size: 13px;
+}
+
+#checkboxForCat {
+  margin-top: 0.6%;
 }
 </style>

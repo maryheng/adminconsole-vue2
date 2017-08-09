@@ -384,7 +384,7 @@ export default {
         axios.get(catItemOptionsForLoan + self.selectedCat.categoryId)
           .then((response) => {
             self.itemParentArray = response.data
-
+            self.checked = false
             // Get all itemParent names in an array
             self.itemParentArray.map((item) => {
               const oldTag = {
@@ -609,7 +609,10 @@ button {
 
 .pclass {
   margin-left: 5%;
-  font-size: 1.1em;
+}
+
+.pclass p{
+  font-size: 17.5px;
 }
 
 #multiselectDivItemChild {
@@ -624,6 +627,10 @@ button {
 #remarks {
   margin-top: -4%;
   padding: 1%;
+}
+
+#dueDateTime input {
+  margin-top: 2%;  
 }
 
 #remarks input {

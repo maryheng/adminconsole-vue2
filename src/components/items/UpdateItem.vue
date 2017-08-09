@@ -145,7 +145,7 @@
               <input type="checkbox" value="true" v-model="item.loanOptionId">
             </p>
             <div id="delItemBtn">
-              <button type="button" class="button is-danger" @click="delRow(item)">-</button>
+              <button type="button" class="button is-danger" @click="delRow(item)" :disabled="isDisabled">-</button>
             </div>
           </div>
         </div>
@@ -361,9 +361,14 @@ export default {
     },
     // Delete itemChild row
     delRow (item) {
-      this.deletedItemIdArray.push(item.itemChildId)
       const index = this.itemArray.indexOf(item)
-      this.itemArray.splice(index, 1)
+      // If itemChild row is the last one, user should not be able to delete the row
+      if (this.itemArray.length === 1 && index === 0) {
+        this.isDisabled === true
+      } else { // If there is more than one itemChild row, user is able to delete rows
+        this.itemArray.splice(index, 1)
+        this.deletedItemIdArray.push(item.itemChildId)
+      }
     },
     getCatData () {
       let self = this
