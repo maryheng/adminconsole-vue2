@@ -233,7 +233,6 @@
         </div> 
       </div> 
 
-      <pre>{{ $data|json }}</pre>
    
       <!-- Save Button -->
       <div class="saveLoanBtn">
@@ -378,6 +377,7 @@ export default {
       self.selectedSubCat = []
       self.rows = []
       self.itemChildNames = []
+      self.checked = false
       // If categoryType = false, means category do not have sub-categories
       // Hence, do a GET api to fetch items related to Category w/o sub-cats
       if (self.selectedCat.categoryType === false) {
@@ -395,6 +395,10 @@ export default {
             })
             self.getSelectedItems()
           })
+          .catch((error) => {
+            console.log(error)
+            self.checked = true
+          })
       }
     },
     // If category has sub-categories, retrieve items from sub-category
@@ -402,6 +406,7 @@ export default {
       let self = this
       self.rows = []
       self.itemChildNames = []
+      self.checked = false
       // If categoryType = true, means category have sub-categories
       // Hence, do a GET api to fetch items related to the chosen sub-category
       if (self.selectedCat.categoryType === true) {

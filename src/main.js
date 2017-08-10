@@ -131,6 +131,12 @@ const app = new Vue({
                 router.push({ path: '/loan/DueLoans' })
               })
             }
+            // Grab path from URL
+            // If user is at Dashboard, reload the page
+            const path = window.location.pathname
+            if (path === '/') {
+              window.location.reload()
+            }
           } else { // TRAINING NOTIFICATION
             // Click on notification, leads user to Update Training page
             notification.onclick = () => {
@@ -139,6 +145,12 @@ const app = new Vue({
                   // window.open(val.notificationUrl, '_self')
                   window.location.replace(val.notificationUrl)
                 })
+            }
+            // Grab path from URL
+            // If user is at Dashboard, reload the page
+            const path = window.location.pathname
+            if (path === '/') {
+              window.location.reload()
             }
           }
         }

@@ -6,7 +6,7 @@
   </p>
   <ul class="menu-list">
     <router-link :to=" { path: '/'} "><li><a>Dashboard</a></li></router-link>
-    <router-link :to=" { path: '/user/Staff'} "><li><a>Manager Users</a></li></router-link>
+    <router-link :to=" { path: '/user/staff'} "><li><a>Manager Users</a></li></router-link>
   </ul>
   <p class="menu-label">
     Inventory
@@ -19,13 +19,13 @@
     Loans
   </p>
   <ul class="menu-list">
-    <router-link :to=" { path: '/loan/OngoingLoans'} "><li><a>Manage Loans</a></li></router-link>
+    <router-link :to=" { path: '/loan/ongoingloans'} "><li><a>Manage Loans</a></li></router-link>
   </ul>
   <p class="menu-label">
     Visitor Count
   </p>
   <ul class="menu-list">
-    <router-link :to=" { path: '/visitor/VisitorDetails'} "><li><a>Manage Visitor Count</a></li></router-link>
+    <router-link :to=" { path: '/visitor/visitordetails'} "><li><a>Manage Visitor Count</a></li></router-link>
   </ul>
   <p class="menu-label">
     Training of Faces

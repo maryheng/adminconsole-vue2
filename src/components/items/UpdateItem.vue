@@ -149,8 +149,6 @@
             </div>
           </div>
         </div>
-
-        <pre>{{ $data|json }}</pre>
   
         <!-- Update Button -->
         <div class="updateItmBtn">

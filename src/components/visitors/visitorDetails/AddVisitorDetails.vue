@@ -224,7 +224,7 @@ export default {
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
 #visitorDetailsContainer .box {
-  padding-bottom: 9%;
+  padding-bottom: 8%;
 }
 
 .field {
@@ -270,7 +270,6 @@ button {
 #multiselectForVisitors .multiselect {
   width: 300px;
   margin-top: 4%;
-  margin-left: 2%;
 }
 
 .backForVisitor {

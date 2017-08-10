@@ -538,4 +538,8 @@ button {
   float: left;
 }
 
+#modalForPwd input {
+  margin-top: 3%;
+}
+
 </style>

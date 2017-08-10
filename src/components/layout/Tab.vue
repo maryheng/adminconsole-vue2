@@ -23,7 +23,13 @@ export default {
     }
   },
   mounted () {
-    this.isActive = this.selected
+    let windowLocationHash = window.location.pathname
+    const segments = windowLocationHash.split('/')
+    var hrefName = segments[2]
+    if (this.href === hrefName) {
+      this.selected = true
+      this.isActive = this.selected
+    }
   }
 }
 </script>

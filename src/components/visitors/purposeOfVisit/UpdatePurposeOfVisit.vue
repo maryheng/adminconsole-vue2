@@ -189,7 +189,7 @@ export default {
     const segments = path.split('/')
 
     // Asign visitPurposeOptionId
-    self.visitPurposeOptionId = segments[3]
+    self.visitPurposeOptionId = segments[2]
 
     axios.get(visitPurpose + self.visitPurposeOptionId)
       .then((response) => {
