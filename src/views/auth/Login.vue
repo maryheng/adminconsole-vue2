@@ -5,8 +5,10 @@
       <div class="column is-4 is-offset-3">
         <div id="boxForLogin">
         <div class="box">
-          <p class="title is-3">Login</p>
-          <p class="subtitle is-6">Only admins can login!</p><br><br>
+          <div id="loginDiv">
+           <p class="title is-3">Login</p>
+          </div>
+          <br><br>
           <div v-show="error" style="color:red; word-wrap:break-word;">{{ error }}</div>
           <form v-on:submit.prevent="loginFormSubmit()">
             <label class="label">Username</label>
@@ -17,7 +19,7 @@
             </p>
             <label class="label">Password</label>
             <p class="control">
-              <input v-validate="'required|min:8'" :class="{'input': true, 'is-danger': errors.has('password') }"
+              <input v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('password') }"
               name="password" class="input"v-model="req.body.password" type="password" placeholder="password">
               <span v-show="errors.has('password')" class="help is-danger">{{ errors.first('password') }}</span>                     
             </p>
@@ -123,6 +125,9 @@ export default {
 </script>
 
 <style>
+.main {
+  padding-bottom: 5%;
+}
 #boxForLogin .input {
   width: 500px;
 }
@@ -138,5 +143,9 @@ export default {
 
 .simplert {
   height: 120%;
+}
+
+#loginDiv {
+  margin-top: 2%;
 }
 </style>

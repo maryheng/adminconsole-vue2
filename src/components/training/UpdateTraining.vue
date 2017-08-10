@@ -222,6 +222,7 @@ export default {
 
     axios.get(trainingUrl + self.getTrainingId)
       .then((response) => {
+        console.log(response)
         self.data.name = response.data.name
         self.data.imageUrl = response.data.imageUrl
         self.data.userId = response.data.userId

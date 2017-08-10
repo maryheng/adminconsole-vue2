@@ -123,16 +123,24 @@ export default {
   },
   methods: {
     downloadVisitorpdf () {
-      axios.get(downloadVisitorReport)
-        .then((response) => {
-          window.open(downloadVisitorReport, '_blank')
-        })
+      axios.get(downloadVisitorReport, {
+        responseType: 'arraybuffer'
+      }).then((response) => {
+        console.log(response)
+        let blob = new Blob([response.data], { type: 'application/pdf' })
+        let url = window.URL.createObjectURL(blob)
+        window.open(url, '_self')
+      })
     },
     downloadLoanpdf () {
-      axios.get(downloadLoanReport)
-        .then((response) => {
-          window.open(downloadLoanReport, '_blank')
-        })
+      axios.get(downloadLoanReport, {
+        responseType: 'arraybuffer'
+      }).then((response) => {
+        console.log(response)
+        let blob = new Blob([response.data], { type: 'application/pdf' })
+        let url = window.URL.createObjectURL(blob)
+        window.open(url, '_self')
+      })
     },
     filterNotificationsForLoan () {
       let self = this
