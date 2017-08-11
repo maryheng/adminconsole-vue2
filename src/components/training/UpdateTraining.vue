@@ -12,16 +12,22 @@
           <div class="imageDiv">
             <div class="field is-grouped">
               <div id="chooseFileDiv">
-                <div id="imageShowDivForTraining" v-bind:style="{ 'backgroundImage': 'url(' + this.image + ')' }">
-                  <p class="control">
-                    <!-- <img :src="image" /> -->
-                  </p>
+                <!-- <div id="imageShowDivForTraining" v-bind:style="{ 'backgroundImage': 'url(' + this.image + ')' }">
+                </div> -->
+
+                <!-- Drawing of the rectangle -->
+                <div id="canvasDiv">
+                <img id="image" hidden="true"/>
+                <canvas id="canvas" ref="canvas" width="2000" height="2000" v-insert-box="box" style="width: 700px">
+                </canvas>
                 </div>
+
               </div>
             </div>
           </div>
         </div>
   
+        <div id="nameGroup">
         <p id="nameDiv" class="title is-5">Is this
           <strong>{{ data.name }}</strong> in the image?</p>
   
@@ -79,9 +85,9 @@
               </div>
             </div>   
             </div> 
+        </div>
       </div>
     </div>
-  
     <!-- Simplert Notification -->
     <simplert :useRadius="true" :useIcon="true" ref="simplert">
     </simplert>
@@ -109,6 +115,13 @@ export default {
         trainingId: '',
         imageUrl: '',
         userId: ''
+      },
+      box: {
+        top: '',
+        left: '',
+        height: '',
+        width: '',
+        userImageUrl: ''
       },
       selectedUser: [],
       allUsers: [],
@@ -207,6 +220,34 @@ export default {
       this.checked = true
     }
   },
+  directives: {
+    insertBox (canvasElement, binding) {
+      // Asign values to height, width, top, left for canvas rectangle
+      var height = binding.oldValue.height
+      var width = binding.oldValue.width
+      var top = binding.oldValue.top
+      var left = binding.oldValue.left
+      var imageUrl = binding.oldValue.userImageUrl
+
+      // Get context of canvas element
+      var ctx = canvasElement.getContext('2d')
+
+      // Get the image element
+      var image = new Image()
+      image.src = imageUrl
+
+      // Start drawing
+      image.onload = () => {
+        ctx.drawImage(image, 0, 0)
+        ctx.beginPath()
+        // ctx.rect(this.box.left, this.box.top, this.box.width, this.box.height)
+        ctx.rect(left, top, width, height)
+        ctx.lineWidth = 2
+        ctx.strokeStyle = 'yellow'
+        ctx.stroke()
+      }
+    }
+  },
   created () {
     let self = this
 
@@ -224,12 +265,17 @@ export default {
       .then((response) => {
         console.log(response)
         self.data.name = response.data.name
-        self.data.imageUrl = response.data.imageUrl
         self.data.userId = response.data.userId
         self.image = response.data.userImageUrl
+        self.box.userImageUrl = response.data.userImageUrl
         self.data.trainingId = response.data.trainingId
-      })
 
+        // Get coordinates to draw the box on the image
+        self.box.top = response.data.top
+        self.box.left = response.data.left
+        self.box.width = response.data.width
+        self.box.height = response.data.height
+      })
     // Get Users from API
     axios.get(userOptions)
       .then((response) => {
@@ -275,10 +321,10 @@ hr {
 }
 
 .imageDiv {
-  margin-left: 13%;
+  margin-left: 11%;
 }
 
-#imageShowDivForTraining {
+/* #imageShowDivForTraining {
   width: 500px;
   height: 280px;
   margin-top: 10%;
@@ -286,7 +332,8 @@ hr {
   background-position: center;
   background-repeat: no-repeat;
   overflow: hidden;
-}
+} */
+
 
 #nameDiv {
   margin-top: 2%;
@@ -305,5 +352,9 @@ hr {
 
 .chooseMultiselect  button{
   margin-left: 8.2%;
+}
+
+#nameGroup {
+  margin-top: -10%;
 }
 </style>
