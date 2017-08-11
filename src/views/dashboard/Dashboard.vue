@@ -163,7 +163,7 @@ export default {
     },
     redirectLoanUrl (row) {
       axios.put(notificationUrl + row.notificationId + notificationLookedAt)
-      router.push({ path: '/loan/DueLoans' })
+      router.push({ path: '/loan/dueloans' })
     }
   },
   created () {

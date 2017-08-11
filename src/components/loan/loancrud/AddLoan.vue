@@ -338,7 +338,7 @@ export default {
             })
               .then((response) => {
                 let closeFn = () => {
-                  router.push({ path: '/loan/OngoingLoans' })
+                  router.push({ path: '/loan/ongoingloans' })
                 }
                 let successAlert = {
                   title: 'Success',

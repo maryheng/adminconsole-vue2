@@ -33,7 +33,7 @@ export default {
   },
   computed: {
     href () {
-      return '/visitor/VisitorDetails' + this.name.toLowerCase().replace(/\s+/g, '')
+      return '/visitor/visitordetails' + this.name.toLowerCase().replace(/\s+/g, '')
     }
   }
 }

@@ -128,7 +128,7 @@ const app = new Vue({
             notification.onclick = () => {
               axios.put(notificationUrl + val.notificationId + notificationLookedAt)
               .then((response) => {
-                router.push({ path: '/loan/DueLoans' })
+                router.push({ path: '/loan/dueloans' })
               })
             }
             // Grab path from URL

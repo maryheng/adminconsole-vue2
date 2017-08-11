@@ -3,7 +3,7 @@
     <div class="innerContainer">
       <div class="box">
       <div class="backForResident">
-      <router-link to="/user/ResidentDeveloper">
+      <router-link to="/user/residentdeveloper">
         <button type="button" class="button is-light">Back</button>
       </router-link>
     </div>

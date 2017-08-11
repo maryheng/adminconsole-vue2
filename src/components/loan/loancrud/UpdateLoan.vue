@@ -4,7 +4,7 @@
       <div class="box">
 
       <div class="backForLoan">
-        <router-link to="/loan/DueLoans">
+        <router-link to="/loan/dueloans">
           <button type="button" class="button is-light">Back</button>
         </router-link>
       </div>
@@ -94,7 +94,7 @@ export default {
           })
             .then((response) => {
               let closeFn = () => {
-                router.push({ path: '/loan/OngoingLoans' })
+                router.push({ path: '/loan/ongoingloans' })
               }
               let successAlert = {
                 title: 'Success',

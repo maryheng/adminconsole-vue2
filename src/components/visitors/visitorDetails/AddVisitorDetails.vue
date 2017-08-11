@@ -4,7 +4,7 @@
       <div class="box">
 
       <div class="backForVisitor">
-        <router-link to="/visitor/VisitorDetails">
+        <router-link to="/visitor/visitordetails">
           <button type="button" class="button is-light">Back</button>
         </router-link>
       </div>
@@ -168,7 +168,7 @@ export default {
           })
             .then((response) => {
               let closeFn = () => {
-                router.push({ path: '/visitor/VisitorDetails' })
+                router.push({ path: '/visitor/visitordetails' })
               }
               let successAlert = {
                 title: 'Success',
