@@ -10,7 +10,6 @@ import VueCookie from 'vue-cookie'
 import VeeValidate, { Validator } from 'vee-validate'
 import { Dispatcher } from './Dispatcher.js'
 import moment from 'moment'
-import VueProgressBar from 'vue-progressbar'
 
 Validator.installDateTimeValidators(moment)
 
@@ -20,20 +19,6 @@ Vue.use(VueSocketio, baseUrl, { forceNew: true })
 // Vue.use(VueSocketio, '/', { forceNew: true })
 Vue.use(VueCookie)
 Vue.use(VeeValidate, {fieldsBagName: 'formFields'})
-// Vue.use(VeeValidate)
-// Vue.use(VueProgressBar, {
-//   color: '#bffaf3',
-//   failedColor: '#874b4b',
-//   thickness: '5px',
-//   transition: {
-//     speed: '0.2s',
-//     opacity: '0.6s'
-//   },
-//   autoRevert: true,
-//   location: 'left',
-//   inverse: false
-// })
-Vue.use(VueProgressBar)
 
 // Enable devtools
 Vue.config.productionTip = true
@@ -64,6 +49,17 @@ if (VueCookie.get('_xsrf') !== null) {
 var accessToken = window.localStorage.getItem('access_token')
 axios.defaults.baseURL = baseUrl
 axios.defaults.headers.common['authorization'] = 'Bearer ' + accessToken
+
+// Intercept global error
+axios.interceptors.response.use((response) => {
+  return response
+}, (error) => {
+  let originalRequest = error.config
+  if (error.response.status === 401 && !originalRequest._retry) { // if the error is 401 and hasent already been retried
+    console.log('Token expired! User is redirected back to Login page.')
+    router.push('/login')
+  }
+})
 
 const app = new Vue({
   el: '#app',
