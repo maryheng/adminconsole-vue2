@@ -2,6 +2,13 @@
   <div id="container">
     <div class="innerContainer">
       <div class="box">
+
+      <div class="backForItem">
+        <router-link to="/item">
+          <button type="button" class="button is-light">Back</button>
+        </router-link>
+      </div>
+
         <div class="header">
           <p class="title is-4">Item Information</p>
         </div>
@@ -449,6 +456,10 @@ button {
 #addRowBtn {
   margin-left: 35%;
   margin-top: -1%;
+}
+
+.backForItem {
+  float: left;
 }
 </style>
 

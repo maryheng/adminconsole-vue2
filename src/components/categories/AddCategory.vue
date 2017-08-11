@@ -3,6 +3,13 @@
     <div class="innerContainer">
       <p class="title is-4">Manage Category</p>
       <div class="box">
+
+      <div class="backForCat">
+        <router-link to="/category">
+          <button type="button" class="button is-light">Back</button>
+        </router-link>
+      </div>
+
         <div class="header">
           <p class="title is-4">Category Details</p>
         </div>
@@ -260,5 +267,9 @@ p {
 
 #checkboxForCat {
   margin-top: 0.6%;
+}
+
+.backForCat {
+  float: left;
 }
 </style>

@@ -2,6 +2,13 @@
   <div id="container">
     <div class="innerContainer">
       <div class="box">
+
+      <div class="backForItem">
+        <router-link to="/item">
+          <button type="button" class="button is-light">Back</button>
+        </router-link>
+      </div>
+
         <div class="header">
           <p class="title is-4">Item Information</p>
         </div>
@@ -629,6 +636,10 @@ button {
 .deleteItemBtn {
   float: left;
   margin-top: -1%;
+}
+
+.backForItem {
+  float: left;
 }
 </style>
 

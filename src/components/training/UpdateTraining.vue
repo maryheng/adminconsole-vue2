@@ -2,6 +2,13 @@
   <div id="container">
     <div class="innerContainer">
       <div class="box">
+
+      <div class="backForTraining">
+        <router-link to="/training">
+          <button type="button" class="button is-light">Back</button>
+        </router-link>
+      </div>
+
         <div class="header">
           <p class="title is-4">Training Of Cognitive Service</p>
         </div>
@@ -356,5 +363,9 @@ hr {
 
 #nameGroup {
   margin-top: -10%;
+}
+
+.backForTraining {
+  float: left
 }
 </style>
