@@ -1,6 +1,7 @@
 <template>
   <div id="addResidentContainer">
     <div class="innerContainer">
+      <p class="title is-4">Manage Users</p>
       <div class="box">
       <div class="backForResident">
         <router-link to="/user/residentdeveloper">

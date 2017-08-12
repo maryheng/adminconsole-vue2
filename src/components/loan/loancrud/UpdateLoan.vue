@@ -1,6 +1,7 @@
 <template>
   <div id="updateLoanDiv">
     <div class="innerContainer">
+      <p class="title is-4">Manage Loans</p>
       <div class="box">
 
       <div class="backForLoan">

@@ -1,6 +1,7 @@
 <template>
   <div id="visitorDetailsContainer">
     <div class="innerContainer">
+      <p class="title is-4">Manage Visitors</p>
       <div class="box">
 
       <div class="backForVisitor">

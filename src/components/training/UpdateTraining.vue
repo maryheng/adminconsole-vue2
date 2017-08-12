@@ -1,6 +1,7 @@
 <template>
   <div id="container">
     <div class="innerContainer">
+      <p class="title is-4">Manage Training</p>
       <div class="box">
 
       <div class="backForTraining">

@@ -1,6 +1,7 @@
 <template>
   <div id="addItemContainer">
     <div class="innerContainer">
+      <p class="title is-4">Manage Items</p>
       <div class="box">
 
       <div class="backForItem">
