@@ -80,6 +80,8 @@
           </div>
         </div>
 
+        <pre>{{ $data|json }}</pre>
+
         <!-- Update Category Button -->
         <div class="updateCatBtn">
           <div class="field is-horizontal">
@@ -97,6 +99,7 @@
           </div>
         </div>
         </form>
+        
   
         <!-- Delete Category Button -->
         <div class="deleteCatBtn">
@@ -165,6 +168,12 @@ export default {
         return (!item.subCategoryId)
       })
     },
+    filterForDeletedIds () {
+      return this.subCategoriesToDeleteIds.filter((item, index, inputArray) => {
+        // if there is a duplicate, remove the duplicate and return only 1
+        return inputArray.indexOf(item) === index
+      })
+    },
     addTag (newTag) {
       const tag = {
         subCategoryName: newTag
@@ -178,13 +187,29 @@ export default {
     validateBeforeUpdate () {
       let self = this
       self.$validator.validateAll().then(result => {
-        // Filter according to subCategoriesToUpdate & newSubCategories arrays
-        self.subCategoriesToUpdate = self.filterForUpdatedSubCategories()
-        self.newSubCategories = self.filterForNewSubCategories()
-
         // If validation goes smoothly,
         if (result) {
           self.isDisabled = true
+
+          // Filter according to subCategoriesToUpdate & newSubCategories arrays
+          self.subCategoriesToUpdate = self.filterForUpdatedSubCategories()
+          self.newSubCategories = self.filterForNewSubCategories()
+
+          // Remove duplicates
+          self.subCategoriesToDeleteIds = self.filterForDeletedIds()
+
+          // To sort subCategoriesToDeleteIds array items
+          if (self.subCategoriesToDeleteIds.length > 0) {
+            self.subCategoriesToUpdate.forEach((item) => {
+              self.subCategoriesToDeleteIds.forEach((element) => {
+                if (element === item.subCategoryId) {
+                  var index = self.subCategoriesToDeleteIds.indexOf(element)
+                  self.subCategoriesToDeleteIds.splice(index, 1)
+                }
+              }, this)
+            }, this)
+          }
+
           axios.put(categoryUrl + self.getCategoryId, {
             categoryName: self.data.categoryName,
             subCategoriesToUpdate: self.subCategoriesToUpdate,
@@ -376,6 +401,7 @@ p {
 }
 
 .deleteCatBtn {
+  margin-top: 7.5%;
   float: left;
 }
 
