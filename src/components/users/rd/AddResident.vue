@@ -1,5 +1,5 @@
 <template>
-  <div id="test2">
+  <div id="addResidentContainer">
     <div class="innerContainer">
       <div class="box">
       <div class="backForResident">
@@ -283,7 +283,7 @@ export default {
 
 
 <style>
-.box {
+#addResidentContainer .box {
   padding-bottom: 5%;
 }
 

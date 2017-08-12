@@ -1,5 +1,5 @@
 <template>
-  <div id="container">
+  <div id="updateItemContainer">
     <div class="innerContainer">
       <div class="box">
 
@@ -560,8 +560,8 @@ export default {
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
-.box{
-  padding-bottom: 1%;
+#updateItemContainer .box{
+  padding-bottom: 2%;
 }
 
 .input {
@@ -572,7 +572,6 @@ export default {
   margin: 0 auto;
   position: relative;
   margin-right: -150%;
-  padding-bottom: 10%;
 }
 
 hr {

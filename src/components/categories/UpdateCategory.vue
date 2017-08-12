@@ -1,4 +1,5 @@
 <template>
+  <div id="categoryContainer">
   <div id="container">
     <div class="innerContainer">
       <p class="title is-4">Manage Category</p>
@@ -80,8 +81,6 @@
           </div>
         </div>
 
-        <pre>{{ $data|json }}</pre>
-
         <!-- Update Category Button -->
         <div class="updateCatBtn">
           <div class="field is-horizontal">
@@ -124,6 +123,7 @@
   
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -359,8 +359,8 @@ export default {
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
 
-.box {
-  padding-bottom: 10%;
+#categoryContainer .box {
+  padding-bottom: 8%;
 }
 
 .header {
@@ -401,12 +401,13 @@ p {
 }
 
 .deleteCatBtn {
-  margin-top: 7.5%;
+  margin-top: 6%;
   float: left;
 }
 
 .updateCatBtn {
-  margin-left: 7.9%;
+  margin-top: 1.3%;
+  margin-left: 7.8%;
 }
 
 .backForCat {

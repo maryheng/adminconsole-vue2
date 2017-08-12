@@ -1,5 +1,5 @@
 <template>
-  <div id="container">
+  <div id="updateStaffContainer">
     <div class="innerContainer">
       <div class="box">
 
@@ -418,8 +418,8 @@ export default {
 
 
 <style>
-.box {
-  padding-bottom: 5%;
+#updateStaffContainer .box {
+  padding-bottom: 5.5%;
 }
 .field {
   margin-right: -700px;
@@ -430,7 +430,6 @@ export default {
   margin: 0 auto;
   position: relative;
   margin-right: -150%;
-  padding-bottom: 12%;
 }
 
 hr {

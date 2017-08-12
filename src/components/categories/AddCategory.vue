@@ -1,5 +1,5 @@
 <template>
-  <div id="container">
+  <div id="addCategoryContainer">
     <div class="innerContainer">
       <p class="title is-4">Manage Category</p>
       <div class="box">
@@ -76,6 +76,7 @@
           </div>
         </div>
   
+        <div class="saveCatBtn">
         <div class="field is-horizontal">
           <div class="field-label">
           </div>
@@ -88,6 +89,7 @@
               </div>
             </div>
           </div>
+        </div>
         </div>
         </form>
 
@@ -220,7 +222,7 @@ export default {
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
 
-.box {
+#addCategoryContainer .box {
   padding-bottom: 10%;
 }
 
@@ -271,5 +273,9 @@ p {
 
 .backForCat {
   float: left;
+}
+
+.saveCatBtn {
+  margin-left: 8.5%;
 }
 </style>

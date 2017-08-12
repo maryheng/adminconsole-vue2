@@ -1,5 +1,5 @@
 <template>
-  <div id="container">
+  <div id="AddLoanContainer">
     <div class="innerContainer">
       <div class="box">
 
@@ -312,6 +312,10 @@ export default {
 
           // Rearrange arrays to put into desired arrays to send to API
           self.selectedItemChildNames.map((item) => {
+            // If remarks is empty, add a 'nil' to it.
+            if (item.remarks === '') {
+              item.remarks = 'nil'
+            }
             const oldTag = {
               startDateTime: self.data.startDateTime,
               // dueDateTime: self.data.dueDateTime,
@@ -558,7 +562,6 @@ export default {
   margin: 0 auto;
   position: relative;
   margin-right: -150%;
-  padding-bottom: 10%;
 }
 
 hr {
