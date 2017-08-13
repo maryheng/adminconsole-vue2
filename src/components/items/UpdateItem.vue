@@ -428,7 +428,59 @@ export default {
         onConfirm: confirmFn
       }
       self.$refs.simplert.openSimplert(deleteAlert)
+    },
+    getLoanOptions () {
+    // Get Loan Options from API
+      axios.get(loanOptions)
+        .then((response) => {
+          const allLoanOptions = response.data
+
+          // Check through if loanOptionId is true/false
+          allLoanOptions.forEach((item) => {
+            if (item.loanOptionBool === true) {
+              self.loanableId = item.loanOptionId
+            }
+            if (item.loanOptionBool === false) {  // loanOptionBool is false
+              self.unloanableId = item.loanOptionId
+            }
+          }, this)
+        })
+    },
+    getCategoriesOptions () {
+      let self = this
+      axios.get(categoriesForOptions)
+        .then((response) => {
+          self.allCategories = response.data
+
+          // Checks json objects in nested json, and take it out and call it "item"
+          self.allCategories.map((item) => {
+            const oldTag = {
+              categoryId: item.categoryId,
+              categoryName: item.categoryName
+            }
+            self.options.push(oldTag)
+          })
+        })
+    },
+    getSubCategoriesOptions () {
+      let self = this
+      // Get Sub-Categories from API
+      axios.get(subcategoriesForOptions)
+        .then((response) => {
+          self.allSubCategories = response.data
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    getStaffOptions () {
+      let self = this
+      axios.get(staffsForOptions)
+        .then((response) => {
+          self.allStaffs = response.data
+        })
     }
+
   },
   computed: {
     // Filter for Sub-Category options dropdown
@@ -453,22 +505,11 @@ export default {
     // Assigned itemParentId
     self.itemParentId = segments[2]
 
-   // Get Loan Options from API
-    axios.get(loanOptions)
-      .then((response) => {
-        const allLoanOptions = response.data
-
-        // Check through if loanOptionId is true/false
-        allLoanOptions.forEach((item) => {
-          if (item.loanOptionBool === true) {
-            self.loanableId = item.loanOptionId
-          }
-          if (item.loanOptionBool === false) {  // loanOptionBool is false
-            self.unloanableId = item.loanOptionId
-          }
-        }, this)
-      })
-
+    // Getting OPTIONS data from API first
+    self.getCategoriesOptions()
+    self.getSubCategoriesOptions()
+    self.getStaffOptions()
+    self.getLoanOptions()
     // Get ID itemParent data
     axios.get(itemUrl + self.itemParentId)
       .then((response) => {
@@ -524,36 +565,6 @@ export default {
       })
       .catch((error) => {
         console.log(error)
-      })
-
-    // Get Sub-Categories from API
-    axios.get(subcategoriesForOptions)
-      .then((response) => {
-        self.allSubCategories = response.data
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-
-    // Get Categories from API
-    axios.get(categoriesForOptions)
-      .then((response) => {
-        self.allCategories = response.data
-
-        // Checks json objects in nested json, and take it out and call it "item"
-        self.allCategories.map((item) => {
-          const oldTag = {
-            categoryId: item.categoryId,
-            categoryName: item.categoryName
-          }
-          self.options.push(oldTag)
-        })
-      })
-
-    // Get Staffs from API
-    axios.get(staffsForOptions)
-      .then((response) => {
-        self.allStaffs = response.data
       })
   }
 }
