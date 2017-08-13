@@ -151,7 +151,7 @@
               <input type="checkbox" value="true" v-model="item.loanOptionId">
             </p>
             <div id="delItemBtn">
-              <button type="button" class="button is-danger" @click="delRow(item)">-</button>
+              <button type="button" class="button is-danger" @click="delRow(item)" :disabled="isDisabled">-</button>
             </div>
           </div>
         </div>
@@ -253,7 +253,17 @@ export default {
     // Delete itemChild row
     delRow (item) {
       const index = this.itemArray.indexOf(item)
-      this.itemArray.splice(index, 1)
+      // If multiple itemChild rows, allow deletion of any rows 
+      if (this.itemArray.length > 1) {
+        this.itemArray.splice(index, 1)
+      } else { // If only 1 itemChild row, don't allow deletion of row
+        if (index === 0) {
+          this.isDisabled = true
+        } else { // if more than 1 itemChild row, allow deletion of row
+          this.itemArray.splice(index, 1)
+        }
+      }
+      this.isDisabled = false
     },
     validateBeforeSubmit () {
       let self = this
