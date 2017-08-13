@@ -253,7 +253,7 @@ export default {
     // Delete itemChild row
     delRow (item) {
       const index = this.itemArray.indexOf(item)
-      // If multiple itemChild rows, allow deletion of any rows 
+      // If multiple itemChild rows, allow deletion of any rows
       if (this.itemArray.length > 1) {
         this.itemArray.splice(index, 1)
       } else { // If only 1 itemChild row, don't allow deletion of row
