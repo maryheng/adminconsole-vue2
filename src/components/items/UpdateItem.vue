@@ -157,7 +157,7 @@
             </div>
           </div>
         </div>
-  
+
         <!-- Update Button -->
         <div class="updateItmBtn">
           <div class="field is-horizontal">
@@ -430,6 +430,7 @@ export default {
       self.$refs.simplert.openSimplert(deleteAlert)
     },
     getLoanOptions () {
+      let self = this
     // Get Loan Options from API
       axios.get(loanOptions)
         .then((response) => {
