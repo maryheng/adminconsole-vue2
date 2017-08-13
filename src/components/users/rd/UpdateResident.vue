@@ -153,7 +153,7 @@
             <div class="field-body">
               <div class="field">
                 <div class="control">
-                  <button class="button is-primary" @click="updateRdBtn" :disabled="isDisabled">
+                  <button class="button is-primary" :disabled="isDisabled">
                     Update
                   </button>
                 </div>

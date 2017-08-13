@@ -217,7 +217,9 @@
               <td>
                 <div id="dueDateTime">
                     <input v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('due date') }"
-                    name="due date" class="input" type="datetime-local" v-model="row.dueDateTime">
+                    name="due date" class="input" type="datetime-local" v-model="row.dueDateTime"
+                    :min="data.startDateTime"
+                    >
                     <span v-show="errors.has('due date')" class="help is-danger">{{ errors.first('due date') }}</span>        
                 </div>          
               </td>              
