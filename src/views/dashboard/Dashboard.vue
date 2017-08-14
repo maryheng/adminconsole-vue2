@@ -118,7 +118,9 @@ export default {
     return {
       trainingNotiArray: [],
       loanNotiArray: [],
-      allNotifications: []
+      allNotifications: [],
+      date: '',
+      currentDate: ''
     }
   },
   methods: {
@@ -128,8 +130,10 @@ export default {
       }).then((response) => {
         console.log(response)
         let blob = new Blob([response.data], { type: 'application/pdf' })
-        let url = window.URL.createObjectURL(blob)
-        window.open(url, '_self')
+        let link = document.createElement('a')
+        link.href = window.URL.createObjectURL(blob)
+        link.download = 'VisitorCountGraph_' + this.currentDate + '.pdf'
+        link.click()
       })
     },
     downloadLoanpdf () {
@@ -138,8 +142,10 @@ export default {
       }).then((response) => {
         console.log(response)
         let blob = new Blob([response.data], { type: 'application/pdf' })
-        let url = window.URL.createObjectURL(blob)
-        window.open(url, '_self')
+        let link = document.createElement('a')
+        link.href = window.URL.createObjectURL(blob)
+        link.download = 'LoanGraph_' + this.currentDate + '.pdf'
+        link.click()
       })
     },
     filterNotificationsForLoan () {
@@ -168,6 +174,10 @@ export default {
   },
   created () {
     let self = this
+
+    self.date = new Date()
+    self.currentDate = moment(self.date).format('DD/MM/YYYY')
+
     axios.get(notificationUrl)
       .then((response) => {
         self.allNotifications = response.data
