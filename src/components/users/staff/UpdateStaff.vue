@@ -259,7 +259,7 @@ export default {
           axios.put(staffUrl + self.staffUserId, formData)
             .then((response) => {
               let closeFn = () => {
-                router.push({ name: 'UpdateStaff', params: { staffId: self.staffUserId } })
+                router.push({ path: '/user/staff' })
                 self.isDisabled = false
               }
               let successAlert = {

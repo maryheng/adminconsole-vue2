@@ -250,7 +250,7 @@ export default {
         ctx.beginPath()
         // ctx.rect(this.box.left, this.box.top, this.box.width, this.box.height)
         ctx.rect(left, top, width, height)
-        ctx.lineWidth = 2
+        ctx.lineWidth = 6
         ctx.strokeStyle = 'yellow'
         ctx.stroke()
       }

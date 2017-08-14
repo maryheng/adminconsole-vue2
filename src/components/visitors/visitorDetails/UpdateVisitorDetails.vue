@@ -40,6 +40,7 @@
         </div>
         <div class="field-body">
           <div class="field is-grouped">
+            <div id="multiselectDivPurpose">
             <p class="control">
                 <multiselect
                 v-model="selectedVisitPurpose"
@@ -55,6 +56,7 @@
                 </multiselect>
                 <span v-show="errors.has('visit purpose')" class="help is-danger">{{ errors.first('visit purpose') }}</span>                
             </p>
+            </div>
           </div>
         </div>
       </div>
@@ -293,7 +295,7 @@ export default {
     axios.get(visitPurposesForOptions)
       .then((response) => {
         self.allVisitPurpose = response.data
-
+        // Get all purpose of visit
         self.allVisitPurpose.map((item) => {
           const oldTag = {
             visitPurposeText: item.visitPurposeText
@@ -369,11 +371,6 @@ button {
   margin-left: 7.7%;
 }
 
-.multiselect {
-  width: 300px;
-  margin-top: 4%;
-}
-
 .deleteVisitorBtn {
   float: left;
   margin-top: 5%;
@@ -381,5 +378,10 @@ button {
 
 .backForVisitor {
   float: left;
+}
+
+#multiselectDivPurpose .multiselect {
+  width: 300px;
+  margin-top: 4%;
 }
 </style>
