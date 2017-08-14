@@ -164,7 +164,7 @@
                   <p class="control">
                     <multiselect
                     :multiple="true"
-                    v-model="itemChildNames"
+                    v-model="row.itemChildNames"
                     :hide-selected="true"
                     :options="optionsForItemChild"
                     :id="row"
@@ -235,7 +235,6 @@
         </table>   
         </div> 
       </div> 
-
    
       <!-- Save Button -->
       <div class="saveLoanBtn">
