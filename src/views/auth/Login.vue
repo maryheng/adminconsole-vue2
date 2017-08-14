@@ -9,7 +9,6 @@
            <p class="title is-3">Login</p>
           </div>
           <br><br>
-          <div v-show="error" style="color:red; word-wrap:break-word;">{{ error }}</div>
           <form v-on:submit.prevent="loginFormSubmit()">
             <label class="label">Username</label>
             <p class="control">
@@ -61,8 +60,7 @@ export default {
           access_token: null,
           cookie_expiry: null
         }
-      },
-      error: ''
+      }
     }
   },
   // mounted: () => {
@@ -98,14 +96,14 @@ export default {
             }
             router.push({ path: '/' })
           })
-            .catch((error) => {
-              let errorAlert = {
-                title: 'Error',
-                message: error.response.data.message.message,
-                type: 'error'
-              }
-              self.$refs.simplert.openSimplert(errorAlert)
-            })
+          .catch((error) => {
+            let errorAlert = {
+              title: 'Error',
+              message: error.response.data.message.message,
+              type: 'error'
+            }
+            self.$refs.simplert.openSimplert(errorAlert)
+          })
           return
         }
         let errorAlert = {
@@ -126,7 +124,7 @@ export default {
 
 <style>
 .main {
-  padding-bottom: 5%;
+  padding-bottom: 10%;
 }
 #boxForLogin .input {
   width: 500px;

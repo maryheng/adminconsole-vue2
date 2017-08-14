@@ -37,6 +37,8 @@ import UpdatePurposeOfVisit from '../components/visitors/purposeOfVisit/UpdatePu
 import Training from '../views/training/Training.vue'
 import UpdateTraining from '../components/training/UpdateTraining.vue'
 
+import PageNotFound from '../views/pagenotfound/PageNotFound.vue'
+
 Vue.use(Router)
 
 export default new Router({
@@ -196,6 +198,11 @@ export default new Router({
       path: '/UpdateTraining/:trainingId',
       name: 'UpdateTraining',
       component: UpdateTraining
+    },
+    {
+      path: '*',
+      name: 'PageNotFound',
+      component: PageNotFound
     }
   ]
 })

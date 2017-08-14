@@ -50,23 +50,6 @@ var accessToken = window.localStorage.getItem('access_token')
 axios.defaults.baseURL = baseUrl
 axios.defaults.headers.common['authorization'] = 'Bearer ' + accessToken
 
-// Intercept global error
-axios.interceptors.response.use((response) => {
-  return response
-}, (error) => {
-  let originalRequest = error.config
-  if (error.response.status === 401 && !originalRequest._retry) { // if the error is 401 and hasent already been retried
-    console.log('Token expired! User is redirected back to Login')
-    router.push('/login')
-  }
-  if (error.response.status === 404 && !originalRequest._retry) {
-    originalRequest._retry = true
-    console.log('404 error! User is redirected back to Login')
-    router.push('/login')
-    return
-  }
-})
-
 const app = new Vue({
   el: '#app',
   router,
