@@ -66,7 +66,7 @@
             
             <!-- Save Button -->
             <div class="savePDFBtn">
-              <a class="button is-danger is-outlined" @click="downloadVisitorpdf">
+              <a class="button is-danger is-outlined" @click="downloadVisitorpdf" :disabled="isDisabled">
               Download as PDF
               </a>
             </div>
@@ -87,7 +87,7 @@
 
             <!-- Save Button -->
             <div class="savePDFBtn">
-              <a class="button is-danger is-outlined" @click="downloadLoanpdf">
+              <a class="button is-danger is-outlined" @click="downloadLoanpdf" :disabled="isDisabled">
               Download as PDF
               </a>
             </div>
@@ -120,32 +120,35 @@ export default {
       loanNotiArray: [],
       allNotifications: [],
       date: '',
-      currentDate: ''
+      currentDate: '',
+      isDisabled: false
     }
   },
   methods: {
     downloadVisitorpdf () {
+      this.isDisabled = true
       axios.get(downloadVisitorReport, {
         responseType: 'arraybuffer'
       }).then((response) => {
-        console.log(response)
         let blob = new Blob([response.data], { type: 'application/pdf' })
         let link = document.createElement('a')
         link.href = window.URL.createObjectURL(blob)
         link.download = 'VisitorCountGraph_' + this.currentDate + '.pdf'
         link.click()
+        this.isDisabled = false
       })
     },
     downloadLoanpdf () {
+      this.isDisabled = true
       axios.get(downloadLoanReport, {
         responseType: 'arraybuffer'
       }).then((response) => {
-        console.log(response)
         let blob = new Blob([response.data], { type: 'application/pdf' })
         let link = document.createElement('a')
         link.href = window.URL.createObjectURL(blob)
         link.download = 'LoanGraph_' + this.currentDate + '.pdf'
         link.click()
+        this.isDisabled = false
       })
     },
     filterNotificationsForLoan () {
