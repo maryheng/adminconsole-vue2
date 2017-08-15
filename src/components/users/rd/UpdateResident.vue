@@ -178,7 +178,7 @@
             </div>
           </div>
         </div>
-  
+
         <!-- Simplert Notification -->
         <simplert :useRadius="true" :useIcon="true" ref="simplert">
         </simplert>
@@ -224,7 +224,12 @@ export default {
           self.isDisabled = true
           let formData = new FormData()
 
-          formData.append('userImage', self.$refs.image.files[0])
+          if (self.$refs.image.files[0]) {
+            formData.append('userImage', self.$refs.image.files[0])
+          } else {
+            formData.append('userImage', self.image)
+          }
+
           formData.append('name', this.data.name)
           formData.append('nricPassportNo', this.data.nricPassportNo)
           formData.append('company', this.data.company)
@@ -232,14 +237,19 @@ export default {
           formData.append('mobileNo', this.data.mobileNo)
 
           // If issuance date is filled up, send formdata
-          if (!(self.data.issuanceDate === '')) {
+          // if it is not empty
+          if (self.data.issuanceDate) {
             formData.append('issuanceDate', self.data.issuanceDate)
           }
 
           // If key card reference number is filled up, send formdata
-          if (!(self.data.keyCardRefNo === '')) {
+          // if it is not empty
+          if (!(self.data.keyCardRefNo === null)) {
+            alert('im in formdata keycard')
+            alert(self.data.keyCardRefNo)
             formData.append('keyCardRefNo', self.data.keyCardRefNo)
           }
+          console.log(formData)
 
           // Post Staff FormData to server
           axios.put(rdUrl + self.rdUserId, formData)
