@@ -68,10 +68,10 @@ export default {
     }
   },
   methods: {
-    formatDate (value, fmt = 'D MMM YYYY') {
+    formatDate (value) {
       return (value == null)
         ? ''
-        : moment(value, 'YYYY-MM-DD').format(fmt)
+        : moment(value).format('DD-MM-YYYY HH:mm')
     },
     onPaginationData (paginationData) {
       this.$refs.pagination.setPaginationData(paginationData)

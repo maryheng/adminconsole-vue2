@@ -23,7 +23,6 @@
 <script>
 import MyVuetable from '../../../components/vuetable/MyVuetable.vue'
 import CustomActions from '../../../components/vuetable/CustomActions.vue'
-import moment from 'moment'
 import router from '../../../router'
 import { rdUrl } from '../../../config.js'
 
@@ -72,7 +71,7 @@ export default {
         {
           name: 'issuanceDate',
           title: 'Issuance Date',
-          callback: 'formatDate|DD-MM-YYYY'
+          callback: 'formatDate'
         },
         {
           name: '__component:custom-actions',
@@ -84,11 +83,6 @@ export default {
     }
   },
   methods: {
-    formatDate (value, fmt = 'D MMM YYYY') {
-      return (value == null)
-        ? ''
-        : moment(value, 'YYYY-MM-DD').format(fmt)
-    },
     // Click "Edit" Button -> routes user to update page
     onActions (action, data) {
       router.push({ name: 'UpdateResident', params: { residentDeveloperId: action.data.residentDeveloperId } })

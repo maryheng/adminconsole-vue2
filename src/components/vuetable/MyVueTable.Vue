@@ -76,10 +76,17 @@ export default {
         : value.map((item) => item.subCategoryName).join(', ')
       // return value.map((item) => item.subCategoryName).join(', ')
     },
-    formatDate (value, fmt = 'D MMM YYYY') {
-      return (value == null)
-        ? ''
-        : moment(value, 'YYYY-MM-DD').format(fmt)
+    formatDate (value) {
+      console.log(window.location.pathname)
+      if (window.location.pathname === '/user/residentdeveloper') {
+        return (value == null)
+          ? ''
+          : moment(value).format('DD-MM-YYYY')
+      } else {
+        return (value == null)
+          ? ''
+          : moment(value).format('DD-MM-YYYY HH:mm')
+      }
     },
     onPaginationData (paginationData) {
       this.$refs.pagination.setPaginationData(paginationData)

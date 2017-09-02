@@ -62,12 +62,12 @@ export default {
         {
           name: 'startDateTime',
           title: 'Start Date',
-          callback: 'formatDate|DD-MM-YYYY'
+          callback: 'formatDate'
         },
         {
           name: 'dueDateTime',
           title: 'Due Date',
-          callback: 'formatDate|DD-MM-YYYY'
+          callback: 'formatDate'
         },
         {
           name: 'loanedBy',
