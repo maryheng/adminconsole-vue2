@@ -213,7 +213,9 @@ export default {
       image: '',
       rdUserId: '',
       checked: true,
-      isDisabled: false
+      isDisabled: false,
+      checkIssDate: '',
+      checkKeyRef: ''
     }
   },
   methods: {
@@ -240,14 +242,21 @@ export default {
           // if it is not empty
           if (self.data.issuanceDate) {
             formData.append('issuanceDate', self.data.issuanceDate)
+          } else { // if the input field is empty
+            if (self.checkIssDate) {
+              formData.append('issuanceDate', null)
+            }
           }
 
           // If key card reference number is filled up, send formdata
           // if it is not empty
           if (self.data.keyCardRefNo) {
             formData.append('keyCardRefNo', self.data.keyCardRefNo)
+          } else { // if input field is empty
+            if (self.checkKeyRef) {
+              formData.append('keyCardRefNo', null)
+            }
           }
-          console.log(formData)
 
           // Post Staff FormData to server
           axios.put(rdUrl + self.rdUserId, formData)
@@ -365,8 +374,10 @@ export default {
         // if issuanceDate exist
         if (!(response.data.issuanceDate === null)) {
           self.data.issuanceDate = moment(response.data.issuanceDate).format('YYYY-MM-DD')
+          self.checkIssDate = moment(response.data.issuanceDate).format('YYYY-MM-DD')
         } else {
           self.data.issuanceDate = null
+          self.checkIssDate = null
         }
         self.image = response.data.userImageUrl
       })
