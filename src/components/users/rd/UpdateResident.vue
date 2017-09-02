@@ -244,9 +244,7 @@ export default {
 
           // If key card reference number is filled up, send formdata
           // if it is not empty
-          if (!(self.data.keyCardRefNo === null)) {
-            alert('im in formdata keycard')
-            alert(self.data.keyCardRefNo)
+          if (self.data.keyCardRefNo) {
             formData.append('keyCardRefNo', self.data.keyCardRefNo)
           }
           console.log(formData)
@@ -363,7 +361,13 @@ export default {
         self.data.email = response.data.email
         self.data.mobileNo = response.data.mobileNo
         self.data.keyCardRefNo = response.data.keyCardRefNo
-        self.data.issuanceDate = moment(response.data.issuanceDate).format('YYYY-MM-DD')
+
+        // if issuanceDate exist
+        if (!(response.data.issuanceDate === null)) {
+          self.data.issuanceDate = moment(response.data.issuanceDate).format('YYYY-MM-DD')
+        } else {
+          self.data.issuanceDate = null
+        }
         self.image = response.data.userImageUrl
       })
       .catch((error) => {

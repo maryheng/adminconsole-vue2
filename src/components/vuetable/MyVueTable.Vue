@@ -74,10 +74,8 @@ export default {
       return (value.length === 0)
         ? 'NIL'
         : value.map((item) => item.subCategoryName).join(', ')
-      // return value.map((item) => item.subCategoryName).join(', ')
     },
     formatDate (value) {
-      console.log(window.location.pathname)
       if (window.location.pathname === '/user/residentdeveloper') {
         return (value == null)
           ? ''
