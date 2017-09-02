@@ -50,6 +50,23 @@ var accessToken = window.localStorage.getItem('access_token')
 axios.defaults.baseURL = baseUrl
 axios.defaults.headers.common['authorization'] = 'Bearer ' + accessToken
 
+Vue.axios.interceptors.response.use((response) => { // intercept the global error
+  return response
+}, function (error) {
+  let originalRequest = error.config
+  if (error.response.status === 401 && !originalRequest._retry) { // if the error is 401 and hasent already been retried
+    originalRequest._retry = true // now it can be retried
+    router.push({ path: '/login' })
+  }
+  if (error.response.status === 404 && !originalRequest._retry) {
+    originalRequest._retry = true
+    router.push({ path: '/' })
+    return
+  }
+  // Do something with response error
+  return Promise.reject(error)
+})
+
 const app = new Vue({
   el: '#app',
   router,
@@ -65,6 +82,7 @@ const app = new Vue({
       Dispatcher.$emit('triggerNotification', data)
     },
     disconnect: () => {
+      alert('disconnected')
       console.log('Disconnected from socket')
     }
   },
@@ -178,10 +196,13 @@ const app = new Vue({
     }
   },
   created () {
-    this.initNotification()
-    Dispatcher.$on('triggerNotification', (data) => {
-      this.loadNotifications(data)
-    })
+    var path = window.location.pathname
+    if (!(path === '/login')) {
+      this.initNotification()
+      Dispatcher.$on('triggerNotification', (data) => {
+        this.loadNotifications(data)
+      })
+    }
   },
   mounted () {
     setTimeout(() => {

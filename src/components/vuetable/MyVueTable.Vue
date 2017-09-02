@@ -70,6 +70,12 @@ export default {
     }
   },
   methods: {
+    combineSubCat (value) {
+      return (value.length === 0)
+        ? 'NIL'
+        : value.map((item) => item.subCategoryName).join(', ')
+      // return value.map((item) => item.subCategoryName).join(', ')
+    },
     formatDate (value, fmt = 'D MMM YYYY') {
       return (value == null)
         ? ''

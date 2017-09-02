@@ -224,6 +224,25 @@ export default {
               formData.append('keyCardRefNo', self.data.keyCardRefNo)
             }
 
+                        // issuancedate is empty but keycardrefno is filled
+            if (self.data.issuanceDate === '' && self.data.keyCardRefNo) {
+              let errorAlert = {
+                title: 'Error',
+                message: 'You need to have a key card reference number!',
+                type: 'error'
+              }
+              self.$refs.simplert.openSimplert(errorAlert)
+            }
+
+            if (self.data.keyCardRefNo === '' && self.data.issuanceDate) {
+              let errorAlert = {
+                title: 'Error',
+                message: 'You need to have a issuance date!',
+                type: 'error'
+              }
+              self.$refs.simplert.openSimplert(errorAlert)
+            }
+
             // Post Staff FormData to server
             axios.post(rdUrl, formData)
               .then((response) => {
