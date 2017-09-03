@@ -82,7 +82,6 @@ const app = new Vue({
       Dispatcher.$emit('triggerNotification', data)
     },
     disconnect: () => {
-      alert('disconnected')
       console.log('Disconnected from socket')
     }
   },

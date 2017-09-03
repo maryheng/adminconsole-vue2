@@ -196,7 +196,7 @@
               </td>              
               <td>
                 <div id="removeBtn">
-                <button class="button is-danger" @click="delRow(row)">
+                <button type="button" class="button is-danger" @click="delRow(row)">
                   X
                 </button> 
                 </div>          
@@ -206,7 +206,7 @@
         </table>   
         </div> 
       </div> 
-   
+
       <!-- Save Button -->
       <div class="saveLoanBtn">
         <div class="field is-horizontal">
@@ -446,15 +446,25 @@ export default {
       // selectedItemChildNames > SELECTED ITEMS IN TABLE
       let self = this
       const indexOfSelectedArr = this.selectedItemChildNames.indexOf(row)
-      self.itemChildNames.forEach((item, index) => {
-        if (row.itemChildLabel === item.itemChildLabel) {
-          self.itemChildNames.splice(index, 1)
-        }
-      }, this)
-      self.selectedItemChildNames.splice(indexOfSelectedArr, 1)
+      // self.itemChildNames.forEach((item, index) => {
+      //   if (row.itemChildLabel === item.itemChildLabel) {
+      //     self.itemChildNames.splice(index, 1)
+      //   }
+      // }, this)
+      // self.selectedItemChildNames.splice(indexOfSelectedArr, 1)
+
+      self.rows.forEach((item, index) => {
+        item.itemChildNames.forEach((item2, index2) => {
+          if (row.itemChildLabel === item2.itemChildLabel) {
+            item.itemChildNames.splice(index2, 1)
+            self.selectedItemChildNames.splice(indexOfSelectedArr, 1)
+          }
+        })
+      })
     },
     removeOption (removedOption) {
       // Remove option in Multiselect dropdown event
+      console.log(removedOption)
       this.selectedItemChildNames.forEach((item, index) => {
         if (item.itemChildLabel === removedOption.itemChildLabel) {
           this.selectedItemChildNames.splice(index, 1)
