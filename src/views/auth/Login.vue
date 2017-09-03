@@ -95,6 +95,15 @@ export default {
               axios.defaults.headers.common['authorization'] = window.getToken()
             }
             router.push({ path: '/' })
+            // Reload the page one only.
+            if (window.localStorage) {
+              if (!localStorage.getItem('firstLoad')) {
+                localStorage['firstLoad'] = true
+                window.location.reload()
+              } else {
+                localStorage.removeItem('firstLoad')
+              }
+            }
           })
           .catch((error) => {
             let errorAlert = {

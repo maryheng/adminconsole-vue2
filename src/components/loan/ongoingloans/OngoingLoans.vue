@@ -29,7 +29,6 @@ import MyVuetable from '../../../components/vuetable2/MyVuetable.vue'
 import CustomActionsSecond from '../../../components/vuetable2/CustomActions.vue'
 import router from '../../../router'
 import { loanUrl, loanReturned, ongoingLoansUrl } from '../../../config.js'
-import moment from 'moment'
 import axios from 'axios'
 import Simplert from 'vue2-simplert/src/components/simplert'
 
@@ -88,11 +87,6 @@ export default {
     }
   },
   methods: {
-    formatDate (value, fmt = 'D MMM YYYY') {
-      return (value == null)
-        ? ''
-        : moment(value, 'YYYY-MM-DD').format(fmt)
-    },
     // Click "Edit" Button -> routes user to update page
     onActions (action, data) {
       router.push({ name: 'UpdateLoan', params: { loanId: action.data.loanId } })

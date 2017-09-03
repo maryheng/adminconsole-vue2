@@ -176,16 +176,6 @@ export default {
     }
   },
   created () {
-    // Reload the page one only.
-    if (window.localStorage) {
-      if (!localStorage.getItem('firstLoad')) {
-        localStorage['firstLoad'] = true
-        window.location.reload()
-      } else {
-        localStorage.removeItem('firstLoad')
-      }
-    }
-
     let self = this
     self.date = new Date()
     self.currentDate = moment(self.date).format('DD/MM/YYYY')

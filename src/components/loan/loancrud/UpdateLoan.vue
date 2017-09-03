@@ -33,6 +33,12 @@
         </div>
       </div>      
   
+      <div class="noUpdateOfDT" v-show="this.checked === true">
+      <span class="tag is-warning is-medium">
+        This loan is made from the Pixel Mirror. Hence,
+        updating of datetime is not allowed!</span>
+    </div>
+
       <!-- Save Button -->
       <div class="updateLoanBtn">
         <div class="field is-horizontal">
@@ -78,7 +84,8 @@ export default {
         dueDateTime: ''
       },
       getLoanId: '',
-      isDisabled: false
+      isDisabled: false,
+      checked: false
     }
   },
   methods: {
@@ -141,6 +148,10 @@ export default {
     // Based on the loanId in the URL, get data for the user
     axios.get(loanUrl + self.getLoanId)
       .then((response) => {
+        if (response.data.returnDateTime) {
+          self.isDisabled = true
+          self.checked = true
+        }
         self.data.dueDateTime = moment.utc(response.data.dueDateTime).toDate()
         self.data.dueDateTime = moment(self.data.dueDateTime).format('YYYY-MM-DDTHH:mm')
       })
@@ -148,8 +159,6 @@ export default {
         console.log(error)
       })
   }
-    // Set current Date to calendar
-    // self.data.dueDateTime = moment(self.currentDateTime, 'YYYY-MM-DD').format('YYYY-MM-DD')
 }
 
 </script>
@@ -218,5 +227,9 @@ button {
 
 #updateLoanDiv .box {
   padding-bottom: 10%;
+}
+
+.noUpdateOfDT {
+  margin-left: 10%;
 }
 </style>

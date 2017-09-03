@@ -18,7 +18,6 @@
 <script>
 import MyVuetable from '../../../components/vuetable4/MyVuetable.vue'
 import { loanArchiveUrl } from '../../../config.js'
-import moment from 'moment'
 
 export default {
   name: 'app',
@@ -68,13 +67,6 @@ export default {
           title: 'Remarks'
         }
       ]
-    }
-  },
-  methods: {
-    formatDate (value, fmt = 'D MMM YYYY') {
-      return (value == null)
-        ? ''
-        : moment(value, 'YYYY-MM-DD').format(fmt)
     }
   },
   computed: {

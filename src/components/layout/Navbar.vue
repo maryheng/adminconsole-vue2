@@ -2,9 +2,7 @@
 <div id="app">
 <nav class="nav has-shadow">
   <div class="container">
-    <div class="nav-left">
-      <p>Pixel Labs</p>
-    </div>
+      <img src="../../assets/logo.png">
       <!--<div class="nav-right nav-menu">
       <a class="nav-item is-tab">Sign out</a>
     </div>-->
@@ -33,16 +31,6 @@ export default {
  /* background: linear-gradient(to right, #DA3E61 1%, #E76570 70%, #F58773); */
 }
 
-p {
-  font-size: 21px;
-  margin: 15px 0px 0 50px;
-  font-weight: bold;
-  /* color: white; */
-}
-.button {
-  margin-top: 12px;
-}
-
 #app {
   position: absolute;
   width: 100%;
@@ -50,4 +38,10 @@ p {
   z-index: 50; 
 }  
 
+.container img {
+  width: 150px;
+  height: 100px;
+  margin-top: -1.2%;
+  margin-left: -9%;
+}
 </style>

@@ -1,5 +1,7 @@
 <template>
-  <button type="signOut" class="button is-outlined" v-on:click="logout()">Sign Out</button>
+  <div class="nav-right">
+    <button type="signOut" class="button is-outlined" v-on:click="logout()">Sign Out</button>
+  </div>
 </template>
 
 <script>
@@ -17,12 +19,10 @@ export default {
   },
   methods: {
     logout () {
-      console.log('Logout button clicked')
       axios.get(logoutUrl)
     .then((response) => {
       console.log('Logged out, token disposed')
       window.localStorage.removeItem('access_token')
-      // window.location.href = '/login'
       router.push({ path: '/login' })
     })
     .catch((err) => {
@@ -32,3 +32,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.nav button {
+  margin-top: 1%;
+}
+</style>
+
