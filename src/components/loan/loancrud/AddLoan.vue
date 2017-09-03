@@ -15,35 +15,6 @@
   
       <!-- Form Validation -->
       <form @submit.prevent="validateBeforeSubmit">
-      <!--Input field for Start Date-->
-      <div class="field is-horizontal">
-        <div class="field-label is-normal">
-          <label class="label">Start Date:</label>
-        </div>
-        <div class="field-body">
-          <div class="field is-grouped">
-            <p class="control">
-              <input class="input" type="datetime-local" v-model="data.startDateTime" disabled>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!--Input field for End Date-->
-      <!-- <div class="field is-horizontal">
-        <div class="field-label is-normal">
-          <label class="label">Due Date:</label>
-        </div>
-        <div class="field-body">
-          <div class="field is-grouped">
-            <p class="control">
-              <input v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('due date') }"
-              name="due date" class="input" type="datetime-local" v-model="data.dueDateTime">
-              <span v-show="errors.has('due date')" class="help is-danger">{{ errors.first('due date') }}</span>        
-            </p>
-          </div>
-        </div>
-      </div>       -->
 
         <!-- Input field for Type of Category -->
         <div class="field is-horizontal">
